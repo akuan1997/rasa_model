@@ -1,0 +1,17 @@
+version: "3.0"
+nlu:
+  - lookup: singer
+    examples: |
+      - Post Malone
+      - Ariana Grande
+      - Justin Bieber
+      - Taylor Swift
+      - LE SSERAFIM
+      - IVE
+      - STAYC
+      - NewJeans
+      - Eric Nam
+      - 王力宏
+      - 羅志祥
+      - Aimer
+      - Chance the Rapper
