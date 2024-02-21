@@ -3,6 +3,17 @@ import re
 from datetime import datetime
 import calendar
 
+
+def get_until_tags(text):
+    tag1 = re.findall(
+        r'(year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+        text)
+    tag2 = re.findall(
+        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(year|month|week|day|hour|minute|second|range)',
+        text)
+    return tag1, tag2
+
+
 texts = [
     '我們十一點半見',
     '前天的下午三點之前',
@@ -64,7 +75,11 @@ texts = [
     '明天和後天晚上',
     '明天下午到後天',
     '明天到後天下午',
-    '十月初還有十一月初有什麼演唱會'
+    '十月初還有十一月初有什麼演唱會',
+    '明天晚上到下周',
+    '明天晚上到下周六',
+    '下周',
+    '後天下午到明天晚上',
 ]
 
 wrong_words = [
@@ -116,9 +131,11 @@ def conversation():
             print('pro msg', text)
             pro_msg = text
 
-            matched_texts = []
             time_tags = []
-            matched_texts_indexes = []
+            matched_texts = []
+            matched_indexes = []
+            matched_time_lines = []
+
             while True:
                 duckling_result = d.parse_time(text)
                 if duckling_result:
@@ -139,6 +156,7 @@ def conversation():
 
                                 start_date = datetime(year=year, month=month, day=1)
                                 end_date = datetime(year=year, month=month, day=10, hour=23, minute=59)
+                                matched_time_lines.append([str(start_date), str(end_date)])
                                 print(f'月初 {start_date} ~ {end_date}')
                             elif '月中' in text:
                                 grain = 'range'
@@ -147,6 +165,7 @@ def conversation():
 
                                 start_date = datetime(year=year, month=month, day=11)
                                 end_date = datetime(year=year, month=month, day=20, hour=23, minute=59)
+                                matched_time_lines.append([str(start_date), str(end_date)])
                                 print(f'月中 {start_date} ~ {end_date}')
                             elif '月底' in text:
                                 grain = 'range'
@@ -156,24 +175,28 @@ def conversation():
                                 start_date = datetime(year=year, month=month, day=21)
                                 days_in_month = calendar.monthrange(year, month)[1]
                                 end_date = datetime(year=year, month=month, day=days_in_month, hour=23, minute=59)
+                                matched_time_lines.append([str(start_date), str(end_date)])
                                 print(f'月中 {start_date} ~ {end_date}')
-                            else:
-                                pass
-                        elif grain == 'week':
-                            pass
-                        elif grain == 'day':
-                            pass
-                        elif grain == 'hour':
-                            pass
-                        elif grain == 'minute':
-                            pass
-                        elif grain == 'second':
-                            pass
+                        else:
+                            matched_time_lines.append([time_line])
+                        #     else:
+                        #         pass
+                        # elif grain == 'week':
+                        #     pass
+                        # elif grain == 'day':
+                        #     pass
+                        # elif grain == 'hour':
+                        #     pass
+                        # elif grain == 'minute':
+                        #     pass
+                        # elif grain == 'second':
+                        #     pass
 
                         time_tags.append(grain)
 
                         if grain != 'range':  # test
                             print(f"{matched_text} / {time_line} / {grain}")
+
 
                     except Exception as e:
                         grain = 'range'
@@ -181,15 +204,20 @@ def conversation():
                         time_tags.append(grain)
 
                         print('from', str(duckling_result[0]['value']['value']['from']).replace('T', ' ').replace(
-                            ':00.000+08:00', ''), 'to',
-                              str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace(':00.000+08:00',
+                            ':000+08:00', ''), 'to',
+                              str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace('.000+08:00',
                                                                                                         ''))  # test
+                        matched_time_lines.append(
+                            [str(duckling_result[0]['value']['value']['from']).replace('T', ' ').replace(
+                                '.000+08:00', ''),
+                                str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace(
+                                    '.000+08:00', '')])
 
                     matched_text_start_index = duckling_result[0]['start']
                     matched_text_end_index = matched_text_start_index + len(matched_text)
                     text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
                     matched_texts.append(matched_text)
-                    matched_texts_indexes.append(matched_text_start_index)
+                    matched_indexes.append(matched_text_start_index)
 
                     print('matched text:', matched_text)  # test
 
@@ -203,31 +231,75 @@ def conversation():
             # 全部字串處理完畢
             print('!!!')
             print(f'{ori_msg} -> {pro_msg}')
-            # print(f'pro msg: {pro_msg}')
             print(f'sim msg: {text}')
-            sorted_pairs = sorted(zip(matched_texts_indexes, matched_texts))
+
+            sorted_pairs = sorted(zip(matched_indexes, matched_texts))
             # sorted_indexes  = [pair[0] for pair in sorted_pairs]
             matched_texts = [pair[1] for pair in sorted_pairs]
 
-            sorted_pairs = sorted(zip(matched_texts_indexes, time_tags))
-            matched_texts_indexes = [pair[0] for pair in sorted_pairs]
+            sorted_pairs = sorted(zip(matched_indexes, time_tags))
+            # sorted_indexes  = [pair[0] for pair in sorted_pairs]
             time_tags = [pair[1] for pair in sorted_pairs]
+
+            sorted_pairs = sorted(zip(matched_indexes, matched_time_lines))
+            matched_indexes = [pair[0] for pair in sorted_pairs]
+            matched_time_lines = [pair[1] for pair in sorted_pairs]
 
             print('time tags:', time_tags)
             print('matched texts:', matched_texts)
-            print('matched texts indexes:', matched_texts_indexes)
+            print('matched texts indexes:', matched_indexes)
+            print('matched time lines:', matched_time_lines)
 
-            # if len(time_tags) == 1 and time_tags[0] != 'range':
-            #     if '前' in text:
-            #         print(f'< {time_tags[0]}')
-            #     elif '後' in text:
-            #         print(f'> {time_tags[0]}')
-            #     else:
-            #         print(f'= {time_tags[0]}')
-            # elif len(time_tags) == 1 and time_tags[0] == 'week':
-            #     print('for loop, if week == week')
-            # elif len(time_tags) == 1 and time_tags[0] == 'range':
-            #     print(f'RANGE')
+            ''''''
+
+            while re.findall(r'year|month|week|day|hour|minute|second|range', text):
+                matches = re.findall(r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',text)
+                # tag到tag
+                for match in matches:
+                    print(match)
+                    tag1, tag2 = get_until_tags(match)
+                    print(f'until {tag1}, {tag2}')
+                    if tag1[0] == 'range':
+                        start_time = matched_time_lines[0][0]
+                        start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+                        if tag2[0] == 'range':
+                            end_time = matched_time_lines[1][1]
+                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+                            if start_time_obj > end_time_obj:
+                                print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
+                            else:
+                                print('開始篩選')
+                                print(f'{start_time} <= something <= {end_time}')
+                        else:
+                            end_time = matched_time_lines[1][0]
+                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+                            if start_time_obj > end_time_obj:
+                                print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
+                            else:
+                                print('開始篩選')
+                                print(f'{start_time} <= something <= {end_time}')
+
+                    text = text.replace(match, '')
+
+                    for i in range(2):
+                        del time_tags[0]
+                        del matched_texts[0]
+                        del matched_indexes[0]
+                        del matched_time_lines[0]
+
+                    # print('time tags:', time_tags)  # test
+                    # print('matched texts:', matched_texts)  # test
+                    # print('matched texts indexes:', matched_indexes)  # test
+                    # print('matched time lines:', matched_time_lines)  # test
+                    # search_tags.append(match)
+                ''''''
+
+                matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+                # 單獨
+                for match in matches:
+                    print(f'不是幾號到幾號 單獨處理 {match}')
+                    text = text.replace(match, '')
+
             print('------------------------------------------------------------------------')
         except Exception as e:
             print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')

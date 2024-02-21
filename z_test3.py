@@ -154,8 +154,10 @@ for text in texts1:
 
 text2 = ['明年三月和四月有什麼演唱會嗎', '今年三月和明年四月']
 for text in text2:
-     text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*和\s*([十]?[一二三四五六七八九十])月', r'明年\1月和明年\2月', text)
-     print(text)
+    text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*和\s*([十]?[一二三四五六七八九十])月', r'明年\1月和明年\2月',
+                  text)
+    print(text)
+
 
 def sort_index(matched_indexes, matched_texts):
     sorted_pairs = sorted(zip(matched_indexes, matched_texts))
@@ -163,3 +165,66 @@ def sort_index(matched_indexes, matched_texts):
     matched_texts = [pair[1] for pair in sorted_pairs]
 
     return matched_indexes, matched_texts
+
+
+# text = 'year到range'
+# matched = []
+# matches = re.findall(r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)', text)
+# for match in matches:
+#     tag1 = re.findall(r'((?:year|month|week|day|hour|minute|second|range)).*?到.*?(?:year|month|week|day|hour|minute|second|range)',text)
+#     tag2 = re.findall(r'(?:year|month|week|day|hour|minute|second|range).*?到.*?((?:year|month|week|day|hour|minute|second|range))',text)
+#     print('until tag1', tag1)
+#     print('until tag2', tag2)
+#     text = text.replace(match, '')
+#     matched.append(match)
+# matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+# for match in matches:
+#     text = text.replace(match, '')
+#     matched.append(match)
+# print(matched)
+
+# matches = re.findall(r'(?:year|month|week|day|hour|minute|second|range)到(?:year|month|week|day|hour|minute|second|range)', text)
+# matches = re.findall(r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)|\b(?:year|month|week|day|hour|minute|second|range)\b', text)
+# matches = re.findall(r'(?:year|month|week|day|hour|minute|second|range).*?(?:到|\b)(?:year|month|week|day|hour|minute|second|range)|\b(?:year|month|week|day|hour|minute|second|range)\b', text)
+
+# text = '123'
+# match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+# print(match)
+def get_until_tags(text):
+    tag1 = re.findall(
+        r'(year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+        text)
+    tag2 = re.findall(
+        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(year|month|week|day|hour|minute|second|range)',
+        text)
+    return tag1, tag2
+
+text = "這是一個測試，我們要匹配year直到day、hour到range、week到second等 或是簡單的week hour 也是沒問題的。"
+while re.findall(r'year|month|week|day|hour|minute|second|range', text):
+    matches = re.findall(
+        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+        text)
+    # tag到tag
+    for match in matches:
+        print(match)
+        tag1, tag2 = get_until_tags(match)
+        print(f'until {tag1}, {tag2}')
+        text = text.replace(match, '')
+        # search_tags.append(match)
+    matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+    # 單獨
+    for match in matches:
+        print(match)
+        text = text.replace(match, '')
+
+start_time_str = "2024-02-22 00:00:00"
+end_time_str = "2024-02-23 00:00:00"
+start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
+end_time = datetime.strptime(end_time_str, "%Y-%m-%d %H:%M:%S")
+print(start_time)
+print(end_time)
+if start_time < end_time:
+    print('okay')
+    # if start_time < target
+
+# 寫一個function 把下周六轉換成中文字
