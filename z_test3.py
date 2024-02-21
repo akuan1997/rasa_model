@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 
 # from duckling import *
@@ -228,3 +228,9 @@ if start_time < end_time:
     # if start_time < target
 
 # 寫一個function 把下周六轉換成中文字
+
+a = datetime(2024, 10, 1, 0, 0)
+b = a - timedelta(seconds=1)
+print(b)
+a.year = a.year + 1
+print(a)

@@ -1,6 +1,6 @@
 from duckling import *
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 import calendar
 
 
@@ -80,6 +80,11 @@ texts = [
     '明天晚上到下周六',
     '下周',
     '後天下午到明天晚上',
+    '明天下午到明年',
+    # '明天下午到後年', # 後年 讀不到
+    '明天晚上到三月',
+    '明天晚上到下周',
+    '明天下午到後天'
 ]
 
 wrong_words = [
@@ -177,6 +182,8 @@ def conversation():
                                 end_date = datetime(year=year, month=month, day=days_in_month, hour=23, minute=59)
                                 matched_time_lines.append([str(start_date), str(end_date)])
                                 print(f'月中 {start_date} ~ {end_date}')
+                            else:
+                                matched_time_lines.append([time_line])
                         else:
                             matched_time_lines.append([time_line])
                         #     else:
@@ -213,6 +220,8 @@ def conversation():
                                 str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace(
                                     '.000+08:00', '')])
 
+                    ''''''
+
                     matched_text_start_index = duckling_result[0]['start']
                     matched_text_end_index = matched_text_start_index + len(matched_text)
                     text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
@@ -228,8 +237,10 @@ def conversation():
             #     if '下下周' in text:
             #         print('我等等處理你')
 
+            ''''''
+
             # 全部字串處理完畢
-            print('!!!')
+            print('@@@')
             print(f'{ori_msg} -> {pro_msg}')
             print(f'sim msg: {text}')
 
@@ -265,27 +276,43 @@ def conversation():
                         if tag2[0] == 'range':
                             end_time = matched_time_lines[1][1]
                             end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
-                            if start_time_obj > end_time_obj:
-                                print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
-                            else:
-                                print('開始篩選')
-                                print(f'{start_time} <= something <= {end_time}')
                         else:
                             end_time = matched_time_lines[1][0]
                             end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
-                            if start_time_obj > end_time_obj:
-                                print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
-                            else:
-                                print('開始篩選')
-                                print(f'{start_time} <= something <= {end_time}')
+                            if tag2[0] == 'year':
+                                print('1year')
+                                next_year = int(end_time.split('-')[0]) + 1
+                                end_time = end_time.replace(end_time.split('-')[0], str(next_year))
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
+                            elif tag2[0] == 'month':
+                                print('1month')
+                                next_month = int(end_time.split('-')[1]) + 1
+                                end_time = end_time.replace(end_time.split('-')[1], str(next_month))
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
+                            elif tag2[0] == 'week':
+                                print('1week')
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=7) - timedelta(seconds=1)
+                            elif tag2[0] == 'day':
+                                print('1day')
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=1) - timedelta(seconds=1)
 
-                    text = text.replace(match, '')
+                        print(f'124 {end_time_obj}')
+                        if start_time_obj > end_time_obj:
+                            print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
+                        else:
+                            print('開始篩選')
+                            print(f'{start_time_obj} <= something <= {end_time_obj}')
 
-                    for i in range(2):
-                        del time_tags[0]
-                        del matched_texts[0]
-                        del matched_indexes[0]
-                        del matched_time_lines[0]
+                        text = text.replace(match, '')
+
+                        for i in range(2):
+                            del time_tags[0]
+                            del matched_texts[0]
+                            del matched_indexes[0]
+                            del matched_time_lines[0]
+
+                    else:
+                        pass
 
                     # print('time tags:', time_tags)  # test
                     # print('matched texts:', matched_texts)  # test
