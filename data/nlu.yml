@@ -21,6 +21,9 @@ nlu:
       - [Post Malone](keyword) 演唱會
       - [Justin Bibber](keyword) 演出
       - [台北](city)演唱會資訊
+      - [台北](city)演唱會
+      - [花蓮](city) [明天](datetime)
+      - [台東](city)演唱會 [明年](datetime)
       - [IVE](keyword)最近在[台北](datetime)會開演唱會嗎？
       - 請告知我[五月天](keyword)在[台南](datetime)的演唱會訊息。
       - 請問[陳奕迅](keyword)是否有計畫在[台東](datetime)舉辦演唱會？
@@ -121,9 +124,7 @@ nlu:
       - 請告訴我[李宇春](keyword)的巡迴演唱會日程。
       - 請問[張惠妹](keyword)是否有計畫在[花蓮](datetime)舉辦音樂會？
       - 請問[那英](keyword)最近有沒有在[台北](datetime)舉辦演唱會？
-      - [台北](city)演唱會
-      - [花蓮](city) [明天](datetime)
-      - [台東](city)演唱會 [明年](datetime)
+
 
   - intent: query_further_time
     examples: |
@@ -133,3 +134,67 @@ nlu:
       - 那[明天](datetime)呢
       - 那[屏東](city) [下個月](datetime)呢
       - 如果是[後天](city)呢
+  - intent: query_ticket_time
+    examples: |
+      - 請告訴我[下周](datetime)的搶票時間
+      - 請告訴我[明天](datetime)的售票時間
+      - 請告訴我[後天](datetime)有哪些演唱會開始售票
+      - 搶票 [明天](datetime)
+      - 售票 [下周](datetime)
+      - [後天](datetime) 演唱會 售票
+      - [下周](datetime) 演出 搶票
+      - 請告知我接下來所有的搶票時間
+      - 請告知我接下來所有的售票時間
+      - 請問[十月一號]到[十月五號]之間，有哪些演唱會會開放售票?
+      - 請問[十月一號]到[十月五號]之間，有哪些演唱會會開放搶票?
+      - 請問[下個月一號](datetime)的搶票時間是什麼？
+      - 請問[本週五](datetime)有沒有售票活動？
+      - 請告訴我[明天晚上七點](datetime)以後有哪些表演開始售票？
+      - 搶票 [下個星期六](datetime) 的演唱會
+      - 售票 [這個月底](datetime) 的音樂節
+      - [明天](datetime) 的舞台劇售票時間是什麼時候？
+      - [下個月](datetime) 演出搶票詳情
+      - 請告知我接下來所有的購票時間表
+      - 請問[十月十五號](datetime)到[十月二十號](datetime)有哪些演唱會會開始售票？
+      - 請問[這個月底](datetime)到[下個月初](datetime)有哪些音樂節會開放搶票？
+      - 請問[這個月底](datetime)的搶票時間是什麼？
+      - 請問[下週二](datetime)有沒有售票活動？
+      - 請告訴我[後天早上十點](datetime)以後有哪些表演開始售票？
+      - 搶票 [下個月十號](datetime) 的音樂會
+      - 售票 [本週六](datetime) 的戲劇演出
+      - [明天](datetime) 的電影票售賣何時開始？
+      - [下個月](datetime) 的舞蹈表演搶票詳情
+      - 請告知我接下來所有的節目票購票時間表
+      - 請問[十月十二號](datetime)到[十月十五號](datetime)有哪些展覽會開放售票？
+      - 請問[今天](datetime)到[下個月五號](datetime)有哪些活動會開放搶票？
+      - 請問[九月二十號](datetime)的搶票時間是何時？
+      - 請問[明年](datetime)有哪些音樂節會開放售票？
+      - 請告訴我[下個星期三](datetime)的音樂會售票時間
+      - 請問[十月底](datetime)的搶票活動有哪些？
+      - 請問[這個月](datetime)有哪些表演開放售票？
+      - 請問[六月](datetime)的音樂節搶票時間是何時？
+      - 請問[明天晚上](datetime)有哪些戲劇開始售票？
+      - 請問[下個月一號](datetime)的搶票時間是？
+      - 請問[這個月](datetime)的搶票活動有哪些？
+      - 請問[明天早上九點](datetime)有沒有售票活動？
+      - 請問[十一月](datetime)有哪些音樂會開放搶票？
+      - 請問[九月](datetime)的戲劇演出有哪些售票？
+      - 請問[下週一到下週五](datetime)有哪些展覽會開放售票？
+      - 請問[十月](datetime)有哪些舞蹈表演會開始搶票？
+      - 請問[明天下午兩點到五點](datetime)有哪些活動開放售票？
+      - 請問[十一月](datetime)的音樂節搶票時間？
+      - 請問[今晚八點](datetime)有哪些表演開始售票？
+      - 請問[本週日](datetime)的搶票時間是什麼？
+      - 請問[明天](datetime)有哪些音樂會開始售票？
+      - 請問[十月](datetime)有哪些戲劇演出會開放搶票？
+      - 請問[下週六](datetime)的搶票活動有哪些？
+      - 請問[明天中午十二點](datetime)有哪些表演開放售票？
+      - 請問[十月底到十一月初](datetime)有哪些節目會開放搶票？
+      - 請問[今年](datetime)有哪些音樂節開始售票？
+      - 請問[下個月中](datetime)的搶票活動有哪些？
+      - 請問[今天下午三點](datetime)有哪些表演開始售票？
+      - 請問[本週四到本週日](datetime)有哪些活動開放搶票？
+      - 請問[明天](datetime)的搶票時間是何時？
+      - 請問[這個月](datetime)的售票活動有哪些？
+      - 請問[明天晚上八點](datetime)有哪些音樂會開始搶票？
+      - 請問[九月初到九月底](datetime)有哪些戲劇演出會開放售票？

@@ -1,0 +1,165 @@
+from datetime import datetime
+import re
+
+# from duckling import *
+
+# d = DucklingWrapper(language=Language.CHINESE)
+
+test_words = [
+    '明年三月十一號晚上八點',
+    '明年三月十一號',
+    '明年三月',
+    '三月十一號晚上八點',
+    '三月十一號',
+    '三月',
+    '十一號晚上八點',
+    '十一號',
+    '晚上八點',
+    '2024-10-5 20:00',
+    '九月的晚上和十月的下午',
+    '九月晚上和十月下午',
+    '十月和十一月的下午',
+    '十一月和十二月 晚上八點之後',
+    '十一月和十二月的晚上八點之後',
+    '十一月八號晚上九點到十一點之間',
+    '十一月八號 晚上九點到十一點之間',
+    '下禮拜一',
+    '三月和五月',
+    '三月到五月之間'
+]
+
+test_words1 = [
+    '今年和明年',
+    '今年與明年',
+    '今年 明年',
+    '今年',
+    '今年五月和七月',
+    '明年十月和十一月',
+    '今年十一月 十二月 明年一月',
+    '一月和二月',
+    '一月和三月和七月',
+    '二月 三月 七月',
+    '四月 五月 和八月',
+    '2025年有什麼演唱會嗎'
+]
+
+for word in test_words1:
+    current_datetime = datetime.now()
+    year = current_datetime.year
+    month = current_datetime.month
+    day = current_datetime.day
+    week = int(current_datetime.strftime("%U"))
+
+    next_year_index = -1
+    next_year_line = ''
+    this_year_line = ''
+
+    if '去年' in word \
+            or '前年' in word \
+            or '上周' in word \
+            or '周前' in word \
+            or '昨天' in word \
+            or '前天' in word \
+            or '天前' in word:
+        print('不好意思 我們查詢過去的時間')
+    else:
+        print(word)
+        # 明年
+        if word.find('明年') != -1 or word.find(str(year + 1)) != -1:
+            if word.find('明年') != -1:
+                next_year_line = word[word.find('明年'):].replace('明年', '')
+                next_year_index = word.find('明年')
+            else:
+                next_year_line = word[word.find(str(year + 1)):].replace(str(year + 1), '')
+                next_year_index = word.find(str(year + 1))
+            # duckling_result = d.parse_time(next_year_line)
+            # print(duckling_result)
+
+        # 今年
+        if next_year_index == -1:
+            this_year_line = word.replace('今年', '')
+        else:
+            this_year_line = word[:next_year_index].replace('今年', '')
+
+        print('今年字串:', this_year_line)
+        print('明年字串:', next_year_line)
+        # duckling_result = d.parse_time(this_year_line)
+        # print(duckling_result)
+
+        # if str(year + 1) in word:
+        #     year = year + 1
+        # elif str(year) in word:
+        #     year = year
+        # else:
+        # year = year
+        print('---')
+        # this_year = word[:word.find('明年')]
+        # print(this_year)
+
+        # word = word.replace('與', '和')
+        # splits = word.split('和')
+        # print(word)
+        # last_keyword = []
+        # for split in splits:
+        #     if '年' in split:
+        #         last_keyword.append('year')
+        #     elif '月' in split:
+        #         last_keyword.append('month')
+        #     elif '號' in split:
+        #         last_keyword.append('day')
+        #     print(last_keyword)
+        #     print(split)
+        # print('---')
+        # # if '今年' in word:
+        # #
+        # # year_index = word.find('今年')
+        # #
+        # # print(word)
+# text = "我晚上想要去健身。明天晚上八点想要去走路。晚上去看电影。"
+#
+# 检查文本中是否有晚上后面没有接时间的情况，并替换掉
+# text = re.sub(r'(晚上)(?![0-9])', '', text)
+#
+# print(text)
+#
+#
+texts = ['二月一號到十號', '二月十一號到二十號', '二月二十一號到三十一號', '三月三十一號']
+texts1 = ['十月 一日 十月二日']
+for text in texts:
+    text = re.sub(
+        r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*到\s*([一二三]?[十]?[一二三四五六七八九十])號',
+        r'\1月\2號到\1月\3號', text)
+    text = re.sub(
+        r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*和\s*([一二三]?[十]?[一二三四五六七八九十])號',
+        r'\1月\2號到\1月\3號', text)
+    print(text)
+# match = re.findall(
+#     r'[十]?[一二三四五六七八九十]月\s*[一二三]?[一二三四五六七八九十]號\s*到\s*[一二三]?[一二三四五六七八九十]號', text)
+# print(match)
+for text in texts1:
+    text = re.sub(r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])日', r'\1月\2號', text)
+    print(text)
+
+# text1 = ["我感覺很喜歡 OK", "我真的很喜歡 OK", "我感到很喜歡 OK", '我喜歡']
+# for text in text1:
+#     match = re.findall(r'我.*?喜歡', text)
+#     print(match)
+
+# 幾周後的周幾 X
+# 幾周後周幾 X
+# 下下周 X
+# 下周 OK
+# 下周一 下周二 OK
+# 上周 or 幾周前 不動作
+
+text2 = ['明年三月和四月有什麼演唱會嗎', '今年三月和明年四月']
+for text in text2:
+     text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*和\s*([十]?[一二三四五六七八九十])月', r'明年\1月和明年\2月', text)
+     print(text)
+
+def sort_index(matched_indexes, matched_texts):
+    sorted_pairs = sorted(zip(matched_indexes, matched_texts))
+    matched_indexes = [pair[0] for pair in sorted_pairs]
+    matched_texts = [pair[1] for pair in sorted_pairs]
+
+    return matched_indexes, matched_texts
