@@ -323,26 +323,22 @@ def conversation():
                     else:
                         print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
 
+                    text = text[text.index(match) + len(match):]
+                    print(f'剩餘字串 "{text}"')  # test
                     print('***************處理完成***************')
-
-                    rest_text = text[text.index(match) + len(match):]
-                    print(f'剩餘字串 "{rest_text}"')  # test
 
                     ''' 檢查下一個標籤 '''
                     # 下一個標籤為tag到tag嗎
                     if re.findall(
                             r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            rest_text):
+                            text):
                         next_match = re.findall(
                             r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            rest_text)
+                            text)
                         print('aqa')  # test
                         print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
-                        print(
-                            f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
-                        print(
-                            f'>> !1 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        print(f'>> !1 檢查 "{text[:text.index(next_match[0])]}"')  # test
+                        
                         text = text.replace(text[:text.index(next_match[0])], '')
                         # do
                         # 檢查以下這個字串有沒有城市
@@ -351,15 +347,12 @@ def conversation():
                         # print('!1 bef', text)  # test
                         # print('!1 aft', text)  # test
                     # 那是單獨一個tag嗎
-                    elif re.findall(r'year|month|week|day|hour|minute|second|range', rest_text):
-                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', rest_text)
+                    elif re.findall(r'year|month|week|day|hour|minute|second|range', text):
+                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
                         print('awa')  # test
                         print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
-                        print(
-                            f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
-                        print(
-                            f'>> !2 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        print(f'>> !2 檢查 "{text[:text.index(next_match[0])]}"')  # test
+
                         text = text.replace(text[:text.index(next_match[0])], '')
                         # do
                         # 檢查以下這個字串有沒有城市
@@ -369,9 +362,8 @@ def conversation():
                         # print('!2 aft', text)  # test
                     # 後面沒有tag了
                     else:
-                        print(f'match後面的字串，已經沒有標籤了: "{text[text.index(match) + len(match):]}"')  # test
-                        print(f'>> !3 檢查 "{text[text.index(match) + len(match):]}" 有無城市名稱')
-                        text = text.replace(text[:text.index(match) + len(match)], '')
+                        print(f'match後面的字串，已經沒有標籤了: "{text}"')  # test
+                        print(f'>> !3 檢查 "{text}"')
                         # do
                         # 檢查以下字串有沒有城市
                         # text[text.index(match) + len(match):]
@@ -423,29 +415,25 @@ def conversation():
                         print('處理hour or minute')
                         print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
 
+
+                    text = text[text.index(match) + len(match):]
+                    print(f'剩餘字串 "{text}"')  # test
                     print('***************處理完成***************')
-
-                    ''''''
-
-                    rest_text = text[text.index(match) + len(match):]
-                    print(f'剩餘字串 "{rest_text}"')  # test
 
                     ''' 檢查下一個標籤 '''
                     # 下一個標籤為tag到tag嗎
                     if re.findall(
                             r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            rest_text):
+                            text):
                         next_match = re.findall(
                             r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            rest_text)
+                            text)
                         print('qwe')  # test
                         print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
-                        print(
-                            f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
-                        print(
-                            f'>> !4 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        print(f'>> !3 檢查 "{text[:text.index(next_match[0])]}"')  # test
                         text = text.replace(text[:text.index(next_match[0])], '')
+                        print('下一輪的字串', text)
+
                         # do
                         # 檢查以下這個字串有沒有城市
                         # text[text.index(match) + len(match):text.index(next_match[0])]
@@ -453,17 +441,15 @@ def conversation():
                         # print('!4 bef', text)  # test
                         # print('!4 aft', text)  # test
                     # 那是單獨一個tag嗎
-                    elif re.findall(r'year|month|week|day|hour|minute|second|range', rest_text):
-                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', rest_text)
+                    elif re.findall(r'year|month|week|day|hour|minute|second|range', text):
+                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
                         print('bab')  # test
                         print(next_match)
-                        print(f'{next_match[0]}, start at index {rest_text.index(next_match[0])}')  # test
-                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
-                        print(
-                            f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
-                        print(
-                            f'>> !5 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
+                        print(f'>> !4 檢查 "{text[:text.index(next_match[0])]}"')  # test
+                        
                         text = text.replace(text[:text.index(next_match[0])], '')
+                        print('下一輪的字串', text)
                         # do
                         # 檢查以下這個字串有沒有城市
                         # text[text.index(match) + len(match):text.index(next_match[0])]
@@ -472,9 +458,8 @@ def conversation():
                         # print('!5 aft', text)  # test
                     # 後面沒有tag了
                     else:
-                        print(f'match後面的字串，已經沒有標籤了: "{text[text.index(match) + len(match):]}"')  # test
-                        print(f'>> !6 檢查 "{text[text.index(match) + len(match):]}" 有無城市名稱')
-                        text = text.replace(text[:text.index(match) + len(match)], '')
+                        print(f'match後面的字串，已經沒有標籤了: "{text}"')  # test
+                        print(f'>> !6 檢查 "{text}"')
                         # do
                         # 檢查以下字串有沒有城市
                         # text[text.index(match) + len(match):]
@@ -491,18 +476,11 @@ def conversation():
                     # 起床看一下 接下來要做的是判斷match text後面緊隨其後的是 "前" 還是 "後"
 
                     # text = text.replace(match, '')
-                    print('下一輪的字串', text)
 
                     del time_tags[0]
                     del matched_texts[0]
                     del matched_indexes[0]
                     del matched_time_lines[0]
-
-                    print('zzz')
-                    print('time tags:', time_tags)
-                    print('matched texts:', matched_texts)
-                    print('matched texts indexes:', matched_indexes)
-                    print('matched time lines:', matched_time_lines)
 
             print(
                 '------------------------------------------------------------------------------------------------------------------------------------------------')
