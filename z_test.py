@@ -84,7 +84,15 @@ texts = [
     # '明天下午到後年', # 後年 讀不到
     '明天晚上到三月',
     '明天晚上到下周',
-    '明天下午到後天'
+    '明天下午到後天 八月',
+    '三月三號到五號以前 八月',
+    '三月三號到五號以前，八月',
+    '三月三號到五號以前 還有八月',
+    '請問明天下午到後天晚上有哪些演唱會',
+    '明年三月的台北有什麼演唱會嗎',
+    '下周到下下周',
+    '下周到下周四',
+    '下周四'
 ]
 
 wrong_words = [
@@ -233,6 +241,8 @@ def conversation():
                 else:
                     break
 
+            print(f'c1 經過duckling之後 text = "{text}"')
+
             # if not matched_texts:
             #     if '下下周' in text:
             #         print('我等等處理你')
@@ -240,8 +250,9 @@ def conversation():
             ''''''
 
             # 全部字串處理完畢
-            print('@@@')
+            print('@@@@@@@@@@@@@@@字串處理完畢@@@@@@@@@@@@@@@')
             print(f'{ori_msg} -> {pro_msg}')
+            sim_msg = text  # test
             print(f'sim msg: {text}')
 
             sorted_pairs = sorted(zip(matched_indexes, matched_texts))
@@ -263,69 +274,209 @@ def conversation():
 
             ''''''
 
+            # 一個接著一個時間段做處理
             while re.findall(r'year|month|week|day|hour|minute|second|range', text):
-                matches = re.findall(r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',text)
-                # tag到tag
+                matches = re.findall(
+                    r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                    text)
+
+                # tag1到tag2
                 for match in matches:
-                    print(match)
+                    print('***************處理字串***************')
+                    print(f'準備處理字串: "{match}" ({sim_msg})')
                     tag1, tag2 = get_until_tags(match)
                     print(f'until {tag1}, {tag2}')
-                    if tag1[0] == 'range':
-                        start_time = matched_time_lines[0][0]
-                        start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
-                        if tag2[0] == 'range':
-                            end_time = matched_time_lines[1][1]
-                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
-                        else:
-                            end_time = matched_time_lines[1][0]
-                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
-                            if tag2[0] == 'year':
-                                print('1year')
-                                next_year = int(end_time.split('-')[0]) + 1
-                                end_time = end_time.replace(end_time.split('-')[0], str(next_year))
-                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
-                            elif tag2[0] == 'month':
-                                print('1month')
-                                next_month = int(end_time.split('-')[1]) + 1
-                                end_time = end_time.replace(end_time.split('-')[1], str(next_month))
-                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
-                            elif tag2[0] == 'week':
-                                print('1week')
-                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=7) - timedelta(seconds=1)
-                            elif tag2[0] == 'day':
-                                print('1day')
-                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=1) - timedelta(seconds=1)
-
-                        print(f'124 {end_time_obj}')
-                        if start_time_obj > end_time_obj:
-                            print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
-                        else:
-                            print('開始篩選')
-                            print(f'{start_time_obj} <= something <= {end_time_obj}')
-
-                        text = text.replace(match, '')
-
-                        for i in range(2):
-                            del time_tags[0]
-                            del matched_texts[0]
-                            del matched_indexes[0]
-                            del matched_time_lines[0]
-
+                    # tag1 的開頭都會是 matched_time_lines[0][0]
+                    start_time = matched_time_lines[0][0]
+                    start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+                    # tag2 都取[1][0]
+                    end_time = matched_time_lines[1][0]
+                    if tag2[0] == 'range':
+                        # 但如果是range 就取[1][1]
+                        end_time = matched_time_lines[1][1]
+                    if tag2[0] == 'year':
+                        print('1year')
+                        next_year = int(end_time.split('-')[0]) + 1
+                        end_time = end_time.replace(end_time.split('-')[0], str(next_year))
+                        end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
+                    elif tag2[0] == 'month':
+                        print('1month')
+                        next_month = int(end_time.split('-')[1]) + 1
+                        end_time = end_time.replace(end_time.split('-')[1], str(next_month))
+                        end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
+                    elif tag2[0] == 'week':
+                        print('1week')
+                        end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=7) - timedelta(seconds=1)
+                    elif tag2[0] == 'day':
+                        print('1day')
+                        end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=1) - timedelta(seconds=1)
                     else:
-                        pass
+                        end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
 
-                    # print('time tags:', time_tags)  # test
-                    # print('matched texts:', matched_texts)  # test
-                    # print('matched texts indexes:', matched_indexes)  # test
-                    # print('matched time lines:', matched_time_lines)  # test
-                    # search_tags.append(match)
+                    print(f'124 {end_time_obj}')  # test
+                    if start_time_obj > end_time_obj:
+                        print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
+                    else:
+                        print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
+
+                    rest_text = text[text.index(match) + len(match):]
+                    print(f'剩餘字串 "{rest_text}"')  # test
+
+                    ''' 檢查下一個標籤 '''
+                    # 下一個標籤為tag到tag嗎
+                    if re.findall(
+                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                            rest_text):
+                        next_match = re.findall(
+                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                            rest_text)
+                        print('aqa')  # test
+                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
+                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
+                        print(f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
+                        print(f'>> !1 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        text = text.replace(text[:text.index(next_match[0])], '')
+                        # do
+                        # 檢查以下這個字串有沒有城市
+                        # text[text.index(match) + len(match):text.index(next_match[0])]
+
+                        # print('!1 bef', text)  # test
+                        # print('!1 aft', text)  # test
+                    # 那是單獨一個tag嗎
+                    elif re.findall(r'year|month|week|day|hour|minute|second|range', rest_text):
+                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', rest_text)
+                        print('awa')  # test
+                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
+                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
+                        print(f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
+                        print(f'>> !2 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        text = text.replace(text[:text.index(next_match[0])], '')
+                        # do
+                        # 檢查以下這個字串有沒有城市
+                        # text[text.index(match) + len(match):text.index(next_match[0])]
+
+                        # print('!2 bef', text)  # test
+                        # print('!2 aft', text)  # test
+                    # 後面沒有tag了
+                    else:
+                        print(f'match後面的字串，已經沒有標籤了: "{text[text.index(match) + len(match):]}"')  # test
+                        print(f'>> !3 檢查 "{text[text.index(match) + len(match):]}" 有無城市名稱')
+                        text = text.replace(text[:text.index(match) + len(match)], '')
+                        # do
+                        # 檢查以下字串有沒有城市
+                        # text[text.index(match) + len(match):]
+
+                        # print('!3 bef', text)  # test
+                        # text = text[text.index(match) + len(match):]
+                        # print('!3 aft', text)  # test
+
+                    # text = text.replace(match, '')
+                    # print(f'a12 {text}')
+
+                    for i in range(2):
+                        del time_tags[0]
+                        del matched_texts[0]
+                        del matched_indexes[0]
+                        del matched_time_lines[0]
+
                 ''''''
 
                 matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
                 # 單獨
                 for match in matches:
-                    print(f'不是幾號到幾號 單獨處理 {match}')
+                    print('***************處理字串***************')
+                    print(f'準備處理字串: "{match}" ({sim_msg})')
+
+                    if match == 'year':
+                        print('處理year')
+                        print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year)
+
+                    elif match == 'month':
+                        print('處理month')
+                        print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month)
+
+                    elif match == 'week':
+                        print('處理week')
+                        # print('z1', datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
+                        start_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
+                        end_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S") + timedelta(days=7) - timedelta(seconds=1)
+                        print('z1')
+                        print(start_time_obj)
+                        print(end_time_obj)
+                    elif match == 'day':
+                        print('處理day')
+                        print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
+                    elif match == 'hour' or match == 'minute':
+                        print('處理hour or minute')
+                        print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
+
+                    rest_text = text[text.index(match) + len(match):]
+                    print(f'剩餘字串 "{rest_text}"')  # test
+
+                    ''' 檢查下一個標籤 '''
+                    # 下一個標籤為tag到tag嗎
+                    if re.findall(
+                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                            rest_text):
+                        next_match = re.findall(
+                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                            rest_text)
+                        print('aqa')  # test
+                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
+                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
+                        print(
+                            f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
+                        print(f'>> !4 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        text = text.replace(text[:text.index(next_match[0])], '')
+                        # do
+                        # 檢查以下這個字串有沒有城市
+                        # text[text.index(match) + len(match):text.index(next_match[0])]
+
+                        # print('!4 bef', text)  # test
+                        # print('!4 aft', text)  # test
+                    # 那是單獨一個tag嗎
+                    elif re.findall(r'year|month|week|day|hour|minute|second|range', rest_text):
+                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', rest_text)
+                        print('awa')  # test
+                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
+                        print(f'標籤開始 ~ 下一個標籤: "{text[:text.index(next_match[0])]}"')  # test
+                        print(
+                            f'標籤結束 ~ 下一個標籤: "{text[text.index(match) + len(match):text.index(next_match[0])]}"')  # test
+                        print(f'>> !5 檢查 "{text[text.index(match) + len(match):text.index(next_match[0])]}" 有無城市名稱')
+                        text = text.replace(text[:text.index(next_match[0])], '')
+                        # do
+                        # 檢查以下這個字串有沒有城市
+                        # text[text.index(match) + len(match):text.index(next_match[0])]
+
+                        # print('!5 bef', text)  # test
+                        # print('!5 aft', text)  # test
+                    # 後面沒有tag了
+                    else:
+                        print(f'match後面的字串，已經沒有標籤了: "{text[text.index(match) + len(match):]}"')  # test
+                        print(f'>> !6 檢查 "{text[text.index(match) + len(match):]}" 有無城市名稱')
+                        text = text.replace(text[:text.index(match) + len(match)], '')
+                        # do
+                        # 檢查以下字串有沒有城市
+                        # text[text.index(match) + len(match):]
+
+                        # print('!3 bef', text)  # test
+                        # text = text[text.index(match) + len(match):]
+                        # print('!3 aft', text)  # test
+
+                    # text = text[text.index(match):]
+                    # if '前' in text and '後' in text:
+                    #
+                    # print('aza', text)
+
+                    # 起床看一下 接下來要做的是判斷match text後面緊隨其後的是 "前" 還是 "後"
+
                     text = text.replace(match, '')
+                    print('a1a', text)
+
+                    del time_tags[0]
+                    del matched_texts[0]
+                    del matched_indexes[0]
+                    del matched_time_lines[0]
 
             print('------------------------------------------------------------------------')
         except Exception as e:

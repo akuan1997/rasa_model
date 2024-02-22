@@ -229,8 +229,11 @@ if start_time < end_time:
 
 # 寫一個function 把下周六轉換成中文字
 
-a = datetime(2024, 10, 1, 0, 0)
-b = a - timedelta(seconds=1)
-print(b)
-a.year = a.year + 1
-print(a)
+# a = datetime(2024, 10, 1, 0, 0)
+# b = a - timedelta(seconds=1)
+# print(b)
+# a.year = a.year + 1
+# print(a)
+
+a = ' '
+print(f'"{a.strip()}"')

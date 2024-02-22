@@ -1,180 +1,347 @@
 from duckling import *
-from datetime import datetime
-import calendar
 import re
-
-weekday_mapping = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
-
-
-def get_how_many_weeks_after(text):
-    start_index = text.find('下下周')
-    if start_index != -1:
-        end_index = start_index + 2
-        while True:
-            if text[start_index - 1] == '下':
-                start_index = start_index - 1
-            else:
-                break
-        print(len(text[start_index:end_index]))
-
-        return text[start_index:end_index + 1], len(text[start_index:end_index])
-    else:
-        return -1
+from datetime import datetime, timedelta
+import calendar
 
 
-def get_how_many_weeks_before(text):
-    start_index = text.find('上上周')
-    if start_index != -1:
-        end_index = start_index + 2
-        while True:
-            if text[start_index - 1] == '上':
-                start_index = start_index - 1
-            else:
-                break
-        # print(len(text[start_index:end_index]))
-
-        return text[start_index:end_index + 1], len(text[start_index:end_index])
-    else:
-        return -1
+def get_until_tags(text):
+    tag1 = re.findall(
+        r'(year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+        text)
+    tag2 = re.findall(
+        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(year|month|week|day|hour|minute|second|range)',
+        text)
+    return tag1, tag2
 
 
-def get_weekday_number(text):
-    '''
-    周一到周日的文字轉換為數字
-    譬如說想要找到周三
-    while two_weeks_later.weekday() != 2:  # 0 = Monday, 1 = Tuesday, ..., 6 = Sunday
-    two_weeks_later += timedelta(days=1)
-    '''
-    if text in weekday_mapping:
-        weekday_number = weekday_mapping.index(text)
-        return weekday_number
-    else:
-        return -1
+texts = [
+    '我們十一點半見',
+    '前天的下午三點之前',
+    '下周',
+    # '下下周',  #
+    # '兩周後',  #
+    # '上週',  #
+    # '上上周',  #
+    # '下下周 周五',  #
+    # '兩周後 周五',  #
+    # '兩周後的今天',  #
+    # '兩周後的週四',  #
+    '下個月初',
+    '下個月中',
+    '下個月底',
+    '下周日晚上',
+    '下個月初有什麼演唱會',
+    '每周一',
+    '十一月九號的晚上',
+    '明天的下午茶時間有什麼演唱會嗎',
+    '十月 一號 早上 到十月五號 晚上',
+    '周末',
+    '這個月',
+    '這個月初',
+    '這個月中',
+    '這個月底',
+    '月初',
+    '月中',
+    '月底',
+    '下個月',
+    '下月',
+    '十一月初',
+    '我下個月 想要去看演唱會',
+    '十月 十號到十月 十五號',
+    '明年 三月 ',
+    '明天 下午五點之後有哪些演唱會活動?',
+    '明天 早上十一點之前有哪些演唱會活動?',
+    '後天中午十二時',
+    '後天中午十二點',
+    # '明年三月的',
+    # '明年三月十一號',
+    # '明年三月十二日晚上8點',
+    '十一點半',
+    '十一點',
+    '三月十一日',
+    '三月十二日晚上8點',
+    '三月',
+    '三月 七月 八月的晚上',
+    '三月、七月和八月的晚上',
+    '七月一號 還有八月的晚上',
+    '一月一號到一月五號',
+    '一月一號到一月五號中間',
+    '一月一號下午到一月三號晚上',
+    '一月一號到一月五號之間 八月',
+    '一月一號到五號的晚上',
+    '三月一號和二號的晚上',
+    '明年三月到五月',
+    '明天下午和後天',
+    '明天和後天晚上',
+    '明天下午到後天',
+    '明天到後天下午',
+    '十月初還有十一月初有什麼演唱會',
+    '明天晚上到下周',
+    '明天晚上到下周六',
+    '下周',
+    '後天下午到明天晚上',
+    '明天下午到明年',
+    # '明天下午到後年', # 後年 讀不到
+    '明天晚上到三月',
+    '明天晚上到下周',
+    '明天下午到後天'
+]
+
+wrong_words = [
+    '下個月初的晚上有什麼演唱會',
+    '下下周的周五',
+    '下午茶',  # 改為下午
+    '每個月的15號',
+]
 
 
-def check_period(text):
-    periods = ['早上', '中午', '下午', '晚上']
+def conversation():
+    d = DucklingWrapper(language=Language.CHINESE)
+    for text in texts:
+        print('ori msg', text)
+        ori_msg = text
 
-    morning = list(set(re.findall(r'早上', text)))
-    morning_number = len(morning)
+        try:
+            text = replace_week(text)
+            text = text.replace('的', '')
+            text = text.replace('下午茶', '下午')
 
-    noon = list(set(re.findall(r'中午', text)))
-    noon_number = len(noon)
+            if '寒假' in text:
+                print('每一年的寒假時間都是不固定的，我將為你搜尋一月以及二月相關的活動')
+                text = text.replace('寒假', '一月 二月')
+            if '暑假' in text:
+                print('每一年的暑假時間都是不固定的，我將為你搜尋七月以及八月相關的活動')
+                text = text.replace('暑假', '七月 八月')
 
-    afternoon = list(set(re.findall(r'下午', text)))
-    afternoon_number = len(afternoon)
+            text = text.replace('春季', '春天').replace('春天', '三月 四月 五月')
+            text = text.replace('夏季', '夏天').replace('夏天', '六月 七月 八月')
+            text = text.replace('秋季', '秋天').replace('秋天', '九月 十月 十一月')
+            text = text.replace('冬季', '冬天').replace('冬天', '十二月 一月 二月')
 
-    night = list(set(re.findall(r'晚上', text)))
-    night_number = len(night)
+            text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*和\s*([十]?[一二三四五六七八九十])月',
+                          r'明年\1月和明年\2月', text)
+            text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*到\s*([十]?[一二三四五六七八九十])月',
+                          r'明年\1月到明年\2月', text)
 
-    if morning_number + noon_number + afternoon_number + night_number == 1:
-        print('do something')
-        for period in periods:
-            if period in text:
-                break
-        return text.replace(period, ''), period
-    else:
-        return text, -1
+            text = re.sub(r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])日', r'\1月\2號',
+                          text)
 
+            text = re.sub(
+                r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*到\s*([一二三]?[十]?[一二三四五六七八九十])號',
+                r'\1月\2號到\1月\3號', text)
+            text = re.sub(
+                r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*和\s*([一二三]?[十]?[一二三四五六七八九十])號',
+                r'\1月\2號到\1月\3號', text)
 
-def kuan(text):
-    # 處理字串
-    text = text.replace('週', '周').replace('星期天', '星期日').replace('禮拜天', '禮拜日'). \
-        replace('星期', '周').replace('禮拜', '周').replace('的', '').replace('下午茶', '下午')
-    # 取得時段 沒有時段period就返回-1
-    text, period = check_period(text)
-    # 目前的年/月/日/周
-    current_datetime = datetime.now()
-    year = current_datetime.year
-    month = current_datetime.month
-    day = current_datetime.day
-    week = int(current_datetime.strftime("%U"))
-    print(f'{year}-{month}-{day} / {year}的第{week}周')
-    # week_day = -1
+            print('pro msg', text)
+            pro_msg = text
 
-    # 下下周 獲得要往後幾周 從字串中移除關鍵字
-    if '下下周' in text:
-        print(f'week: {week}')
-        weeks_text, plus_weeks = get_how_many_weeks_after(text)
-        week += plus_weeks
-        text = text.replace(weeks_text, '')
-        print(f'week: {week}')
-    # 上上周 告知無法提供資訊 從字串中的關鍵字移除
-    elif '上上周' in text:
-        print('不好意思，我們無法提供過去的演唱會資訊')
-        weeks_text, minus_weeks = get_how_many_weeks_before(text)
-        text = text.replace(weeks_text, '')
+            time_tags = []
+            matched_texts = []
+            matched_indexes = []
+            matched_time_lines = []
 
-    # 1~10
-    if '月初' in text:
-        start_date = datetime(year=year, month=month, day=1)
-        end_date = datetime(year=year, month=month, day=10)
-        print(f'月初 {start_date} ~ {end_date}')
-        text = text.replace('月初', '月')
-    # 11~20
-    elif '月中' in text:
-        start_date = datetime(year=year, month=month, day=11)
-        end_date = datetime(year=year, month=month, day=20)
-        print(f'月中 {start_date} ~ {end_date}')
-        text = text.replace('月中', '月')
-    # 21~底
-    elif '月底' in text:
-        start_date = datetime(year=year, month=month, day=21)
-        days_in_month = calendar.monthrange(year, month)[1]
-        end_date = datetime(year=year, month=month, day=days_in_month)
-        print(f'月底 {start_date} ~ {end_date}')
-        text = text.replace('月底', '月')
+            while True:
+                duckling_result = d.parse_time(text)
+                if duckling_result:
+                    # print(duckling_result[0])
+                    try:
+                        grain = duckling_result[0]['value']['grain']
+                        time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00',
+                                                                                                        '')
+                        matched_text = str(duckling_result[0]['text'])
 
-    print(text)
-    '''
-    範圍
-    N 和 N 之間 ? (N 到 N)
-        yes -> from to
-        no -> N 和 N?
-            yes -> split('和') -> ...
-            no -> ...
-    '''
+                        if grain == 'month':
+                            year = int(time_line.split('-')[0])
+                            month = int(time_line.split('-')[1])
+                            if '月初' in text:
+                                grain = 'range'
 
-def month_beg_mid_end(text):
-    # 1~10
-    if '月初' in text:
-        start_date = datetime(year=year, month=month, day=1)
-        end_date = datetime(year=year, month=month, day=10)
-        print(f'月初 {start_date} ~ {end_date}')
-        text = text.replace('月初', '月')
-        return text
-    # 11~20
-    elif '月中' in text:
-        start_date = datetime(year=year, month=month, day=11)
-        end_date = datetime(year=year, month=month, day=20)
-        print(f'月中 {start_date} ~ {end_date}')
-        text = text.replace('月中', '月')
-    # 21~底
-    elif '月底' in text:
-        start_date = datetime(year=year, month=month, day=21)
-        days_in_month = calendar.monthrange(year, month)[1]
-        end_date = datetime(year=year, month=month, day=days_in_month)
-        print(f'月底 {start_date} ~ {end_date}')
-        text = text.replace('月底', '月')
-    else:
-        return text
-def kuan1(text):
-    if '年' in text:
-        text[:text.index('年')+1]
-    # day_period
-    # if '月初' in text:
+                                matched_text = matched_text.replace('月', '月初')
 
-    text = text.replace('年', '年 ').replace('月', '月 ').replace('天', '天 ')
+                                start_date = datetime(year=year, month=month, day=1)
+                                end_date = datetime(year=year, month=month, day=10, hour=23, minute=59)
+                                matched_time_lines.append([str(start_date), str(end_date)])
+                                print(f'月初 {start_date} ~ {end_date}')
+                            elif '月中' in text:
+                                grain = 'range'
+
+                                matched_text = matched_text.replace('月', '月中')
+
+                                start_date = datetime(year=year, month=month, day=11)
+                                end_date = datetime(year=year, month=month, day=20, hour=23, minute=59)
+                                matched_time_lines.append([str(start_date), str(end_date)])
+                                print(f'月中 {start_date} ~ {end_date}')
+                            elif '月底' in text:
+                                grain = 'range'
+
+                                matched_text = matched_text.replace('月', '月底')
+
+                                start_date = datetime(year=year, month=month, day=21)
+                                days_in_month = calendar.monthrange(year, month)[1]
+                                end_date = datetime(year=year, month=month, day=days_in_month, hour=23, minute=59)
+                                matched_time_lines.append([str(start_date), str(end_date)])
+                                print(f'月中 {start_date} ~ {end_date}')
+                            else:
+                                matched_time_lines.append([time_line])
+                        else:
+                            matched_time_lines.append([time_line])
+                        #     else:
+                        #         pass
+                        # elif grain == 'week':
+                        #     pass
+                        # elif grain == 'day':
+                        #     pass
+                        # elif grain == 'hour':
+                        #     pass
+                        # elif grain == 'minute':
+                        #     pass
+                        # elif grain == 'second':
+                        #     pass
+
+                        time_tags.append(grain)
+
+                        if grain != 'range':  # test
+                            print(f"{matched_text} / {time_line} / {grain}")
 
 
-# kuan('我下個月初想要去看比賽')
-# kuan('我上上上周去了日本')
-kuan('我下個月底的晚上想要去看演唱會')
+                    except Exception as e:
+                        grain = 'range'
+                        matched_text = str(duckling_result[0]['text'])
+                        time_tags.append(grain)
 
-# '我明年三月底想要去日本'
-# '我明天下午三點想要去健身房'
-# '明天下午五點之後有哪些演唱會活動?'
-# '明天早上十一點之前有哪些演唱會活動?'
+                        print('from', str(duckling_result[0]['value']['value']['from']).replace('T', ' ').replace(
+                            ':000+08:00', ''), 'to',
+                              str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace('.000+08:00',
+                                                                                                        ''))  # test
+                        matched_time_lines.append(
+                            [str(duckling_result[0]['value']['value']['from']).replace('T', ' ').replace(
+                                '.000+08:00', ''),
+                                str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace(
+                                    '.000+08:00', '')])
+
+                    ''''''
+
+                    matched_text_start_index = duckling_result[0]['start']
+                    matched_text_end_index = matched_text_start_index + len(matched_text)
+                    text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
+                    matched_texts.append(matched_text)
+                    matched_indexes.append(matched_text_start_index)
+
+                    print('matched text:', matched_text)  # test
+
+                else:
+                    break
+
+            # if not matched_texts:
+            #     if '下下周' in text:
+            #         print('我等等處理你')
+
+            ''''''
+
+            # 全部字串處理完畢
+            print('@@@')
+            print(f'{ori_msg} -> {pro_msg}')
+            print(f'sim msg: {text}')
+
+            sorted_pairs = sorted(zip(matched_indexes, matched_texts))
+            # sorted_indexes  = [pair[0] for pair in sorted_pairs]
+            matched_texts = [pair[1] for pair in sorted_pairs]
+
+            sorted_pairs = sorted(zip(matched_indexes, time_tags))
+            # sorted_indexes  = [pair[0] for pair in sorted_pairs]
+            time_tags = [pair[1] for pair in sorted_pairs]
+
+            sorted_pairs = sorted(zip(matched_indexes, matched_time_lines))
+            matched_indexes = [pair[0] for pair in sorted_pairs]
+            matched_time_lines = [pair[1] for pair in sorted_pairs]
+
+            print('time tags:', time_tags)
+            print('matched texts:', matched_texts)
+            print('matched texts indexes:', matched_indexes)
+            print('matched time lines:', matched_time_lines)
+
+            ''''''
+
+            while re.findall(r'year|month|week|day|hour|minute|second|range', text):
+                matches = re.findall(r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',text)
+
+                for match in matches:
+                    print(match)
+                    tag1, tag2 = get_until_tags(match)
+                    print(f'until {tag1}, {tag2}')
+                    # tag1到tag2
+                    # tag1 的開頭都會是 matched_time_lines[0][0]
+                    start_time = matched_time_lines[0][0]
+                    start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+                    # tag2 處理
+                    # 如果是range 就取[1][0]
+                    if tag1[0] == 'range':
+                        start_time = matched_time_lines[0][0]
+                        start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+                        if tag2[0] == 'range':
+                            end_time = matched_time_lines[1][1]
+                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+                        else:
+                            end_time = matched_time_lines[1][0]
+                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+
+                            if tag2[0] == 'year':
+                                print('1year')
+                                next_year = int(end_time.split('-')[0]) + 1
+                                end_time = end_time.replace(end_time.split('-')[0], str(next_year))
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
+                            elif tag2[0] == 'month':
+                                print('1month')
+                                next_month = int(end_time.split('-')[1]) + 1
+                                end_time = end_time.replace(end_time.split('-')[1], str(next_month))
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
+                            elif tag2[0] == 'week':
+                                print('1week')
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=7) - timedelta(seconds=1)
+                            elif tag2[0] == 'day':
+                                print('1day')
+                                end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=1) - timedelta(seconds=1)
+
+                        print(f'124 {end_time_obj}')
+                        if start_time_obj > end_time_obj:
+                            print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
+                        else:
+                            print('開始篩選')
+                            print(f'{start_time_obj} <= something <= {end_time_obj}')
+
+                        text = text.replace(match, '')
+
+                        for i in range(2):
+                            del time_tags[0]
+                            del matched_texts[0]
+                            del matched_indexes[0]
+                            del matched_time_lines[0]
+
+                    else:
+                        pass
+
+                    # print('time tags:', time_tags)  # test
+                    # print('matched texts:', matched_texts)  # test
+                    # print('matched texts indexes:', matched_indexes)  # test
+                    # print('matched time lines:', matched_time_lines)  # test
+                    # search_tags.append(match)
+                ''''''
+
+                matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+                # 單獨
+                for match in matches:
+                    print(f'不是幾號到幾號 單獨處理 {match}')
+
+                    text = text.replace(match, '')
+
+            print('------------------------------------------------------------------------')
+        except Exception as e:
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print(f'{text} have error: {e}')
+            print('---')
+            continue
+
 
 test_words = [
     '明年三月十一號晚上八點',
@@ -185,25 +352,101 @@ test_words = [
     '三月',
     '十一號晚上八點',
     '十一號',
-    '晚上八點'
+    '晚上八點',
+    '2024-10-5 20:00',
+    '九月的晚上和十月的下午',
+    '九月晚上和十月下午',
+    '十月和十一月的下午',
+    '十一月和十二月 晚上八點之後',
+    '十一月和十二月的晚上八點之後',
+    '十一月八號晚上九點到十一點之間',
+    '十一月八號 晚上九點到十一點之間',
+    '下禮拜一',
+    '明年三月和五月',
+    '明年三月到五月之間',
+    '今年八月和九月',
+    '今年 八月 九月 十月'
 ]
-print('---')
-for text in test_words:
-    if '年' in text and '月' in text and ('日' in text or '號' in text):
-        duckling_time = '2025-03-12T20:00:00.000+08:00'
-        year_month_day = duckling_time.split('T')[0]
-        year = year_month_day.split('-')[0]
-        month = year_month_day.split('-')[1]
-        day = year_month_day.split('-')[2]
-        hour_minutes_seconds_timezone = duckling_time.split('T')[1]
-        hour = hour_minutes_seconds_timezone.split(':')[0]
-        minutes = hour_minutes_seconds_timezone.split(':')[1]
-        print(f'{year}-{month}-{day} {hour}:{minutes}')
-    elif '年' in text and '月' in text:
-        duckling_time = '2025-03-01T00:00:00.000+08:00'
-        year_month_day = duckling_time.split('T')[0]
-        year = year_month_day.split('-')[0]
-        month = year_month_day.split('-')[1]
-        day = year_month_day.split('-')[2]
 
-根據最後一個關鍵字判斷?
+
+def replace_week(text):
+    text = text.replace('週', '周').replace('星期天', '星期日').replace('禮拜天', '禮拜日').replace('星期',
+                                                                                                    '周').replace(
+        '禮拜', '周')
+    return text
+
+
+def conversation1():
+    d = DucklingWrapper(language=Language.CHINESE)
+    for text in test_words:
+        if '今年' in text:
+            text = text.replace('今年', '')
+        elif '明年' in text:
+            text = text.replace('明年', '')
+        try:
+            text = replace_week(text)
+            text = text.replace('下午茶', '下午')
+            # replace('的', '').\
+            print('ori msg', text)
+
+            matched_texts = []
+            while True:
+                duckling_result = d.parse_time(text)
+                if duckling_result:
+                    print(duckling_result[0])
+                    print(duckling_result[0]['value']['value'])
+                    # 範圍
+                    try:
+                        if duckling_result[0]['value']['value']['to']:
+                            print('hello')
+                    # 沒有範圍
+                    except:
+                        pass
+                    text = text.replace(text[duckling_result[0]['start']:duckling_result[0]['end']], '')
+                    matched_texts.append(duckling_result[0]['text'])
+                    # if len(matched_texts) == 1 and (matched_texts[0] == '下周' or matched_texts[0] == '下星期' or matched_texts[0] == '下禮拜'):
+                    # print()
+                else:
+                    break
+            print(f'duckling配對到{len(matched_texts)}個')
+            print(matched_texts)
+            print('---')
+        except Exception as e:
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print(f'{text} have error: {e}')
+            print('---')
+            continue
+
+
+conversation()
+# conversation1()
+
+# for word in test_words:
+#     current_datetime = datetime.now()
+#     year = current_datetime.year
+#     month = current_datetime.month
+#     day = current_datetime.day
+#
+#     week = int(current_datetime.strftime("%U"))
+#     print(f'{year}-{month}-{day} / {year}的第{week}周')
+#
+#     print(word)
+#
+#     if '今年' in word:
+#         word = word.replace('今年', '')
+#         last_keyword = year
+#     elif '明年' in word:
+#         year = year + 1
+#         word = word.replace('明年', '')
+#         last_keyword = year
+#
+#     print(word)
+#
+#     word = word.replace('與', '和')
+#     word = word.replace('號', '日')
+#     if '和' in word:
+#         word_splits = word.split('和')
+#         for word_split in word_splits:
+#             print(word_split)
+#     print('---')
+
