@@ -237,3 +237,7 @@ if start_time < end_time:
 
 a = ' '
 print(f'"{a.strip()}"')
+
+a = '下周日'
+b = re.findall(r'下周(?:一|二|三|四|五|六|日)', a)
+print(b)
