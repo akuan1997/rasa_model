@@ -70,10 +70,58 @@ def conversation():
             matched_indexes = []
             matched_time_lines = []
 
+            matches = re.findall(r'(下{2,})周(一|二|三|四|五|六|日)', text)
+            for match in matches:
+                grain = 'day'
+                match_text = f'{match[0]}周{match[1]}'
+                print(match_text)
+
+                duckling_result = d.parse_time(f'下周{match[1]}')
+                time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
+                time_line = str(
+                    datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match[0]) - 1)))
+                if match[1] == '六' or match[1] == '日':
+                    time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
+
+                matched_text_start_index = text.index(match_text)
+                matched_text_end_index = matched_text_start_index + len(match_text)
+                print(f'{matched_text_start_index}:{matched_text_end_index}')
+
+                time_tags.append(grain)
+                matched_time_lines.append([time_line])
+                text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
+                matched_texts.append(match_text)
+                matched_indexes.append(matched_text_start_index)
+
+            ''''''
+
+            matches = re.findall(r'(下{2,})周', text)
+            for match in matches:
+                grain = 'week'
+                match_text = f'{match}周'
+
+                duckling_result = d.parse_time(f'下周')
+                time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
+                print(time_line)
+                time_line = str(
+                    datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match) - 1)))
+                print(time_line)
+
+                matched_text_start_index = text.index(match_text)
+                matched_text_end_index = matched_text_start_index + len(match_text)
+                print(f'{matched_text_start_index}:{matched_text_end_index}')
+
+                time_tags.append(grain)
+                matched_time_lines.append([time_line])
+                text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
+                matched_texts.append(match_text)
+                matched_indexes.append(matched_text_start_index)
+
+            ''''''
+
             while True:
                 duckling_result = d.parse_time(text)
                 if duckling_result:
-                    # print(duckling_result[0])
                     try:
                         grain = duckling_result[0]['value']['grain']
                         time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00',
@@ -146,13 +194,9 @@ def conversation():
 
                     matched_text_start_index = duckling_result[0]['start']
                     matched_text_end_index = matched_text_start_index + len(matched_text)
-                    print(text)
                     text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
-                    print(text)
                     matched_texts.append(matched_text)
-                    print(matched_texts)
                     matched_indexes.append(matched_text_start_index)
-                    print(matched_indexes)
 
                     print('matched text:', matched_text)  # test
 
