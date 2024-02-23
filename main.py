@@ -27,13 +27,14 @@ wrong_words = [
 def conversation():
     d = DucklingWrapper(language=Language.CHINESE)
     for text in texts:
-        print('ori msg', text)
+        # print('ori msg', text)
         ori_msg = text
 
         try:
             text = replace_week(text)
             text = text.replace('的', '')
             text = text.replace('下午茶', '下午')
+            # text = text.replace('月份', '月').replace('月分', '月')
 
             if '寒假' in text:
                 print('每一年的寒假時間都是不固定的，我將為你搜尋一月以及二月相關的活動')
@@ -62,7 +63,7 @@ def conversation():
                 r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*和\s*([一二三]?[十]?[一二三四五六七八九十])號',
                 r'\1月\2號到\1月\3號', text)
 
-            print('pro msg', text)
+            # print('pro msg', text)
             pro_msg = text
 
             time_tags = []
@@ -74,7 +75,7 @@ def conversation():
             for match in matches:
                 grain = 'day'
                 match_text = f'{match[0]}周{match[1]}'
-                print(match_text)
+                # print(match_text)
 
                 duckling_result = d.parse_time(f'下周{match[1]}')
                 time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
@@ -85,7 +86,7 @@ def conversation():
 
                 matched_text_start_index = text.index(match_text)
                 matched_text_end_index = matched_text_start_index + len(match_text)
-                print(f'{matched_text_start_index}:{matched_text_end_index}')
+                # print(f'{matched_text_start_index}:{matched_text_end_index}')
 
                 time_tags.append(grain)
                 matched_time_lines.append([time_line])
@@ -102,14 +103,14 @@ def conversation():
 
                 duckling_result = d.parse_time(f'下周')
                 time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
-                print(time_line)
+                # print(time_line)
                 time_line = str(
                     datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match) - 1)))
-                print(time_line)
+                # print(time_line)
 
                 matched_text_start_index = text.index(match_text)
                 matched_text_end_index = matched_text_start_index + len(match_text)
-                print(f'{matched_text_start_index}:{matched_text_end_index}')
+                # print(f'{matched_text_start_index}:{matched_text_end_index}')
 
                 time_tags.append(grain)
                 matched_time_lines.append([time_line])
@@ -161,18 +162,18 @@ def conversation():
                                 print(f'月中 {start_date} ~ {end_date}')
                             else:
                                 matched_time_lines.append([time_line])
-                        elif grain == 'day' and re.findall(r'下周(?:|六|日)', matched_text):
-                            print('hello i am here')
+                        elif grain == 'day' and re.findall(r'下周(?:六|日)', matched_text):
+                            # print('hello i am here')
                             time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
-                            print(time_line)
+                            # print(time_line)
                             matched_time_lines.append([time_line])
                         else:
                             matched_time_lines.append([time_line])
 
                         time_tags.append(grain)
 
-                        if grain != 'range':  # test
-                            print(f"{matched_text} / {time_line} / {grain}")
+                        # if grain != 'range':  # test
+                        #     print(f"{matched_text} / {time_line} / {grain}")
 
 
                     except Exception as e:
@@ -198,20 +199,17 @@ def conversation():
                     matched_texts.append(matched_text)
                     matched_indexes.append(matched_text_start_index)
 
-                    print('matched text:', matched_text)  # test
+                    # print('matched text:', matched_text)  # test
 
                 else:
                     break
 
-            print(f'c1 經過duckling之後 text = "{text}"')
-
             ''''''
 
             # 全部字串處理完畢
-            print('@@@@@@@@@@@@@@@字串處理完畢@@@@@@@@@@@@@@@')
-            print(f'{ori_msg} -> {pro_msg}')
-            sim_msg = text  # test
-            print(f'sim msg: {text}')
+            print(f'原始字串 {ori_msg}')
+            print(f'經過處理後 -> {pro_msg}')
+            print(f'字串簡化完成 - {text}')
 
             sorted_pairs = sorted(zip(matched_indexes, matched_texts))
             # sorted_indexes  = [pair[0] for pair in sorted_pairs]
@@ -225,10 +223,10 @@ def conversation():
             matched_indexes = [pair[0] for pair in sorted_pairs]
             matched_time_lines = [pair[1] for pair in sorted_pairs]
 
-            print('time tags:', time_tags)
-            print('matched texts:', matched_texts)
-            print('matched texts indexes:', matched_indexes)
-            print('matched time lines:', matched_time_lines)
+            print(f'---\ntime tags: {time_tags}')
+            print(f'matched texts: {matched_texts}')
+            print(f'matched texts indexes: {matched_indexes}')
+            print(f'matched time lines: {matched_time_lines}\n---')
 
             ''''''
 
@@ -240,8 +238,8 @@ def conversation():
 
                 # tag1到tag2
                 for match in matches:
-                    print('***************處理字串***************')
-                    print(f'準備處理字串: "{match}" ({sim_msg})')
+                    print(f'>> 處理期間 {match}')
+                    # print(f'準備處理字串: "{match}" ({sim_msg})')
                     tag1, tag2 = get_until_tags(match)
                     print(f'until {tag1}, {tag2}')
                     # tag1 的開頭都會是 matched_time_lines[0][0]
@@ -280,8 +278,7 @@ def conversation():
                         print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
 
                     text = text[text.index(match) + len(match):]
-                    print(f'剩餘字串 "{text}"')  # test
-                    print('***************處理完成***************')
+
 
                     ''' 檢查下一個標籤 '''
                     # 下一個標籤為tag到tag嗎
@@ -293,9 +290,9 @@ def conversation():
                             text)
                         print('aqa')  # test
                         print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !1 檢查 "{text[:text.index(next_match[0])]}"')  # test
-
+                        print(f'>> !1 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
                         text = text.replace(text[:text.index(next_match[0])], '')
+                        print(f'---\n下一輪的字串 {text}')
                         # do
                         # 檢查以下這個字串有沒有城市
                         # text[text.index(match) + len(match):text.index(next_match[0])]
@@ -307,9 +304,9 @@ def conversation():
                         next_match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
                         print('awa')  # test
                         print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !2 檢查 "{text[:text.index(next_match[0])]}"')  # test
-
+                        print(f'>> !2 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
                         text = text.replace(text[:text.index(next_match[0])], '')
+                        print(f'---\n下一輪的字串 {text}')
                         # do
                         # 檢查以下這個字串有沒有城市
                         # text[text.index(match) + len(match):text.index(next_match[0])]
@@ -319,7 +316,7 @@ def conversation():
                     # 後面沒有tag了
                     else:
                         print(f'match後面的字串，已經沒有標籤了: "{text}"')  # test
-                        print(f'>> !3 檢查 "{text}"')
+                        print(f'>> !3 檢查 "{text}" 有無城市以及前後')
                         # do
                         # 檢查以下字串有沒有城市
                         # text[text.index(match) + len(match):]
@@ -330,6 +327,9 @@ def conversation():
 
                     # text = text.replace(match, '')
                     # print(f'a12 {text}')
+
+                    # print(f'剩餘字串 "{text}"')  # test
+                    # print(f'***************處理完成*************** / 剩餘字串: {text}')
 
                     for i in range(2):
                         del time_tags[0]
@@ -342,21 +342,21 @@ def conversation():
                 matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
                 # 單獨
                 for match in matches:
-                    print('***************處理單獨***************')
-                    print(f'準備處理字串: "{match}" / {matched_time_lines[0]} / ({sim_msg})')
+                    print(f'>> 開始處理單獨標籤: {match}')
+                    # print(f'準備處理字串: "{match}" / {matched_time_lines[0]} / ({sim_msg})')
 
                     if match == 'range':
-                        print('處理range')
+                        print('function range')
                         print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
                         print(datetime.strptime(matched_time_lines[0][1], "%Y-%m-%d %H:%M:%S"))
                     elif match == 'year':
-                        print('處理year')
+                        print('function year')
                         print(f'year = {datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year}')
                     elif match == 'month':
-                        print('處理month')
+                        print('function month')
                         print(f'month = {datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month}')
                     elif match == 'week':
-                        print('處理week')
+                        print('function week')
                         # print('z1', datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
                         start_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
                         end_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S") + timedelta(
@@ -365,15 +365,14 @@ def conversation():
                         print(start_time_obj)
                         print(end_time_obj)
                     elif match == 'day':
-                        print('處理day')
+                        print('function day')
                         print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
                     elif match == 'hour' or match == 'minute':
-                        print('處理hour or minute')
+                        print('function hour or function minute')
                         print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
 
                     text = text[text.index(match) + len(match):]
-                    print(f'剩餘字串 "{text}"')  # test
-                    print('***************處理完成***************')
+
 
                     ''' 檢查下一個標籤 '''
                     # 下一個標籤為tag到tag嗎
@@ -385,7 +384,7 @@ def conversation():
                             text)
                         print('qwe')  # test
                         print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !3 檢查 "{text[:text.index(next_match[0])]}"')  # test
+                        print(f'>> !3 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
                         text = text.replace(text[:text.index(next_match[0])], '')
                         print('下一輪的字串', text)
 
@@ -401,10 +400,9 @@ def conversation():
                         print('bab')  # test
                         print(next_match)
                         print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !4 檢查 "{text[:text.index(next_match[0])]}"')  # test
-
+                        print(f'>> !4 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
                         text = text.replace(text[:text.index(next_match[0])], '')
-                        print('下一輪的字串', text)
+                        print(f'---\n下一輪的字串 {text}')
                         # do
                         # 檢查以下這個字串有沒有城市
                         # text[text.index(match) + len(match):text.index(next_match[0])]
@@ -414,7 +412,7 @@ def conversation():
                     # 後面沒有tag了
                     else:
                         print(f'match後面的字串，已經沒有標籤了: "{text}"')  # test
-                        print(f'>> !6 檢查 "{text}"')
+                        print(f'>> !6 檢查 "{text}" 有無城市以及前後')
                         # do
                         # 檢查以下字串有沒有城市
                         # text[text.index(match) + len(match):]
@@ -422,7 +420,8 @@ def conversation():
                         # print('!3 bef', text)  # test
                         # text = text[text.index(match) + len(match):]
                         # print('!3 aft', text)  # test
-
+                    # print(f'剩餘字串 "{text}"')  # test
+                    # print(f'***************處理完成*************** / 剩餘字串: {text}')
                     # text = text[text.index(match):]
                     # if '前' in text and '後' in text:
                     #
