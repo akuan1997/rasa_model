@@ -252,8 +252,7 @@ matched_indexes = []
 matched_time_lines = []
 
 text = '下下周一 下下下周三 下下周六 下下周'
-sim_text = text
-matches = re.findall(r'(下{2,})周(一|二|三|四|五|六|日)', sim_text)
+matches = re.findall(r'(下{2,})周(一|二|三|四|五|六|日)', text)
 for match in matches:
     grain = 'day'
     print(f'下周{match[1]}')
@@ -270,7 +269,7 @@ for match in matches:
 
     time_tags.append(grain)
     matched_time_lines.append([time_line])
-    sim_text = sim_text.replace(text[matched_text_start_index:matched_text_end_index], grain)
+    text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
     matched_texts.append(match_text)
     matched_indexes.append(matched_text_start_index)
 
@@ -279,7 +278,6 @@ for match in matches:
     print('matched texts indexes:', matched_indexes)
     print('matched time lines:', matched_time_lines)
     print(text)
-    print(sim_text)
 
 print('time tags:', time_tags)
 print('matched texts:', matched_texts)

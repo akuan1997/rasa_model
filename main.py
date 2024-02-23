@@ -120,18 +120,6 @@ def conversation():
                             matched_time_lines.append([time_line])
                         else:
                             matched_time_lines.append([time_line])
-                        #     else:
-                        #         pass
-                        # elif grain == 'week':
-                        #     pass
-                        # elif grain == 'day':
-                        #     pass
-                        # elif grain == 'hour':
-                        #     pass
-                        # elif grain == 'minute':
-                        #     pass
-                        # elif grain == 'second':
-                        #     pass
 
                         time_tags.append(grain)
 
@@ -172,10 +160,6 @@ def conversation():
                     break
 
             print(f'c1 經過duckling之後 text = "{text}"')
-
-            # if not matched_texts:
-            #     if '下下周' in text:
-            #         print('我等等處理你')
 
             ''''''
 
@@ -452,76 +436,4 @@ def replace_week(text):
     return text
 
 
-def conversation1():
-    d = DucklingWrapper(language=Language.CHINESE)
-    for text in test_words:
-        if '今年' in text:
-            text = text.replace('今年', '')
-        elif '明年' in text:
-            text = text.replace('明年', '')
-        try:
-            text = replace_week(text)
-            text = text.replace('下午茶', '下午')
-            # replace('的', '').\
-            print('ori msg', text)
-
-            matched_texts = []
-            while True:
-                duckling_result = d.parse_time(text)
-                if duckling_result:
-                    print(duckling_result[0])
-                    print(duckling_result[0]['value']['value'])
-                    # 範圍
-                    try:
-                        if duckling_result[0]['value']['value']['to']:
-                            print('hello')
-                    # 沒有範圍
-                    except:
-                        pass
-                    text = text.replace(text[duckling_result[0]['start']:duckling_result[0]['end']], '')
-                    matched_texts.append(duckling_result[0]['text'])
-                    # if len(matched_texts) == 1 and (matched_texts[0] == '下周' or matched_texts[0] == '下星期' or matched_texts[0] == '下禮拜'):
-                    # print()
-                else:
-                    break
-            print(f'duckling配對到{len(matched_texts)}個')
-            print(matched_texts)
-            print('---')
-        except Exception as e:
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-            print(f'{text} have error: {e}')
-            print('---')
-            continue
-
-
 conversation()
-# conversation1()
-
-# for word in test_words:
-#     current_datetime = datetime.now()
-#     year = current_datetime.year
-#     month = current_datetime.month
-#     day = current_datetime.day
-#
-#     week = int(current_datetime.strftime("%U"))
-#     print(f'{year}-{month}-{day} / {year}的第{week}周')
-#
-#     print(word)
-#
-#     if '今年' in word:
-#         word = word.replace('今年', '')
-#         last_keyword = year
-#     elif '明年' in word:
-#         year = year + 1
-#         word = word.replace('明年', '')
-#         last_keyword = year
-#
-#     print(word)
-#
-#     word = word.replace('與', '和')
-#     word = word.replace('號', '日')
-#     if '和' in word:
-#         word_splits = word.split('和')
-#         for word_split in word_splits:
-#             print(word_split)
-#     print('---')
