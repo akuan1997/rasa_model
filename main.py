@@ -118,8 +118,6 @@ def conversation():
                             time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
                             print(time_line)
                             matched_time_lines.append([time_line])
-                        elif grain == 'week' and '下下周' in matched_text:
-                            print('aloha')
                         else:
                             matched_time_lines.append([time_line])
                         #     else:
@@ -160,9 +158,13 @@ def conversation():
 
                     matched_text_start_index = duckling_result[0]['start']
                     matched_text_end_index = matched_text_start_index + len(matched_text)
+                    print(text)
                     text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
+                    print(text)
                     matched_texts.append(matched_text)
+                    print(matched_texts)
                     matched_indexes.append(matched_text_start_index)
+                    print(matched_indexes)
 
                     print('matched text:', matched_text)  # test
 
