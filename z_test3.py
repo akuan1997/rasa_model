@@ -329,11 +329,15 @@ print(b)
 #
 
 text = '10月 11月 七月 7月 8月 9月'
+
+
 def convert_to_chinese(match):
-    num_map = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九', '10': '十', '11': '十一', '12': '十二'}
+    num_map = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九',
+               '10': '十', '11': '十一', '12': '十二'}
     num = match.group(1)
 
-    return num_map[num]+'月'
+    return num_map[num] + '月'
+
 
 def arabic_to_zh(match):
     num_map = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九',
@@ -344,6 +348,7 @@ def arabic_to_zh(match):
     num = match.group(1)
 
     return num_map[num]
+
 
 # 使用正则表达式匹配数字并进行替换
 converted_text = re.sub(r'(\d{1,2})月', convert_to_chinese, text)
@@ -358,3 +363,31 @@ with open('concert.json', 'r', encoding='utf-8') as f:
 
 for i in range(len(data)):
     print(data[i]['pdt'])
+
+
+# text = '台北和高雄'
+# cities = re.findall(r"(台北|雲林|連江|台南|花蓮|屏東|高雄|彰化|新竹|台中|桃園|金門|宜蘭|澎湖|新北|苗栗|南投|基隆|台東|嘉義)", text)
+# print(cities)
+
+# cities_indexes = []
+# for city in cities:
+#     for i in range(len(data)):
+#         if data[i]['cit'] == city:
+#             cities_indexes.append(i)
+# print(cities_indexes)
+
+def get_city_indexes(text):
+    cities = re.findall(
+        r"(台北|雲林|連江|台南|花蓮|屏東|高雄|彰化|新竹|台中|桃園|金門|宜蘭|澎湖|新北|苗栗|南投|基隆|台東|嘉義)", text)
+    print(cities)
+
+    city_indexes = []
+    for city in cities:
+        for i in range(len(data)):
+            if data[i]['cit'] == city:
+                city_indexes.append(i)
+    print(city_indexes)
+    return city_indexes
+
+
+get_city_indexes('屏東和桃園')

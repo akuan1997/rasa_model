@@ -5,6 +5,11 @@ import calendar
 from z_test4 import kuannn
 import json
 
+zh_cities = ['雲林', '連江', '台南', '花蓮', '屏東', '高雄',
+          '彰化', '新竹', '台中', '桃園', '金門', '宜蘭',
+          '澎湖', '新北', '苗栗', '南投', '基隆', '台東',
+          '嘉義', '台北']
+
 with open('concert.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
@@ -187,14 +192,14 @@ def conversation():
             print(f'matched time lines: {matched_time_lines}\n---')
 
             ''''''
-
+            show_info_indexes = []
             # tag by tag 處理
             while re.findall(r'year|month|week|day|hour|minute|second|range', text):
                 matches = re.findall(
                     r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
                     text)
                 concert_indexes = []
-                show_info_indexes = []
+
                 # tag1到tag2
                 for match in matches:
                     print(f'>> 處理期間 {match}')
@@ -251,7 +256,16 @@ def conversation():
                     if concert_indexes:
                         print(f'符合時間段: {concert_indexes}')
                         print(f'>> 檢查"{check_text}"有無城市')
-                        # do
+                        city_indexes = get_city_indexes(check_text)
+                        if not city_indexes:
+                            for concert_index in concert_indexes:
+                                show_info_indexes.append(concert_index)
+                        else:
+                            for concert_index in concert_indexes:
+                                for city_index in city_indexes:
+                                    if city_index == concert_index:
+                                        show_info_indexes.append(city_index)
+                        print(list(set(show_info_indexes)))
                         print(f'---\n剩餘字串 "{text}"\n---')
                         # check_text, text = next_tag(text)
                         # for index in concert_indexes
@@ -343,6 +357,16 @@ def conversation():
                             if concert_indexes:
                                 print(f'符合時間段: {concert_indexes}')
                                 print(f'>> 檢查"{check_text}" 有無城市')
+                                city_indexes = get_city_indexes(check_text)
+                                if not city_indexes:
+                                    for concert_index in concert_indexes:
+                                        show_info_indexes.append(concert_index)
+                                else:
+                                    for concert_index in concert_indexes:
+                                        for city_index in city_indexes:
+                                            if city_index == concert_index:
+                                                show_info_indexes.append(city_index)
+                                print(list(set(show_info_indexes)))
 
                     elif match == 'year':
                         single_year = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year
@@ -369,6 +393,16 @@ def conversation():
 
                         if concert_indexes:
                             print('single tag - year', concert_indexes)
+                            city_indexes = get_city_indexes(check_text)
+                            if not city_indexes:
+                                for concert_index in concert_indexes:
+                                    show_info_indexes.append(concert_index)
+                            else:
+                                for concert_index in concert_indexes:
+                                    for city_index in city_indexes:
+                                        if city_index == concert_index:
+                                            show_info_indexes.append(city_index)
+                            print(list(set(show_info_indexes)))
                         else:
                             print('沒有找到匹配的資料')
 
@@ -397,13 +431,23 @@ def conversation():
 
                         if concert_indexes:
                             print('single tag - month', concert_indexes)
+                            city_indexes = get_city_indexes(check_text)
+                            if not city_indexes:
+                                for concert_index in concert_indexes:
+                                    show_info_indexes.append(concert_index)
+                            else:
+                                for concert_index in concert_indexes:
+                                    for city_index in city_indexes:
+                                        if city_index == concert_index:
+                                            show_info_indexes.append(city_index)
+                            print(list(set(show_info_indexes)))
                         else:
                             print('沒有找到匹配的資料')
 
                     elif match == 'week':
                         single_week = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").isocalendar()[1]
                         print('function week')
-                        print(f'week = {single_week}')
+                        # print(f'week = {single_week}')
 
                         print(f'>> 檢查 "{check_text}" 有無城市或前後')
                         for i in range(len(data)):
@@ -427,6 +471,16 @@ def conversation():
 
                         if concert_indexes:
                             print('single tag - week', concert_indexes)
+                            city_indexes = get_city_indexes(check_text)
+                            if not city_indexes:
+                                for concert_index in concert_indexes:
+                                    show_info_indexes.append(concert_index)
+                            else:
+                                for concert_index in concert_indexes:
+                                    for city_index in city_indexes:
+                                        if city_index == concert_index:
+                                            show_info_indexes.append(city_index)
+                            print(list(set(show_info_indexes)))
                         else:
                             print('沒有找到匹配的資料')
 
@@ -463,6 +517,16 @@ def conversation():
 
                         if concert_indexes:
                             print('single tag - day', concert_indexes)
+                            city_indexes = get_city_indexes(check_text)
+                            if not city_indexes:
+                                for concert_index in concert_indexes:
+                                    show_info_indexes.append(concert_index)
+                            else:
+                                for concert_index in concert_indexes:
+                                    for city_index in city_indexes:
+                                        if city_index == concert_index:
+                                            show_info_indexes.append(city_index)
+                            print(list(set(show_info_indexes)))
                         else:
                             print('沒有找到匹配的資料')
 
@@ -491,6 +555,16 @@ def conversation():
 
                         if concert_indexes:
                             print('single tag - hour | minute', concert_indexes)
+                            city_indexes = get_city_indexes(check_text)
+                            if not city_indexes:
+                                for concert_index in concert_indexes:
+                                    show_info_indexes.append(concert_index)
+                            else:
+                                for concert_index in concert_indexes:
+                                    for city_index in city_indexes:
+                                        if city_index == concert_index:
+                                            show_info_indexes.append(city_index)
+                            print(list(set(show_info_indexes)))
                         else:
                             print('沒有找到匹配的資料')
 
@@ -668,6 +742,21 @@ def next_tag(text):
 
         # do
     return check_text, text
+
+
+def get_city_indexes(text):
+    cities = re.findall(
+        r"(台北|雲林|連江|台南|花蓮|屏東|高雄|彰化|新竹|台中|桃園|金門|宜蘭|澎湖|新北|苗栗|南投|基隆|台東|嘉義)", text)
+    # print(cities)
+
+    city_indexes = []
+    for city in cities:
+        for i in range(len(data)):
+            if data[i]['cit'] == city:
+                city_indexes.append(i)
+    # print(city_indexes)
+
+    return city_indexes
 
 
 conversation()
