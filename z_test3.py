@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import re
+import json
 
 # from duckling import *
 
@@ -351,3 +352,9 @@ print("转换后的文本:", converted_text)
 text = '1日'
 text = re.sub(r"(\d{1,2})日", r"\1號", text)
 print(text)
+
+with open('concert.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+
+for i in range(len(data)):
+    print(data[i]['pdt'])

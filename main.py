@@ -3,17 +3,10 @@ import re
 from datetime import datetime, timedelta
 import calendar
 from z_test4 import kuannn
+import json
 
-
-def get_until_tags(text):
-    tag1 = re.findall(
-        r'(year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-        text)
-    tag2 = re.findall(
-        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(year|month|week|day|hour|minute|second|range)',
-        text)
-    return tag1, tag2
-
+with open('concert.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
 
 texts = kuannn()
 wrong_words = [
@@ -200,7 +193,8 @@ def conversation():
                 matches = re.findall(
                     r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
                     text)
-
+                concert_indexes = []
+                show_info_indexes = []
                 # tag1到tag2
                 for match in matches:
                     print(f'>> 處理期間 {match}')
@@ -216,84 +210,100 @@ def conversation():
                         # 但如果是range 就取[1][1]
                         end_time = matched_time_lines[1][1]
                     if tag2[0] == 'year':
-                        print('1year')
+                        # print('1year')
                         next_year = int(end_time.split('-')[0]) + 1
                         end_time = end_time.replace(end_time.split('-')[0], str(next_year))
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
                     elif tag2[0] == 'month':
-                        print('1month')
+                        # print('1month')
                         next_month = int(end_time.split('-')[1]) + 1
                         end_time = end_time.replace(end_time.split('-')[1], str(next_month))
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
                     elif tag2[0] == 'week':
-                        print('1week')
+                        # print('1week')
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=7) - timedelta(
                             seconds=1)
                     elif tag2[0] == 'day':
-                        print('1day')
+                        # print('1day')
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=1) - timedelta(
                             seconds=1)
                     else:
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
 
-                    print(f'124 {end_time_obj}')  # test
+                    # print(f'124 {end_time_obj}')  # test
                     if start_time_obj > end_time_obj:
                         print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
                     else:
                         print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
+                        for i in range(len(data)):
+                            if '~' not in data[i]['pdt'][0]:
+                                pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
+                                if start_time_obj <= pdt_obj <= end_time_obj:
+                                    print(f'發現! {pdt_obj}')
+                                    concert_indexes.append(i)
+                            else:
+                                print('有~ 後面再處理')
 
+                    # 期間的tag處理完成 鼠標往後移動到tag結束
                     text = text[text.index(match) + len(match):]
 
-                    ''' 檢查下一個標籤 '''
-                    # 下一個標籤為tag到tag嗎
-                    if re.findall(
-                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            text):
-                        next_match = re.findall(
-                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            text)
-                        print('aqa')  # test
-                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !1 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
-                        text = text.replace(text[:text.index(next_match[0])], '')
-                        print(f'---\n下一輪的字串 {text}')
-                        # do
-                        # 檢查以下這個字串有沒有城市
-                        # text[text.index(match) + len(match):text.index(next_match[0])]
-
-                        # print('!1 bef', text)  # test
-                        # print('!1 aft', text)  # test
-                    # 那是單獨一個tag嗎
-                    elif re.findall(r'year|month|week|day|hour|minute|second|range', text):
-                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
-                        print('awa')  # test
-                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !2 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
-                        text = text.replace(text[:text.index(next_match[0])], '')
-                        print(f'---\n下一輪的字串 {text}')
-                        # do
-                        # 檢查以下這個字串有沒有城市
-                        # text[text.index(match) + len(match):text.index(next_match[0])]
-
-                        # print('!2 bef', text)  # test
-                        # print('!2 aft', text)  # test
-                    # 後面沒有tag了
+                    if concert_indexes:
+                        print(f'符合時間段: {concert_indexes}')
+                        check_text, text = next_tag(text)
+                        print(f'>> 檢查"{check_text}"有無城市')
+                        # for index in concert_indexes
+                        # 得到 "標籤~下一個標籤之前" 的字串
+                        # 檢查有沒有城市
+                        # if data[index]['cit'] == '某個city' or data[index]['cit'] == '某個city'
+                        #   show_info_indexes.append(index)
+                        print(f'---\n剩餘字串 "{text}"\n---')
+                        # ''' 檢查下一個標籤 '''
+                        # # 下一個標籤為tag到tag嗎
+                        # if re.findall(
+                        #         r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                        #         text):
+                        #     next_match = re.findall(
+                        #         r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                        #         text)
+                        #     print('aqa')  # test
+                        #     print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
+                        #     check_text = text[:text.index(next_match[0])]
+                        #     print(f'>> 檢查"{check_text}"有無城市')
+                        #     # do
+                        #     text = text.replace(text[:text.index(next_match[0])], '')
+                        #     print(f'---\n下一輪的字串 "{text}"')
+                        #     # print(f'>> !1 檢查 "{check_text}" 有無城市')  # test
+                        #     # do
+                        #     # 檢查以下這個字串有沒有城市
+                        #     # text[text.index(match) + len(match):text.index(next_match[0])]
+                        #
+                        #     # print('!1 bef', text)  # test
+                        #     # print('!1 aft', text)  # test
+                        # # 那是單獨一個tag嗎
+                        # elif re.findall(r'year|month|week|day|hour|minute|second|range', text):
+                        #     next_match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+                        #     print('awa')  # test
+                        #     print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
+                        #     check_text = text[:text.index(next_match[0])]
+                        #     print(f'>> 檢查"{check_text}"有無城市')
+                        #     # do
+                        #     text = text.replace(text[:text.index(next_match[0])], '')
+                        #     print(f'---\n下一輪的字串 "{text}"')
+                        #     # print(f'---\n下一輪的字串 {text}')
+                        #     # print(f'>> !2 檢查 "{check_text}" 有無城市')  # test
+                        #     # do
+                        #     # 檢查以下這個字串有沒有城市
+                        #     # text[text.index(match) + len(match):text.index(next_match[0])]
+                        #
+                        #     # print('!2 bef', text)  # test
+                        #     # print('!2 aft', text)  # test
+                        # # 後面沒有tag了
+                        # else:
+                        #     print(f'range to range 3')  # test
+                        #     print(f'>> 檢查 {text} 有無城市')
+                        #     # do
                     else:
-                        print(f'match後面的字串，已經沒有標籤了: "{text}"')  # test
-                        print(f'>> !3 檢查 "{text}" 有無城市以及前後')
-                        # do
-                        # 檢查以下字串有沒有城市
-                        # text[text.index(match) + len(match):]
-
-                        # print('!3 bef', text)  # test
-                        # text = text[text.index(match) + len(match):]
-                        # print('!3 aft', text)  # test
-
-                    # text = text.replace(match, '')
-                    # print(f'a12 {text}')
-
-                    # print(f'剩餘字串 "{text}"')  # test
-                    # print(f'***************處理完成*************** / 剩餘字串: {text}')
+                        print('沒有符合的時間段')
 
                     for i in range(2):
                         del time_tags[0]
@@ -502,7 +512,69 @@ def text_replacement(text):
         r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*到\s*([一二三]?[十]?[一二三四五六七八九十])號',
         r'\1月\2號到\1月\3號', text)
 
+    text = text.replace('臺', '台')
+
     return text
 
+
+def get_until_tags(text):
+    tag1 = re.findall(
+        r'(year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+        text)
+    tag2 = re.findall(
+        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(year|month|week|day|hour|minute|second|range)',
+        text)
+    return tag1, tag2
+
+
+def next_tag(text):
+    ''' 檢查下一個標籤 '''
+    # 下一個標籤為tag到tag嗎
+    if re.findall(
+            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+            text):
+        next_match = re.findall(
+            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+            text)
+        print('aqa')  # test
+        print(f'下一個標籤是{next_match[0]}，在第{text.index(next_match[0])}個位置')  # test
+        check_text = text[:text.index(next_match[0])]
+        text = text.replace(text[:text.index(next_match[0])], '')
+        # do
+        # print(f'>> 檢查"{check_text}"有無城市')
+        # print(f'---\n下一輪的字串 "{text}"')
+        # print(f'>> !1 檢查 "{check_text}" 有無城市')  # test
+        # do
+        # 檢查以下這個字串有沒有城市
+        # text[text.index(match) + len(match):text.index(next_match[0])]
+
+        # print('!1 bef', text)  # test
+        # print('!1 aft', text)  # test
+    # 那是單獨一個tag嗎
+    elif re.findall(r'year|month|week|day|hour|minute|second|range', text):
+        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+        print('awa')  # test
+        print(f'下一個標籤是{next_match[0]}，在第{text.index(next_match[0])}個位置')  # test
+        check_text = text[:text.index(next_match[0])]
+        text = text.replace(text[:text.index(next_match[0])], '')
+        # do
+        # print(f'>> 檢查"{check_text}"有無城市')
+        # print(f'---\n下一輪的字串 "{text}"')
+        # print(f'---\n下一輪的字串 {text}')
+        # print(f'>> !2 檢查 "{check_text}" 有無城市')  # test
+        # do
+        # 檢查以下這個字串有沒有城市
+        # text[text.index(match) + len(match):text.index(next_match[0])]
+
+        # print('!2 bef', text)  # test
+        # print('!2 aft', text)  # test
+    # 後面沒有tag了
+    else:
+        print(f'range to range 3')  # test
+        check_text = text
+        # print(f'>> 檢查 {text} 有無城市')
+
+        # do
+    return check_text, text
 
 conversation()
