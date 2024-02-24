@@ -198,39 +198,40 @@ def conversation():
                 # tag1到tag2
                 for match in matches:
                     print(f'>> 處理期間 {match}')
-                    # print(f'準備處理字串: "{match}" ({sim_msg})')
+                    # 鼠標往後移動到tag結束
+                    text = text[text.index(match) + len(match):]
+                    # 取得要檢查城市的字串 並把數標移動到下一個標籤之前
+                    check_text, text = next_tag(text)
+
                     tag1, tag2 = get_until_tags(match)
                     print(f'until {tag1}, {tag2}')
+
                     # tag1 的開頭都會是 matched_time_lines[0][0]
                     start_time = matched_time_lines[0][0]
                     start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+
                     # tag2 都取[1][0]
                     end_time = matched_time_lines[1][0]
                     if tag2[0] == 'range':
                         # 但如果是range 就取[1][1]
                         end_time = matched_time_lines[1][1]
                     if tag2[0] == 'year':
-                        # print('1year')
                         next_year = int(end_time.split('-')[0]) + 1
                         end_time = end_time.replace(end_time.split('-')[0], str(next_year))
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
                     elif tag2[0] == 'month':
-                        # print('1month')
                         next_month = int(end_time.split('-')[1]) + 1
                         end_time = end_time.replace(end_time.split('-')[1], str(next_month))
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(seconds=1)
                     elif tag2[0] == 'week':
-                        # print('1week')
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=7) - timedelta(
                             seconds=1)
                     elif tag2[0] == 'day':
-                        # print('1day')
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(days=1) - timedelta(
                             seconds=1)
                     else:
                         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
 
-                    # print(f'124 {end_time_obj}')  # test
                     if start_time_obj > end_time_obj:
                         print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
                     else:
@@ -239,24 +240,25 @@ def conversation():
                             if '~' not in data[i]['pdt'][0]:
                                 pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
                                 if start_time_obj <= pdt_obj <= end_time_obj:
-                                    print(f'發現! {pdt_obj}')
+                                    # print(f'發現! {pdt_obj}')
                                     concert_indexes.append(i)
-                            else:
-                                print('有~ 後面再處理')
+                            # else:
+                            #     print('有~ 後面再處理')
 
-                    # 期間的tag處理完成 鼠標往後移動到tag結束
-                    text = text[text.index(match) + len(match):]
+                    # # 期間的tag處理完成 鼠標往後移動到tag結束
+                    # text = text[text.index(match) + len(match):]
 
                     if concert_indexes:
                         print(f'符合時間段: {concert_indexes}')
-                        check_text, text = next_tag(text)
                         print(f'>> 檢查"{check_text}"有無城市')
+                        # do
+                        print(f'---\n剩餘字串 "{text}"\n---')
+                        # check_text, text = next_tag(text)
                         # for index in concert_indexes
                         # 得到 "標籤~下一個標籤之前" 的字串
                         # 檢查有沒有城市
                         # if data[index]['cit'] == '某個city' or data[index]['cit'] == '某個city'
                         #   show_info_indexes.append(index)
-                        print(f'---\n剩餘字串 "{text}"\n---')
                         # ''' 檢查下一個標籤 '''
                         # # 下一個標籤為tag到tag嗎
                         # if re.findall(
@@ -318,91 +320,181 @@ def conversation():
                 for match in matches:
                     print(f'>> 開始處理單獨標籤: {match}')
                     # print(f'準備處理字串: "{match}" / {matched_time_lines[0]} / ({sim_msg})')
-
+                    text = text[text.index(match) + len(match):]
+                    check_text, text = next_tag(text)
+                    concert_indexes = []
                     if match == 'range':
                         print('function range')
-                        print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
-                        print(datetime.strptime(matched_time_lines[0][1], "%Y-%m-%d %H:%M:%S"))
-                    elif match == 'year':
-                        print('function year')
-                        print(f'year = {datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year}')
-                    elif match == 'month':
-                        print('function month')
-                        print(f'month = {datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month}')
-                    elif match == 'week':
-                        print('function week')
-                        # print('z1', datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
                         start_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
-                        end_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S") + timedelta(
-                            days=7) - timedelta(seconds=1)
-                        print('z1')
-                        print(start_time_obj)
-                        print(end_time_obj)
+                        end_time_obj = datetime.strptime(matched_time_lines[0][1], "%Y-%m-%d %H:%M:%S")
+
+                        if start_time_obj > end_time_obj:
+                            print('你輸入的日期好像怪怪的 如果有錯誤的話麻煩再輸入一次')
+                        else:
+                            print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
+                            for i in range(len(data)):
+                                if '~' not in data[i]['pdt'][0]:
+                                    pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
+                                    if start_time_obj <= pdt_obj <= end_time_obj:
+                                        # print(f'發現! {pdt_obj}')
+                                        concert_indexes.append(i)
+                                    # else:
+                                    #     print('有~ 後面再處理')
+                            if concert_indexes:
+                                print(f'符合時間段: {concert_indexes}')
+                                print(f'>> 檢查"{check_text}" 有無城市')
+
+                    elif match == 'year':
+                        single_year = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year
+                        print('function year')
+                        print(f'year = {single_year}')
+
+                        print(f'>> 檢查 "{check_text}" 有無城市以及前後')
+                        for i in range(len(data)):
+                            if '~' not in data[i]['pdt'][0]:
+                                pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
+                                if '前' in check_text and '後' in check_text:
+                                    print('不好意思，請問你想要搜尋是前、後還是一整年')
+                                elif '前' in check_text:
+                                    if pdt_obj.year < single_year:
+                                        concert_indexes.append(i)
+                                elif '後' in check_text:
+                                    if pdt_obj.year > single_year:
+                                        concert_indexes.append(i)
+                                else:
+                                    if pdt_obj.year == single_year:
+                                        concert_indexes.append(i)
+                            # else:
+                            #     print('有~ 稍後我再處理')
+
+                        if concert_indexes:
+                            print('single tag - year', concert_indexes)
+                        else:
+                            print('沒有找到匹配的資料')
+
+                    elif match == 'month':
+                        single_month = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month
+                        print('function month')
+                        print(f'month = {single_month}')
+
+                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        for i in range(len(data)):
+                            if '~' not in data[i]['pdt'][0]:
+                                pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
+                                if '前' in check_text and '後' in check_text:
+                                    print('不好意思，請問你想要搜尋是前、後還是一整個月')
+                                elif '前' in check_text:
+                                    if pdt_obj.month < single_month:
+                                        concert_indexes.append(i)
+                                elif '後' in check_text:
+                                    if pdt_obj.month > single_month:
+                                        concert_indexes.append(i)
+                                else:
+                                    if pdt_obj.month == single_month:
+                                        concert_indexes.append(i)
+                            # else:
+                            #     print('有~ 稍後我再處理')
+
+                        if concert_indexes:
+                            print('single tag - month', concert_indexes)
+                        else:
+                            print('沒有找到匹配的資料')
+
+                    elif match == 'week':
+                        single_week = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").isocalendar()[1]
+                        print('function week')
+                        print(f'week = {single_week}')
+
+                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        for i in range(len(data)):
+                            if '~' not in data[i]['pdt'][0]:
+                                pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
+                                pdt_week = pdt_obj.isocalendar()[1]
+                                # print(f'pdt week = {pdt_week}')
+                                if '前' in check_text and '後' in check_text:
+                                    print('不好意思，請問你想要搜尋是前、後還是一整周')
+                                elif '前' in check_text:
+                                    if pdt_week < single_week:
+                                        concert_indexes.append(i)
+                                elif '後' in check_text:
+                                    if pdt_week > single_week:
+                                        concert_indexes.append(i)
+                                else:
+                                    if pdt_week == single_week:
+                                        concert_indexes.append(i)
+                            # else:
+                            #     print('有~ 稍後我再處理')
+
+                        if concert_indexes:
+                            print('single tag - week', concert_indexes)
+                        else:
+                            print('沒有找到匹配的資料')
+
+                        # # print('z1', datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
+                        # start_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
+                        # end_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S") + timedelta(
+                        #     days=7) - timedelta(seconds=1)
+                        # print('z1')
+                        # print(start_time_obj)
+                        # print(end_time_obj)
+
                     elif match == 'day':
+                        single_day = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").day
                         print('function day')
-                        print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
+                        print(f'day = {single_day}')
+
+                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        for i in range(len(data)):
+                            if '~' not in data[i]['pdt'][0]:
+                                pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
+                                if '前' in check_text and '後' in check_text:
+                                    print('不好意思，請問你想要搜尋是前、後還是一整天')
+                                elif '前' in check_text:
+                                    if pdt_obj.day < single_day:
+                                        concert_indexes.append(i)
+                                elif '後' in check_text:
+                                    if pdt_obj.day > single_day:
+                                        concert_indexes.append(i)
+                                else:
+                                    if pdt_obj.day == single_day:
+                                        concert_indexes.append(i)
+                            # else:
+                            #     print('有~ 稍後我再處理')
+
+                        if concert_indexes:
+                            print('single tag - day', concert_indexes)
+                        else:
+                            print('沒有找到匹配的資料')
+
                     elif match == 'hour' or match == 'minute':
+                        time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
                         print('function hour or function minute')
-                        print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
+                        print(f'hour or minute = {time_obj}')
 
-                    text = text[text.index(match) + len(match):]
+                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        for i in range(len(data)):
+                            if '~' not in data[i]['pdt'][0]:
+                                pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
+                                if '前' in check_text and '後' in check_text:
+                                    print('不好意思，請問你想要搜尋是前還是後')
+                                elif '前' in check_text:
+                                    if pdt_obj < time_obj:
+                                        concert_indexes.append(i)
+                                elif '後' in check_text:
+                                    if pdt_obj > time_obj:
+                                        concert_indexes.append(i)
+                                else:
+                                    if pdt_obj == time_obj:
+                                        concert_indexes.append(i)
+                            # else:
+                            #     print('有~ 稍後我再處理')
 
-                    ''' 檢查下一個標籤 '''
-                    # 下一個標籤為tag到tag嗎
-                    if re.findall(
-                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            text):
-                        next_match = re.findall(
-                            r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                            text)
-                        print('qwe')  # test
-                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !3 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
-                        text = text.replace(text[:text.index(next_match[0])], '')
-                        print('下一輪的字串', text)
+                        if concert_indexes:
+                            print('single tag - hour | minute', concert_indexes)
+                        else:
+                            print('沒有找到匹配的資料')
 
-                        # do
-                        # 檢查以下這個字串有沒有城市
-                        # text[text.index(match) + len(match):text.index(next_match[0])]
-
-                        # print('!4 bef', text)  # test
-                        # print('!4 aft', text)  # test
-                    # 那是單獨一個tag嗎
-                    elif re.findall(r'year|month|week|day|hour|minute|second|range', text):
-                        next_match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
-                        print('bab')  # test
-                        print(next_match)
-                        print(f'{next_match[0]}, start at index {text.index(next_match[0])}')  # test
-                        print(f'>> !4 檢查 "{text[:text.index(next_match[0])]}" 有無城市以及前後')  # test
-                        text = text.replace(text[:text.index(next_match[0])], '')
-                        print(f'---\n下一輪的字串 {text}')
-                        # do
-                        # 檢查以下這個字串有沒有城市
-                        # text[text.index(match) + len(match):text.index(next_match[0])]
-
-                        # print('!5 bef', text)  # test
-                        # print('!5 aft', text)  # test
-                    # 後面沒有tag了
-                    else:
-                        print(f'match後面的字串，已經沒有標籤了: "{text}"')  # test
-                        print(f'>> !6 檢查 "{text}" 有無城市以及前後')
-                        # do
-                        # 檢查以下字串有沒有城市
-                        # text[text.index(match) + len(match):]
-
-                        # print('!3 bef', text)  # test
-                        # text = text[text.index(match) + len(match):]
-                        # print('!3 aft', text)  # test
-                    # print(f'剩餘字串 "{text}"')  # test
-                    # print(f'***************處理完成*************** / 剩餘字串: {text}')
-                    # text = text[text.index(match):]
-                    # if '前' in text and '後' in text:
-                    #
-                    # print('aza', text)
-
-                    # 起床看一下 接下來要做的是判斷match text後面緊隨其後的是 "前" 還是 "後"
-
-                    # text = text.replace(match, '')
+                    print(f'---\n剩餘字串 "{text}"\n---')
 
                     del time_tags[0]
                     del matched_texts[0]
@@ -570,11 +662,12 @@ def next_tag(text):
         # print('!2 aft', text)  # test
     # 後面沒有tag了
     else:
-        print(f'range to range 3')  # test
+        # print(f'range to range 3')  # test
         check_text = text
         # print(f'>> 檢查 {text} 有無城市')
 
         # do
     return check_text, text
+
 
 conversation()
