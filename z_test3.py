@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 import re
 
-from duckling import *
+# from duckling import *
 
-d = DucklingWrapper(language=Language.CHINESE)
+# d = DucklingWrapper(language=Language.CHINESE)
 
 test_words = [
     '明年三月十一號晚上八點',
@@ -246,82 +246,108 @@ print(b)
 # b = re.findall(r'下下周(?:一|二|三|四|五|六|日)', a)
 # print(b)
 
-time_tags = []
-matched_texts = []
-matched_indexes = []
-matched_time_lines = []
+# time_tags = []
+# matched_texts = []
+# matched_indexes = []
+# matched_time_lines = []
 
-text = '下下周一 下下下周三 下下下下周 下下周六 下下周'
-matches = re.findall(r'(下{2,})周(一|二|三|四|五|六|日)', text)
-for match in matches:
-    grain = 'day'
-    match_text = f'{match[0]}周{match[1]}'
-    print(match_text)
+# text = '下下周一 下下下周三 下下下下周 下下周六 下下周'
+# matches = re.findall(r'(下{2,})周(一|二|三|四|五|六|日)', text)
+# for match in matches:
+#     grain = 'day'
+#     match_text = f'{match[0]}周{match[1]}'
+#     print(match_text)
+#
+#     duckling_result = d.parse_time(f'下周{match[1]}')
+#     time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
+#     time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match[0]) - 1)))
+#     if match[1] == '六' or match[1] == '日':
+#         time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
+#
+#     matched_text_start_index = text.index(match_text)
+#     matched_text_end_index = matched_text_start_index + len(match_text)
+#     print(f'{matched_text_start_index}:{matched_text_end_index}')
+#
+#     time_tags.append(grain)
+#     matched_time_lines.append([time_line])
+#     text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
+#     matched_texts.append(match_text)
+#     matched_indexes.append(matched_text_start_index)
+#
+#     print('time tags:', time_tags)
+#     print('matched texts:', matched_texts)
+#     print('matched texts indexes:', matched_indexes)
+#     print('matched time lines:', matched_time_lines)
+#     print('->', text)
+#     print('---')
+#
+# matches = re.findall(r'(下{2,})周', text)
+# for match in matches:
+#     grain = 'week'
+#     match_text = f'{match}周'
+#
+#     duckling_result = d.parse_time(f'下周')
+#     time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
+#     print(time_line)
+#     time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match) - 1)))
+#     print(time_line)
+#
+#     matched_text_start_index = text.index(match_text)
+#     matched_text_end_index = matched_text_start_index + len(match_text)
+#     print(f'{matched_text_start_index}:{matched_text_end_index}')
+#
+#     time_tags.append(grain)
+#     matched_time_lines.append([time_line])
+#     text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
+#     matched_texts.append(match_text)
+#     matched_indexes.append(matched_text_start_index)
+#
+#     print('time tags:', time_tags)
+#     print('matched texts:', matched_texts)
+#     print('matched texts indexes:', matched_indexes)
+#     print('matched time lines:', matched_time_lines)
+#     print('->', text)
+#     print('---')
+#
+# sorted_pairs = sorted(zip(matched_indexes, matched_texts))
+# # sorted_indexes  = [pair[0] for pair in sorted_pairs]
+# matched_texts = [pair[1] for pair in sorted_pairs]
+#
+# sorted_pairs = sorted(zip(matched_indexes, time_tags))
+# # sorted_indexes  = [pair[0] for pair in sorted_pairs]
+# time_tags = [pair[1] for pair in sorted_pairs]
+#
+# sorted_pairs = sorted(zip(matched_indexes, matched_time_lines))
+# matched_indexes = [pair[0] for pair in sorted_pairs]
+# matched_time_lines = [pair[1] for pair in sorted_pairs]
+#
+# print('time tags:', time_tags)
+# print('matched texts:', matched_texts)
+# print('matched texts indexes:', matched_indexes)
+# print('matched time lines:', matched_time_lines)
+#
 
-    duckling_result = d.parse_time(f'下周{match[1]}')
-    time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
-    time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match[0]) - 1)))
-    if match[1] == '六' or match[1] == '日':
-        time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
+text = '10月 11月 七月 7月 8月 9月'
+def convert_to_chinese(match):
+    num_map = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九', '10': '十', '11': '十一', '12': '十二'}
+    num = match.group(1)
 
-    matched_text_start_index = text.index(match_text)
-    matched_text_end_index = matched_text_start_index + len(match_text)
-    print(f'{matched_text_start_index}:{matched_text_end_index}')
+    return num_map[num]+'月'
 
-    time_tags.append(grain)
-    matched_time_lines.append([time_line])
-    text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
-    matched_texts.append(match_text)
-    matched_indexes.append(matched_text_start_index)
+def arabic_to_zh(match):
+    num_map = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九',
+               '10': '十', '11': '十一', '12': '十二', '13': '十三', '14': '十四', '15': '十五', '16': '十六',
+               '17': '十七', '18': '十八', '19': '十九', '20': '二十', '21': '二十一', '22': '二十二', '23': '二十三',
+               '24': '二十四', '25': '二十五', '26': '二十六', '27': '二十七', '28': '二十八', '29': '二十九',
+               '30': '三十', '31': '三十一'}
+    num = match.group(1)
 
-    print('time tags:', time_tags)
-    print('matched texts:', matched_texts)
-    print('matched texts indexes:', matched_indexes)
-    print('matched time lines:', matched_time_lines)
-    print('->', text)
-    print('---')
+    return num_map[num]
 
-matches = re.findall(r'(下{2,})周', text)
-for match in matches:
-    grain = 'week'
-    match_text = f'{match}周'
+# 使用正则表达式匹配数字并进行替换
+converted_text = re.sub(r'(\d{1,2})月', convert_to_chinese, text)
 
-    duckling_result = d.parse_time(f'下周')
-    time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
-    print(time_line)
-    time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match) - 1)))
-    print(time_line)
-
-    matched_text_start_index = text.index(match_text)
-    matched_text_end_index = matched_text_start_index + len(match_text)
-    print(f'{matched_text_start_index}:{matched_text_end_index}')
-
-    time_tags.append(grain)
-    matched_time_lines.append([time_line])
-    text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
-    matched_texts.append(match_text)
-    matched_indexes.append(matched_text_start_index)
-
-    print('time tags:', time_tags)
-    print('matched texts:', matched_texts)
-    print('matched texts indexes:', matched_indexes)
-    print('matched time lines:', matched_time_lines)
-    print('->', text)
-    print('---')
-
-sorted_pairs = sorted(zip(matched_indexes, matched_texts))
-# sorted_indexes  = [pair[0] for pair in sorted_pairs]
-matched_texts = [pair[1] for pair in sorted_pairs]
-
-sorted_pairs = sorted(zip(matched_indexes, time_tags))
-# sorted_indexes  = [pair[0] for pair in sorted_pairs]
-time_tags = [pair[1] for pair in sorted_pairs]
-
-sorted_pairs = sorted(zip(matched_indexes, matched_time_lines))
-matched_indexes = [pair[0] for pair in sorted_pairs]
-matched_time_lines = [pair[1] for pair in sorted_pairs]
-
-print('time tags:', time_tags)
-print('matched texts:', matched_texts)
-print('matched texts indexes:', matched_indexes)
-print('matched time lines:', matched_time_lines)
+print("转换后的文本:", converted_text)
+text = '1日'
+text = re.sub(r"(\d{1,2})日", r"\1號", text)
+print(text)

@@ -27,55 +27,23 @@ wrong_words = [
 def conversation():
     d = DucklingWrapper(language=Language.CHINESE)
     for text in texts:
-        # print('ori msg', text)
-        ori_msg = text
+        ori_msg = text  # 原始字串
 
         try:
-            text = replace_week(text)
-            text = text.replace('的', '')
-            text = text.replace('下午茶', '下午')
-            # text = text.replace('月份', '月').replace('月分', '月')
+            text = text_replacement(text)
 
-            if '寒假' in text:
-                print('每一年的寒假時間都是不固定的，我將為你搜尋一月以及二月相關的活動')
-                text = text.replace('寒假', '一月 二月')
-            if '暑假' in text:
-                print('每一年的暑假時間都是不固定的，我將為你搜尋七月以及八月相關的活動')
-                text = text.replace('暑假', '七月 八月')
-
-            text = text.replace('春季', '春天').replace('春天', '三月 四月 五月')
-            text = text.replace('夏季', '夏天').replace('夏天', '六月 七月 八月')
-            text = text.replace('秋季', '秋天').replace('秋天', '九月 十月 十一月')
-            text = text.replace('冬季', '冬天').replace('冬天', '十二月 一月 二月')
-
-            text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*和\s*([十]?[一二三四五六七八九十])月',
-                          r'明年\1月和明年\2月', text)
-            text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*到\s*([十]?[一二三四五六七八九十])月',
-                          r'明年\1月到明年\2月', text)
-
-            text = re.sub(r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])日', r'\1月\2號',
-                          text)
-
-            text = re.sub(
-                r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*到\s*([一二三]?[十]?[一二三四五六七八九十])號',
-                r'\1月\2號到\1月\3號', text)
-            text = re.sub(
-                r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*和\s*([一二三]?[十]?[一二三四五六七八九十])號',
-                r'\1月\2號到\1月\3號', text)
-
-            # print('pro msg', text)
-            pro_msg = text
+            pro_msg = text  # 經過處理之後的字串
 
             time_tags = []
             matched_texts = []
             matched_indexes = []
             matched_time_lines = []
 
+            # 下下周一、下下周二 ...
             matches = re.findall(r'(下{2,})周(一|二|三|四|五|六|日)', text)
             for match in matches:
                 grain = 'day'
                 match_text = f'{match[0]}周{match[1]}'
-                # print(match_text)
 
                 duckling_result = d.parse_time(f'下周{match[1]}')
                 time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
@@ -86,7 +54,6 @@ def conversation():
 
                 matched_text_start_index = text.index(match_text)
                 matched_text_end_index = matched_text_start_index + len(match_text)
-                # print(f'{matched_text_start_index}:{matched_text_end_index}')
 
                 time_tags.append(grain)
                 matched_time_lines.append([time_line])
@@ -96,6 +63,7 @@ def conversation():
 
             ''''''
 
+            # 下下周、下下下周 ...
             matches = re.findall(r'(下{2,})周', text)
             for match in matches:
                 grain = 'week'
@@ -103,14 +71,11 @@ def conversation():
 
                 duckling_result = d.parse_time(f'下周')
                 time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
-                # print(time_line)
                 time_line = str(
                     datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match) - 1)))
-                # print(time_line)
 
                 matched_text_start_index = text.index(match_text)
                 matched_text_end_index = matched_text_start_index + len(match_text)
-                # print(f'{matched_text_start_index}:{matched_text_end_index}')
 
                 time_tags.append(grain)
                 matched_time_lines.append([time_line])
@@ -120,6 +85,8 @@ def conversation():
 
             ''''''
 
+            # duckling可判斷的範圍 / 處理完畢之後會變成簡化的字串
+            # range到range有哪些演唱會、請問day有什麼演唱會 ...
             while True:
                 duckling_result = d.parse_time(text)
                 if duckling_result:
@@ -163,9 +130,7 @@ def conversation():
                             else:
                                 matched_time_lines.append([time_line])
                         elif grain == 'day' and re.findall(r'下周(?:六|日)', matched_text):
-                            # print('hello i am here')
                             time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
-                            # print(time_line)
                             matched_time_lines.append([time_line])
                         else:
                             matched_time_lines.append([time_line])
@@ -181,10 +146,10 @@ def conversation():
                         matched_text = str(duckling_result[0]['text'])
                         time_tags.append(grain)
 
-                        print('from', str(duckling_result[0]['value']['value']['from']).replace('T', ' ').replace(
-                            ':000+08:00', ''), 'to',
-                              str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace('.000+08:00',
-                                                                                                        ''))  # test
+                        # print('from', str(duckling_result[0]['value']['value']['from']).replace('T', ' ').replace(
+                        #     ':000+08:00', ''), 'to',
+                        #       str(duckling_result[0]['value']['value']['to']).replace('T', ' ').replace('.000+08:00',
+                        #                                                                                 ''))  # test
                         matched_time_lines.append(
                             [str(duckling_result[0]['value']['value']['from']).replace('T', ' ').replace(
                                 '.000+08:00', ''),
@@ -206,7 +171,7 @@ def conversation():
 
             ''''''
 
-            # 全部字串處理完畢
+            # 字串處理完畢 / 把日期按照字串的順序排列
             print(f'原始字串 {ori_msg}')
             print(f'經過處理後 -> {pro_msg}')
             print(f'字串簡化完成 - {text}')
@@ -230,7 +195,7 @@ def conversation():
 
             ''''''
 
-            # 一個接著一個時間段做處理
+            # tag by tag 處理
             while re.findall(r'year|month|week|day|hour|minute|second|range', text):
                 matches = re.findall(
                     r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
@@ -278,7 +243,6 @@ def conversation():
                         print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
 
                     text = text[text.index(match) + len(match):]
-
 
                     ''' 檢查下一個標籤 '''
                     # 下一個標籤為tag到tag嗎
@@ -372,7 +336,6 @@ def conversation():
                         print(datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S"))
 
                     text = text[text.index(match) + len(match):]
-
 
                     ''' 檢查下一個標籤 '''
                     # 下一個標籤為tag到tag嗎
@@ -476,6 +439,69 @@ def replace_week(text):
     text = text.replace('週', '周').replace('星期天', '星期日').replace('禮拜天', '禮拜日').replace('星期',
                                                                                                     '周').replace(
         '禮拜', '周')
+    return text
+
+
+def month_arabic_to_zh(match):
+    num_map = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九',
+               '10': '十', '11': '十一', '12': '十二'}
+    num = match.group(1)
+
+    return num_map[num] + '月'
+
+
+def day_arabic_to_zh(match):
+    num_map = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九',
+               '10': '十', '11': '十一', '12': '十二', '13': '十三', '14': '十四', '15': '十五', '16': '十六',
+               '17': '十七', '18': '十八', '19': '十九', '20': '二十', '21': '二十一', '22': '二十二', '23': '二十三',
+               '24': '二十四', '25': '二十五', '26': '二十六', '27': '二十七', '28': '二十八', '29': '二十九',
+               '30': '三十', '31': '三十一'}
+    num = match.group(1)
+
+    return num_map[num] + '號'
+
+
+def text_replacement(text):
+    text = replace_week(text)  # 統一為周一、周二 ... 周日
+
+    text = text.replace('的', '')
+    text = text.replace('下午茶', '下午')
+
+    if '寒假' in text:
+        print('每一年的寒假時間都是不固定的，我將為你搜尋一月以及二月相關的活動')
+        text = text.replace('寒假', '一月 二月')
+    if '暑假' in text:
+        print('每一年的暑假時間都是不固定的，我將為你搜尋七月以及八月相關的活動')
+        text = text.replace('暑假', '七月 八月')
+
+    text = text.replace('春季', '春天').replace('春天', '三月 四月 五月')
+    text = text.replace('夏季', '夏天').replace('夏天', '六月 七月 八月')
+    text = text.replace('秋季', '秋天').replace('秋天', '九月 十月 十一月')
+    text = text.replace('冬季', '冬天').replace('冬天', '十二月 一月 二月')
+
+    # 補上年分 / 和 / A年B月和C月 -> A年B月和A年C月
+    text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*和\s*([十]?[一二三四五六七八九十])月',
+                  r'明年\1月和明年\2月', text)
+    # 補上年分 / 到 / A年B月到C月 -> A年B月到A年C月
+    text = re.sub(r'明年([十]?[一二三四五六七八九十])月\s*到\s*([十]?[一二三四五六七八九十])月',
+                  r'明年\1月到明年\2月', text)
+
+    # 阿拉伯 -> 中文 / 幾月
+    text = re.sub(r'(\d{1,2})月', month_arabic_to_zh, text)
+    # 阿拉伯 N日 -> N號
+    text = re.sub(r"(\d{1,2})日", r"\1號", text)
+    # 阿拉伯 -> 中文 / 幾號
+    text = re.sub(r'(\d{1,2})號', day_arabic_to_zh, text)
+
+    # 補上月份 / 和 / A月B號和C號 -> A月B號和A月C號
+    text = re.sub(
+        r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*和\s*([一二三]?[十]?[一二三四五六七八九十])號',
+        r'\1月\2號到\1月\3號', text)
+    # 補上月份 / 到 / A月B號到C號 -> A月B號到A月C號
+    text = re.sub(
+        r'([十]?[一二三四五六七八九十])月\s*([一二三]?[十]?[一二三四五六七八九十])號\s*到\s*([一二三]?[十]?[一二三四五六七八九十])號',
+        r'\1月\2號到\1月\3號', text)
+
     return text
 
 
