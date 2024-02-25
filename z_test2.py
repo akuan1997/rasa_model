@@ -56,3 +56,12 @@ print(year)
 days_in_month = calendar.monthrange(year, month)[1]
 print(days_in_month)
 
+
+text = ' 台北 台北'
+cities = re.findall(r"(台北|雲林|連江|台南|花蓮|屏東|高雄|彰化|新竹|台中|桃園|金門|宜蘭|澎湖|新北|苗栗|南投|基隆|台東|嘉義)", text)
+print(cities)
+print(text.find('台北'))
+
+text = 'week range year'
+matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
+print(matches)
