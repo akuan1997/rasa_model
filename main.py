@@ -598,12 +598,14 @@ def conversation():
 def conversation1():
     d = DucklingWrapper(language=Language.CHINESE)
     for text in texts:
-        ori_msg = text  # 原始字串
+        print(f'ori str {text}')  # 原始字串
 
         try:
             text = text_replacement(text)
 
             pro_msg = text  # 經過處理之後的字串
+            print(f'pro str -> {pro_msg}')
+            text_for_indexing = text
 
             time_tags = []
             matched_texts = []
@@ -623,13 +625,22 @@ def conversation1():
                 if match[1] == '六' or match[1] == '日':
                     time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
 
-                matched_text_start_index = text.index(match_text)
-                matched_text_end_index = matched_text_start_index + len(match_text)
+                ''''''
 
                 time_tags.append(grain)
                 matched_time_lines.append([time_line])
-                text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
                 matched_texts.append(match_text)
+                text = text.replace(match_text, grain)  # regex, 不會重複, 可以這樣寫沒關係
+
+                ''''''
+
+                matched_text_start_index = text_for_indexing.find(match_text)
+                matched_text_end_index = matched_text_start_index + len(match_text)
+                print('qwe')
+                text_for_indexing = text_for_indexing[:matched_text_start_index] + ' ' * len(
+                    match_text) + text_for_indexing[matched_text_end_index:]
+                print(f'text_for_indexing = "{text_for_indexing}"')
+
                 matched_indexes.append(matched_text_start_index)
 
             ''''''
@@ -645,13 +656,22 @@ def conversation1():
                 time_line = str(
                     datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match) - 1)))
 
-                matched_text_start_index = text.index(match_text)
-                matched_text_end_index = matched_text_start_index + len(match_text)
+                ''''''
 
                 time_tags.append(grain)
                 matched_time_lines.append([time_line])
-                text = text.replace(text[matched_text_start_index:matched_text_end_index], grain)
                 matched_texts.append(match_text)
+                text = text.replace(match_text, grain)  # regex, 不會重複, 可以這樣寫沒關係
+
+                ''''''
+
+                matched_text_start_index = text_for_indexing.find(match_text)
+                matched_text_end_index = matched_text_start_index + len(match_text)
+                print('zxcv')
+                text_for_indexing = text_for_indexing[:matched_text_start_index] + ' ' * len(
+                    match_text) + text_for_indexing[matched_text_end_index:]
+                print(f'text_for_indexing = "{text_for_indexing}"')
+
                 matched_indexes.append(matched_text_start_index)
 
             ''''''
@@ -733,7 +753,15 @@ def conversation1():
                     matched_text_end_index = matched_text_start_index + len(matched_text)
                     text = text[:matched_text_start_index] + grain + text[matched_text_end_index:]
                     matched_texts.append(matched_text)
-                    matched_indexes.append(matched_text_start_index)
+
+                    print('asd')
+                    origin_start_index = text_for_indexing.find(matched_text)
+                    origin_end_index = origin_start_index + len(matched_text)
+                    text_for_indexing = text_for_indexing[:origin_start_index] + ' ' * len(
+                        matched_text) + text_for_indexing[origin_end_index:]
+                    print(f'text_for_indexing = "{text_for_indexing}"')
+
+                    matched_indexes.append(origin_start_index)
 
                     # print('matched text:', matched_text)  # test
 
@@ -743,8 +771,6 @@ def conversation1():
             ''''''
 
             # 字串處理完畢 / 把日期按照字串的順序排列
-            print(f'ori str {ori_msg}')
-            print(f'pro str -> {pro_msg}')
 
             sorted_pairs = sorted(zip(matched_indexes, matched_texts))
             # sorted_indexes  = [pair[0] for pair in sorted_pairs]
@@ -774,9 +800,18 @@ def conversation1():
             for city in found_cities:
                 cities.append(city)
                 start_index = text.find(city)
-                city_indexes.append(start_index)
                 end_index = start_index + len(city)
                 text = text[:start_index] + 'city' + text[end_index:]
+
+                ''''''
+
+                print('iop')
+                origin_start_index = text_for_indexing.find(city)
+                origin_end_index = origin_start_index + len(city)
+                text_for_indexing = text_for_indexing[:origin_start_index] + '  ' + text_for_indexing[origin_end_index:]
+                print(f'text_for_indexing = "{text_for_indexing}"')
+
+                city_indexes.append(origin_start_index)
 
             print(f'city_indexes: {city_indexes}')
             print(f'cities: {cities}')
@@ -846,7 +881,7 @@ def conversation1():
 
                 show_info_indexes = found_cities
                 print(f'show_info_indexes: {show_info_indexes}')
-            
+
             else:
                 print('找不到城市以及日期')
 

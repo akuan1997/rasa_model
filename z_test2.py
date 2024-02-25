@@ -65,3 +65,8 @@ print(text.find('台北'))
 text = 'week range year'
 matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
 print(matches)
+
+text = '下周到下下周 123123123123'
+print(text[:3])
+print(text[6:])
+print(f"{' ' * len(text)}")
