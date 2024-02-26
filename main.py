@@ -415,7 +415,7 @@ def conversation():
                         # print('function month')
                         print(f'single month = {single_month}')
 
-                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        print(f'>> 檢查 "{check_text}" 有無前後')
                         for i in range(len(data)):
                             if '~' not in data[i]['pdt'][0]:
                                 pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -455,7 +455,7 @@ def conversation():
                         # print('function week')
                         # print(f'week = {single_week}')
 
-                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        print(f'>> 檢查 "{check_text}" 有無前後')
                         for i in range(len(data)):
                             if '~' not in data[i]['pdt'][0]:
                                 pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -505,7 +505,7 @@ def conversation():
                         # print('function day')
                         print(f'single day = {single_day}')
 
-                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        print(f'>> 檢查 "{check_text}" 有無前後')
                         for i in range(len(data)):
                             if '~' not in data[i]['pdt'][0]:
                                 pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -545,7 +545,7 @@ def conversation():
                         # print('function hour or function minute')
                         print(f'single hour or minute = {time_obj}')
 
-                        print(f'>> 檢查 "{check_text}" 有無城市或前後')
+                        print(f'>> 檢查 "{check_text}" 有無前後')
                         for i in range(len(data)):
                             if '~' not in data[i]['pdt'][0]:
                                 pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -636,10 +636,10 @@ def conversation1():
 
                 matched_text_start_index = text_for_indexing.find(match_text)
                 matched_text_end_index = matched_text_start_index + len(match_text)
-                print('qwe')
+                # print('qwe')
                 text_for_indexing = text_for_indexing[:matched_text_start_index] + ' ' * len(
                     match_text) + text_for_indexing[matched_text_end_index:]
-                print(f'text_for_indexing = "{text_for_indexing}"')
+                # print(f'text_for_indexing = "{text_for_indexing}"')
 
                 matched_indexes.append(matched_text_start_index)
 
@@ -667,10 +667,10 @@ def conversation1():
 
                 matched_text_start_index = text_for_indexing.find(match_text)
                 matched_text_end_index = matched_text_start_index + len(match_text)
-                print('zxcv')
+                # print('zxcv')
                 text_for_indexing = text_for_indexing[:matched_text_start_index] + ' ' * len(
                     match_text) + text_for_indexing[matched_text_end_index:]
-                print(f'text_for_indexing = "{text_for_indexing}"')
+                # print(f'text_for_indexing = "{text_for_indexing}"')
 
                 matched_indexes.append(matched_text_start_index)
 
@@ -754,12 +754,12 @@ def conversation1():
                     text = text[:matched_text_start_index] + grain + text[matched_text_end_index:]
                     matched_texts.append(matched_text)
 
-                    print('asd')
+                    # print('asd')
                     origin_start_index = text_for_indexing.find(matched_text)
                     origin_end_index = origin_start_index + len(matched_text)
                     text_for_indexing = text_for_indexing[:origin_start_index] + ' ' * len(
                         matched_text) + text_for_indexing[origin_end_index:]
-                    print(f'text_for_indexing = "{text_for_indexing}"')
+                    # print(f'text_for_indexing = "{text_for_indexing}"')
 
                     matched_indexes.append(origin_start_index)
 
@@ -784,10 +784,10 @@ def conversation1():
             matched_indexes = [pair[0] for pair in sorted_pairs]
             matched_time_lines = [pair[1] for pair in sorted_pairs]
 
-            print(f'---\ntime tags: {time_tags}')
-            print(f'matched texts: {matched_texts}')
-            print(f'matched texts indexes: {matched_indexes}')
-            print(f'matched time lines: {matched_time_lines}')
+            print(f'---\ntime_tags: {time_tags}')
+            print(f'matched_texts: {matched_texts}')
+            print(f'matched_indexes: {matched_indexes}')
+            print(f'matched_time_lines: {matched_time_lines}')
             print(f'tag str - {text}\n---')
 
             ''''''
@@ -805,11 +805,11 @@ def conversation1():
 
                 ''''''
 
-                print('iop')
+                # print('iop')
                 origin_start_index = text_for_indexing.find(city)
                 origin_end_index = origin_start_index + len(city)
                 text_for_indexing = text_for_indexing[:origin_start_index] + '  ' + text_for_indexing[origin_end_index:]
-                print(f'text_for_indexing = "{text_for_indexing}"')
+                # print(f'text_for_indexing = "{text_for_indexing}"')
 
                 city_indexes.append(origin_start_index)
 
@@ -836,22 +836,223 @@ def conversation1():
                     # until
                     found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_until(
                         found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
-                    print(f'after until, text = {text}')
+                    after_until_text = text  # test
                     # single
                     found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_single(
                         found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
-                    print(f'after single, text = {text}')
+                    after_single_text = text  # test
+
+                    print(f'after_until_text = {after_until_text}')  # test
+                    print(f'after_single_text = {after_single_text}')  # test
 
                     ''''''
 
                     show_info_indexes = [index for index in found_cities if index in found_dates]
 
-                    print(f'found_cities: {found_cities}')
-                    print(f'found_dates: {found_dates}')
-                    print(f'show_info_indexes: {show_info_indexes}')
+                    print(f'---\nfound_cities: {sorted(found_cities)}')
+                    print(f'found_dates: {sorted(found_dates)}')
+                    print(f'show_info_indexes: {sorted(show_info_indexes)}')
 
                 else:
                     print('城市以及日期交錯，處理起來比較複雜')
+                    print(f'tag & cit str -> {text}')
+
+                    # sim_text = text
+                    #
+                    # sim_city_indexes = []
+                    # matches = re.findall(r'city', sim_text)
+                    # for match in matches:
+                    #     start_index = sim_text.find(match)
+                    #     end_index = start_index + len(match)
+                    #     sim_city_indexes.append(start_index)
+                    #     sim_text = sim_text[:start_index] + "    " + sim_text[end_index:]
+                    # print('after city', sim_text, matches, sim_city_indexes)
+                    #
+                    # sim_date_indexes = []
+                    # sim_matches = []
+                    # matches = re.findall(r'year|month|week|day|hour|minute|second|range', sim_text)
+                    # for match in matches:
+                    #     sim_matches.append(match)
+                    #     start_index = sim_text.find(match)
+                    #     end_index = start_index + len(match)
+                    #     sim_date_indexes.append(start_index)
+                    #     sim_text = sim_text[:start_index] + " " * len(match) + sim_text[end_index:]
+                    # print('after tag', sim_text, matches, sim_date_indexes)
+                    #
+                    # print(f'---\nsim_date_indexes = {sim_date_indexes}')
+                    # print(f'matched_time_lines: {matched_time_lines}')
+                    # print(f'sim_city_indexes = {sim_city_indexes}')
+                    # print(f'cities: {cities}')
+                    # print(f'sim_matches = {sim_matches}\n---')
+                    #
+                    # ''''''
+                    #
+                    # sim_text = text
+                    # split_indexes = []
+                    # matches = re.findall(
+                    #     r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                    #     sim_text)
+                    # for match in matches:
+                    #     sim_matches.append(match)
+                    #     start_index = sim_text.find(match)
+                    #     end_index = start_index + len(match)
+                    #     split_indexes.append(start_index)
+                    #     sim_text = sim_text[:start_index] + " " * len(match) + sim_text[end_index:]
+                    # matches = re.findall(r'year|month|week|day|hour|minute|second|range', sim_text)
+                    # for match in matches:
+                    #     sim_matches.append(match)
+                    #     start_index = sim_text.find(match)
+                    #     end_index = start_index + len(match)
+                    #     split_indexes.append(start_index)
+                    #     sim_text = sim_text[:start_index] + " " * len(match) + sim_text[end_index:]
+                    # print(f'split_indexes = {split_indexes}\n---')
+                    #
+                    # ''''''
+                    #
+                    # current_index = split_indexes[0]
+                    # for i in range(len(split_indexes) - 1):
+                    #     sim_cities = []
+                    #     sim_time_lines = []
+                    #     split_number = split_indexes[i + 1]
+                    #     for sim_date_index in sim_date_indexes:
+                    #         if current_index <= sim_date_index < split_number:
+                    #             # print(f'{current_index} <= sim_date_index = {sim_date_index} < {split_number}')
+                    #             sim_time_lines.append(matched_time_lines[0])
+                    #             del matched_time_lines[0]
+                    #     for sim_city_index in sim_city_indexes:
+                    #         if current_index <= sim_city_index < split_number:
+                    #             # print(f'{current_index} <= sim_city_index = {sim_city_index} < {split_number}')
+                    #             sim_cities.append(cities[0])
+                    #             del cities[0]
+                    #     print(f'sim_time_lines = {sim_time_lines}')
+                    #     print(f'sim_cities = {sim_cities}')
+                    #
+                    #     ''''''
+                    #
+                    #     print('q1q', text[current_index:split_number])
+                    #
+                    #     # until
+                    #     found_dates, text, time_tags, matched_texts, matched_indexes, _ = get_until(
+                    #         found_dates, text[current_index:split_number], time_tags, matched_texts, matched_indexes, sim_time_lines)
+                    #     # after_until_text = text  # test
+                    #     # single
+                    #     found_dates, text, time_tags, matched_texts, matched_indexes, _ = get_single(
+                    #         found_dates, text, time_tags, matched_texts, matched_indexes, sim_time_lines)
+                    #     # after_single_text = text  # test
+                    #
+                    #     # print(f'after_until_text = {after_until_text}')  # test
+                    #     # print(f'after_single_text = {after_single_text}')  # test
+                    #
+                    #     ''''''
+                    #
+                    #     show_info_indexes = [index for index in found_cities if index in found_dates]
+                    #
+                    #     print(f'found_cities: {found_cities}')
+                    #     print(f'found_dates: {found_dates}')
+                    #     print(f'show_info_indexes: {show_info_indexes}')
+                    #
+                    #     print('@@@')
+                    #     current_index = split_indexes[i + 1]
+                    #
+                    # sim_time_lines = matched_time_lines
+                    # sim_cities = cities
+                    # print(f'sim_time_lines = {sim_time_lines}')
+                    # print(f'sim_cities = {sim_cities}')
+
+                    ''''''
+
+                    # # 先日期 再城市
+                    # text_sections = []
+                    # if sim_date_indexes[0] < sim_city_indexes[0]:
+                    #     current_index = 0
+                    #     for i in range(len(sim_date_indexes) - 1):
+                    #         # print(f'c1c')
+                    #         # print(f'text[{current_index}:sim_date_indexes[{i + 1}]')
+                    #         # print(f'> text[{current_index}:{sim_date_indexes[i + 1]}]')
+                    #         # print(f">> {text[current_index:sim_date_indexes[i + 1]]}")
+                    #         text_sections.append(text[current_index:sim_date_indexes[i + 1]])
+                    #         current_index = sim_date_indexes[i + 1]
+                    #     # print(f'>>> {text[current_index:]}')
+                    #     text_sections.append(text[current_index:])
+                    # print(f'text_sections = {text_sections}')
+
+                    ''''''
+
+                    # # 先日期 再城市
+                    # sim_cities = []
+                    # sim_dates = []
+                    # if sim_date_indexes[0] < sim_city_indexes[0]:
+                    #     current_index = 0
+                    #     # 第一段 ~ 倒數第二段
+                    #     for i in range(len(sim_date_indexes) - 1):
+                    #         # print(f'time_tags: {time_tags}')
+                    #         # print(f'matched_texts: {matched_texts}')
+                    #         # print(f'matched_indexes: {matched_indexes}')  # different
+                    #         # print(f'city_indexes: {city_indexes}')  # different
+                    #         print(f'matched_time_lines: {matched_time_lines}')
+                    #         print(f'cities: {cities}')
+                    #
+                    #         for city_index in sim_city_indexes:
+                    #             print(f'city_index = {city_index}')
+                    #             print(f'sim_date_indexes[i + 1] = {sim_date_indexes[i + 1]}')
+                    #             if city_index < sim_date_indexes[i + 1]:
+                    #                 sim_cities.append(cities[0])
+                    #                 del cities[0]
+                    #
+                    #         print(f'sim_cities = {sim_cities}')
+                    #         print(f'cities = {cities}')
+                    #
+                    #         for date_index in sim_date_indexes:
+                    #             print(f'date_index = {date_index}')
+                    #             print(f'sim_date_indexes[i + 1] = {sim_date_indexes[i + 1]}')
+                    #             if date_index < sim_date_indexes[i + 1]:
+                    #                 sim_dates.append(matched_time_lines)
+                    #                 # del
+                    #
+                    #
+                    #
+                    #         # text[current_index:sim_date_indexes[i + 1]]
+                    #         current_index = sim_date_indexes[i + 1]
+                    #     # 最後一段
+                    #     print(f'>>> {text[current_index:]}')
+
+                    ''''''
+
+                    # # 先日期 再城市
+                    # text_sections = []
+                    # if sim_date_indexes[0] < sim_city_indexes[0]:
+                    #     current_index = 0
+                    #     # 第一段 ~ 倒數第二段
+                    #     for i in range(len(sim_date_indexes) - 1):
+                    #         # city < sim_date_indexes[i + 1]
+                    #
+                    #         print(f'c1c')
+                    #         print(f'text[{current_index}:sim_date_indexes[{i + 1}]')
+                    #         print(f'> text[{current_index}:{sim_date_indexes[i + 1]}]')
+                    #         print(f">> {text[current_index:sim_date_indexes[i + 1]]}")
+                    #         text_sections.append(text[current_index:sim_date_indexes[i + 1]])
+                    #         current_index = sim_date_indexes[i + 1]
+                    #     print(f'>>> {text[current_index:]}')
+                    #     # 最後一段
+                    #     text_sections.append(text[current_index:])
+                    #     print(f'>>>> {text_sections}')
+
+                    # text_sections = []
+                    # # 八月台北 九月新竹 十月桃園
+                    # if matched_indexes[0] < city_indexes[0]:
+                    #     current_index = 0
+                    #     for i in range(len(matched_indexes) - 1):
+                    #         text_sections.append(text_for_indexing[current_index:matched_indexes[current_index + 1]])
+                    #         current_index += 1
+                    #     print(text_sections)
+                    #     current_index = 0
+                    #
+                    #     for i in range(len(matched_indexes) - 1):
+                    #         text_section =
+                    # 台北八月 新竹九月 桃園十月
+                    # else:
+                    #     current_index = 0
+                    #     for i in range(len(city_indexes) - 1):
 
             elif matched_indexes and not city_indexes:
                 print('只有找到日期，沒有城市')
@@ -859,15 +1060,19 @@ def conversation1():
                 # until
                 found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_until(
                     found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
-                print(f'after until, text = {text}')
+                after_until_text = text  # test
                 # single
                 found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_single(
                     found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
-                print(f'after single, text = {text}')
+                after_single_text = text  # test
+
+                print(f'after_until_text = {after_until_text}')  # test
+                print(f'after_single_text = {after_single_text}')  # test
                 ''''''
 
                 show_info_indexes = found_dates
-                print(f'show_info_indexes: {show_info_indexes}')
+                print('---\n直接顯示尋找到的日期')
+                print(f'show_info_indexes: {sorted(show_info_indexes)}')
 
             elif not matched_indexes and city_indexes:
                 print('只有找到城市，沒有日期')
@@ -880,7 +1085,8 @@ def conversation1():
                 ''''''
 
                 show_info_indexes = found_cities
-                print(f'show_info_indexes: {show_info_indexes}')
+                print('---\n直接顯示尋找到的城市')
+                print(f'show_info_indexes: {sorted(show_info_indexes)}')
 
             else:
                 print('找不到城市以及日期')
@@ -1128,7 +1334,7 @@ def conversation1():
             #             # print('function month')
             #             print(f'single month = {single_month}')
             #
-            #             print(f'>> 檢查 "{check_text}" 有無城市或前後')
+            #             print(f'>> 檢查 "{check_text}" 有無前後')
             #             for i in range(len(data)):
             #                 if '~' not in data[i]['pdt'][0]:
             #                     pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -1168,7 +1374,7 @@ def conversation1():
             #             # print('function week')
             #             # print(f'week = {single_week}')
             #
-            #             print(f'>> 檢查 "{check_text}" 有無城市或前後')
+            #             print(f'>> 檢查 "{check_text}" 有無前後')
             #             for i in range(len(data)):
             #                 if '~' not in data[i]['pdt'][0]:
             #                     pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -1218,7 +1424,7 @@ def conversation1():
             #             # print('function day')
             #             print(f'single day = {single_day}')
             #
-            #             print(f'>> 檢查 "{check_text}" 有無城市或前後')
+            #             print(f'>> 檢查 "{check_text}" 有無前後')
             #             for i in range(len(data)):
             #                 if '~' not in data[i]['pdt'][0]:
             #                     pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -1258,7 +1464,7 @@ def conversation1():
             #             # print('function hour or function minute')
             #             print(f'single hour or minute = {time_obj}')
             #
-            #             print(f'>> 檢查 "{check_text}" 有無城市或前後')
+            #             print(f'>> 檢查 "{check_text}" 有無前後')
             #             for i in range(len(data)):
             #                 if '~' not in data[i]['pdt'][0]:
             #                     pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
@@ -1300,11 +1506,11 @@ def conversation1():
             #         del matched_indexes[0]
             #         del matched_time_lines[0]
 
-            print('-------------------------------------')
+            print('--------------------------------------------------------------------------')
         except Exception as e:
             print('!!!')
             print(f'{text} have error: {e}')
-            print('-------------------------------------')
+            print('--------------------------------------------------------------------------')
             continue
 
 
@@ -1533,8 +1739,8 @@ def get_until(found_dates, text, time_tags, matched_texts, matched_indexes, matc
                     if start_time_obj <= pdt_obj <= end_time_obj:
                         # print(f'發現! {pdt_obj}')
                         found_dates.append(i)
-                else:
-                    print('get_until / 有~ 晚點處理')
+                # else:
+                #     print('get_until / 有~ 晚點處理')
 
         for i in range(2):
             del time_tags[0]
@@ -1569,8 +1775,8 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                         if start_time_obj <= pdt_obj <= end_time_obj:
                             # print(f'發現! {pdt_obj}')
                             found_dates.append(i)
-                    else:
-                        print('get_single / range / 有~ 晚點處理')
+                    # else:
+                    #     print('get_single / range / 有~ 晚點處理')
 
         elif match == 'year':
             single_year = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year
@@ -1583,16 +1789,21 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                     if '前' in check_text and '後' in check_text:
                         print('不好意思，請問你想要搜尋是前、後還是一整年')
                     elif '前' in check_text:
+                        # print('發現"前"')
                         if pdt_obj.year < single_year:
+                            # print(f'篩選 pdt year < {single_year}')
                             found_dates.append(i)
                     elif '後' in check_text:
+                        # print('發現"後"')
                         if pdt_obj.year > single_year:
+                            # print(f'篩選 pdt year > {single_year}')
                             found_dates.append(i)
                     else:
                         if pdt_obj.year == single_year:
+                            # print(f'篩選 pdt year == {single_year}')
                             found_dates.append(i)
-                else:
-                    print('get_single / year / 有~ 晚點處理')
+                # else:
+                #     print('get_single / year / 有~ 晚點處理')
 
         elif match == 'month':
             single_month = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month
@@ -1605,16 +1816,21 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                     if '前' in check_text and '後' in check_text:
                         print('不好意思，請問你想要搜尋是前、後還是一整個月')
                     elif '前' in check_text:
+                        # print('發現"前"')
                         if pdt_obj.month < single_month:
+                            # print(f'篩選 pdt month < {single_month}')
                             found_dates.append(i)
                     elif '後' in check_text:
+                        # print('發現"後"')
                         if pdt_obj.month > single_month:
+                            # print(f'篩選 pdt month > {single_month}')
                             found_dates.append(i)
                     else:
                         if pdt_obj.month == single_month:
+                            # print(f'篩選 pdt month == {single_month}')
                             found_dates.append(i)
-                else:
-                    print('get_single / month / 有~ 晚點處理')
+                # else:
+                #     print('get_single / month / 有~ 晚點處理')
 
         elif match == 'week':
             single_week = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").isocalendar()[1]
@@ -1628,16 +1844,21 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                     if '前' in check_text and '後' in check_text:
                         print('不好意思，請問你想要搜尋是前、後還是一整周')
                     elif '前' in check_text:
+                        # print('發現"前"')
                         if pdt_week < single_week:
+                            # print(f'篩選 pdt week < {single_week}')
                             found_dates.append(i)
                     elif '後' in check_text:
+                        # print('發現"後"')
                         if pdt_week > single_week:
                             found_dates.append(i)
+                            # print(f'篩選 pdt week > {single_week}')
                     else:
                         if pdt_week == single_week:
+                            # print(f'篩選 pdt week == {single_week}')
                             found_dates.append(i)
-                else:
-                    print('get_single / week / 有~ 晚點處理')
+                # else:
+                #     print('get_single / week / 有~ 晚點處理')
 
         elif match == 'day':
             single_day = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").day
@@ -1650,38 +1871,48 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                     if '前' in check_text and '後' in check_text:
                         print('不好意思，請問你想要搜尋是前、後還是一整天')
                     elif '前' in check_text:
+                        # print('發現"前"')
                         if pdt_obj.day < single_day:
+                            # print(f'篩選 pdt day < {single_day}')
                             found_dates.append(i)
                     elif '後' in check_text:
+                        # print('發現"後"')
                         if pdt_obj.day > single_day:
+                            # print(f'篩選 pdt day > {single_day}')
                             found_dates.append(i)
                     else:
                         if pdt_obj.day == single_day:
+                            # print(f'篩選 pdt day == {single_day}')
                             found_dates.append(i)
-                else:
-                    print('get_single / day / 有~ 晚點處理')
+                # else:
+                #     print('get_single / day / 有~ 晚點處理')
 
         elif match == 'hour' or match == 'minute':
             time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
             print(f'single hour or minute = {time_obj}')
 
-            print(f'>> 檢查 "{check_text}" 有無城市或前後')
+            print(f'>> 檢查 "{check_text}" 有無前後')
             for i in range(len(data)):
                 if '~' not in data[i]['pdt'][0]:
                     pdt_obj = datetime.strptime(data[i]['pdt'][0], "%Y/%m/%d %H:%M")
                     if '前' in check_text and '後' in check_text:
                         print('不好意思，請問你想要搜尋是前還是後')
                     elif '前' in check_text:
-                        if pdt_obj < time_obj:
+                        # print('發現"前"')
+                        if pdt_obj < time_obj and pdt_obj.day == time_obj.day:
+                            # print(f'篩選 pdt hour < {time_obj}')
                             found_dates.append(i)
                     elif '後' in check_text:
-                        if pdt_obj > time_obj:
+                        # print('發現"後"')
+                        if pdt_obj > time_obj and pdt_obj.day == time_obj.day:
+                            # print(f'篩選 pdt hour > {time_obj}')
                             found_dates.append(i)
                     else:
-                        if pdt_obj == time_obj:
+                        if pdt_obj == time_obj and pdt_obj.day == time_obj.day:
+                            # print(f'篩選 pdt hour == {time_obj}')
                             found_dates.append(i)
-                else:
-                    print('get_single / hour | minute / 有~ 晚點處理')
+                # else:
+                #     print('get_single / hour | minute / 有~ 晚點處理')
 
         # print(f'---\n剩餘字串 "{text}"\n---')
 
