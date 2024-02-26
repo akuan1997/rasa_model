@@ -833,12 +833,10 @@ def conversation1():
                 ''''''
 
                 # until
-                found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_until(
-                    found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
+                found_dates, text, matched_time_lines = get_until(found_dates, text, matched_time_lines)
                 after_until_text = text  # test
                 # single
-                found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_single(
-                    found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
+                found_dates, text, matched_time_lines = get_single(found_dates, text, matched_time_lines)
                 after_single_text = text  # test
 
                 print(f'after_until_text = {after_until_text}')  # test
@@ -932,7 +930,6 @@ def conversation1():
                         for j in range(len(data)):
                             if data[j]['cit'] == city:
                                 found_cities.append(j)
-                    print(f'found_cities = {sorted(found_cities)}')
 
                     ''''''
 
@@ -943,212 +940,228 @@ def conversation1():
                             del matched_time_lines[0]
                     print(f'sim_time_lines = {sim_time_lines}')
 
-                    print('> 處理tag1到tag2')
-                    matches = re.findall(
-                        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                        section_text)
-                    # tag1到tag2
-                    for match in matches:
-                        print(f'>> 處理期間 {match}')
-                        # 鼠標往後移動到tag結束
-                        section_text = section_text[section_text.index(match) + len(match):]
+                    # until
+                    found_dates, section_text, sim_time_lines = get_until(found_dates, section_text, sim_time_lines)
+                    after_until_text = section_text  # test
+                    # single
+                    found_dates, section_text, sim_time_lines = get_single(found_dates, section_text, sim_time_lines)
+                    after_single_text = section_text  # test
 
-                        tag1, tag2 = get_until_tags(match)
-                        print(f'until {tag1}, {tag2}')
+                    print(f'after_until_text = {after_until_text}')  # test
+                    print(f'after_single_text = {after_single_text}')  # test
 
-                        # tag1 的開頭都會是 matched_time_lines[0][0]
-                        start_time = sim_time_lines[0][0]
-                        start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
-                        # tag2 都取[1][0]
-                        end_time = sim_time_lines[1][0]
-                        if tag2[0] == 'range':
-                            # 但如果是range 就取[1][1]
-                            end_time = sim_time_lines[1][1]
-                        if tag2[0] == 'year':
-                            next_year = int(end_time.split('-')[0]) + 1
-                            end_time = end_time.replace(end_time.split('-')[0], str(next_year))
-                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(
-                                seconds=1)
-                        elif tag2[0] == 'month':
-                            next_month = int(end_time.split('-')[1]) + 1
-                            end_time = end_time.replace(end_time.split('-')[1], str(next_month))
-                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(
-                                seconds=1)
-                        elif tag2[0] == 'week':
-                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(
-                                days=7) - timedelta(
-                                seconds=1)
-                        elif tag2[0] == 'day':
-                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(
-                                days=1) - timedelta(
-                                seconds=1)
-                        else:
-                            end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+                    ''''''
 
-                        if start_time_obj > end_time_obj:
-                            print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
-                        else:
-                            print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
-                            for k in range(len(data)):
-                                if '~' not in data[k]['pdt'][0]:
-                                    pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
-                                    if start_time_obj <= pdt_obj <= end_time_obj:
-                                        found_dates.append(k)
-                                # else:
-                                #     print('有~ 後面再處理')
-
-                    print(f'after tag, found_dates = {sorted(found_dates)}')
-
-                    print('> 處理單獨')
-                    matches = re.findall(r'year|month|week|day|hour|minute|second|range', section_text)
-                    # 單獨
-                    for match in matches:
-                        print(f'>> 開始處理單獨標籤: {match}')
-                        section_text = section_text[section_text.index(match) + len(match):]
-                        check_text, section_text = get_text_before_next_tag(section_text)
-
-                        if match == 'range':
-                            start_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
-                            end_time_obj = datetime.strptime(matched_time_lines[0][1], "%Y-%m-%d %H:%M:%S")
-
-                            if start_time_obj > end_time_obj:
-                                print('你輸入的日期好像怪怪的 如果有錯誤的話麻煩再輸入一次')
-                            else:
-                                print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
-                                for k in range(len(data)):
-                                    if '~' not in data[k]['pdt'][0]:
-                                        pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
-                                        if start_time_obj <= pdt_obj <= end_time_obj:
-                                            # print(f'發現! {pdt_obj}')
-                                            found_dates.append(k)
-                                    # else:
-                                    #     print('get_single / range / 有~ 晚點處理')
-
-                        elif match == 'year':
-                            single_year = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year
-                            print(f'single year = {single_year}')
-
-                            print(f'>>> 檢查 "{check_text}" 有無前後')
-                            for k in range(len(data)):
-                                if '~' not in data[k]['pdt'][0]:
-                                    pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
-                                    if '前' in check_text and '後' in check_text:
-                                        print('不好意思，請問你想要搜尋是前、後還是一整年')
-                                    elif '前' in check_text:
-                                        if pdt_obj.year < single_year:
-                                            found_dates.append(k)
-                                    elif '後' in check_text:
-                                        if pdt_obj.year > single_year:
-                                            found_dates.append(k)
-                                    else:
-                                        if pdt_obj.year == single_year:
-                                            found_dates.append(k)
-                                # else:
-                                #     print('get_single / year / 有~ 晚點處理')
-
-                        elif match == 'month':
-                            single_month = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month
-                            print(f'single month = {single_month}')
-
-                            print(f'>>> 檢查 "{check_text}" 有無前後')
-                            for k in range(len(data)):
-                                if '~' not in data[k]['pdt'][0]:
-                                    pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
-                                    if '前' in check_text and '後' in check_text:
-                                        print('不好意思，請問你想要搜尋是前、後還是一整個月')
-                                    elif '前' in check_text:
-                                        if pdt_obj.month < single_month:
-                                            found_dates.append(k)
-                                    elif '後' in check_text:
-                                        if pdt_obj.month > single_month:
-                                            found_dates.append(k)
-                                    else:
-                                        if pdt_obj.month == single_month:
-                                            found_dates.append(k)
-                                # else:
-                                #     print('get_single / month / 有~ 晚點處理')
-
-                        elif match == 'week':
-                            single_week = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").isocalendar()[1]
-                            print(f'single week = {single_week}')
-
-                            print(f'>>> 檢查 "{check_text}" 有無前後')
-                            for k in range(len(data)):
-                                if '~' not in data[k]['pdt'][0]:
-                                    pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
-                                    pdt_week = pdt_obj.isocalendar()[1]
-                                    if '前' in check_text and '後' in check_text:
-                                        print('不好意思，請問你想要搜尋是前、後還是一整周')
-                                    elif '前' in check_text:
-                                        if pdt_week < single_week:
-                                            found_dates.append(k)
-                                    elif '後' in check_text:
-                                        if pdt_week > single_week:
-                                            found_dates.append(k)
-                                    else:
-                                        if pdt_week == single_week:
-                                            found_dates.append(k)
-                                # else:
-                                #     print('get_single / week / 有~ 晚點處理')
-
-                        elif match == 'day':
-                            single_month = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month
-                            single_day = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").day
-                            print(f'single day = {single_day}')
-
-                            print(f'>>> 檢查 "{check_text}" 有無前後')
-                            for k in range(len(data)):
-                                if '~' not in data[k]['pdt'][0]:
-                                    pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
-                                    if '前' in check_text and '後' in check_text:
-                                        print('不好意思，請問你想要搜尋是前、後還是一整天')
-                                    elif '前' in check_text:
-                                        if pdt_obj.day < single_day:
-                                            found_dates.append(k)
-                                    elif '後' in check_text:
-                                        if pdt_obj.day > single_day:
-                                            found_dates.append(k)
-                                    else:
-                                        if pdt_obj.day == single_day and pdt_obj.month == single_month:
-                                            found_dates.append(k)
-                                # else:
-                                #     print('get_single / day / 有~ 晚點處理')
-
-                        elif match == 'hour' or match == 'minute':
-                            time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
-                            print(f'single hour or minute = {time_obj}')
-
-                            print(f'>>> 檢查 "{check_text}" 有無前後')
-                            for k in range(len(data)):
-                                if '~' not in data[k]['pdt'][0]:
-                                    pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
-                                    if '前' in check_text and '後' in check_text:
-                                        print('不好意思，請問你想要搜尋是前還是後')
-                                    elif '前' in check_text:
-                                        if pdt_obj.month == time_obj.month and \
-                                                pdt_obj.day == time_obj.day and \
-                                                pdt_obj < time_obj:
-                                            found_dates.append(k)
-                                    elif '後' in check_text:
-                                        if pdt_obj.month == time_obj.month and \
-                                                pdt_obj.day == time_obj.day and \
-                                                pdt_obj > time_obj:
-                                            found_dates.append(k)
-                                    else:
-                                        if pdt_obj.month == time_obj.month and \
-                                                pdt_obj.day == time_obj.day and \
-                                                pdt_obj == time_obj:
-                                            found_dates.append(k)
-                                # else:
-                                #     print('get_single / hour | minute / 有~ 晚點處理')
-
-                        del sim_time_lines[0]
-
-                    print(f'after single, found_dates = {sorted(found_dates)}')
+                    # show_info_indexes = [index for index in found_cities if index in found_dates]
+                    # matches = re.findall(
+                    #     r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                    #     section_text)
+                    # # tag1到tag2
+                    # for match in matches:
+                    #     print(f'>> 處理期間 {match}')
+                    #     # 鼠標往後移動到tag結束
+                    #     section_text = section_text[section_text.index(match) + len(match):]
+                    #
+                    #     tag1, tag2 = get_until_tags(match)
+                    #     print(f'until {tag1}, {tag2}')
+                    #
+                    #     # tag1 的開頭都會是 matched_time_lines[0][0]
+                    #     start_time = sim_time_lines[0][0]
+                    #     start_time_obj = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+                    #     # tag2 都取[1][0]
+                    #     end_time = sim_time_lines[1][0]
+                    #     if tag2[0] == 'range':
+                    #         # 但如果是range 就取[1][1]
+                    #         end_time = sim_time_lines[1][1]
+                    #     if tag2[0] == 'year':
+                    #         next_year = int(end_time.split('-')[0]) + 1
+                    #         end_time = end_time.replace(end_time.split('-')[0], str(next_year))
+                    #         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(
+                    #             seconds=1)
+                    #     elif tag2[0] == 'month':
+                    #         next_month = int(end_time.split('-')[1]) + 1
+                    #         end_time = end_time.replace(end_time.split('-')[1], str(next_month))
+                    #         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") - timedelta(
+                    #             seconds=1)
+                    #     elif tag2[0] == 'week':
+                    #         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(
+                    #             days=7) - timedelta(
+                    #             seconds=1)
+                    #     elif tag2[0] == 'day':
+                    #         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S") + timedelta(
+                    #             days=1) - timedelta(
+                    #             seconds=1)
+                    #     else:
+                    #         end_time_obj = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+                    #
+                    #     if start_time_obj > end_time_obj:
+                    #         print('你輸入的日期好像怪怪的 你可以再重新輸入一次嗎')
+                    #     else:
+                    #         print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
+                    #         for k in range(len(data)):
+                    #             if '~' not in data[k]['pdt'][0]:
+                    #                 pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
+                    #                 if start_time_obj <= pdt_obj <= end_time_obj:
+                    #                     found_dates.append(k)
+                    #             # else:
+                    #             #     print('有~ 後面再處理')
+                    #
+                    # print(f'after tag, found_dates = {sorted(found_dates)}')
+                    #
+                    # print('> 處理單獨')
+                    # matches = re.findall(r'year|month|week|day|hour|minute|second|range', section_text)
+                    # # 單獨
+                    # for match in matches:
+                    #     print(f'>> 開始處理單獨標籤: {match}')
+                    #     section_text = section_text[section_text.index(match) + len(match):]
+                    #     check_text, section_text = get_text_before_next_tag(section_text)
+                    #
+                    #     if match == 'range':
+                    #         start_time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
+                    #         end_time_obj = datetime.strptime(matched_time_lines[0][1], "%Y-%m-%d %H:%M:%S")
+                    #
+                    #         if start_time_obj > end_time_obj:
+                    #             print('你輸入的日期好像怪怪的 如果有錯誤的話麻煩再輸入一次')
+                    #         else:
+                    #             print(f'篩選 {start_time_obj} <= something <= {end_time_obj}')
+                    #             for k in range(len(data)):
+                    #                 if '~' not in data[k]['pdt'][0]:
+                    #                     pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
+                    #                     if start_time_obj <= pdt_obj <= end_time_obj:
+                    #                         # print(f'發現! {pdt_obj}')
+                    #                         found_dates.append(k)
+                    #                 # else:
+                    #                 #     print('get_single / range / 有~ 晚點處理')
+                    #
+                    #     elif match == 'year':
+                    #         single_year = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").year
+                    #         print(f'single year = {single_year}')
+                    #
+                    #         print(f'>>> 檢查 "{check_text}" 有無前後')
+                    #         for k in range(len(data)):
+                    #             if '~' not in data[k]['pdt'][0]:
+                    #                 pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
+                    #                 if '前' in check_text and '後' in check_text:
+                    #                     print('不好意思，請問你想要搜尋是前、後還是一整年')
+                    #                 elif '前' in check_text:
+                    #                     if pdt_obj.year < single_year:
+                    #                         found_dates.append(k)
+                    #                 elif '後' in check_text:
+                    #                     if pdt_obj.year > single_year:
+                    #                         found_dates.append(k)
+                    #                 else:
+                    #                     if pdt_obj.year == single_year:
+                    #                         found_dates.append(k)
+                    #             # else:
+                    #             #     print('get_single / year / 有~ 晚點處理')
+                    #
+                    #     elif match == 'month':
+                    #         single_month = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month
+                    #         print(f'single month = {single_month}')
+                    #
+                    #         print(f'>>> 檢查 "{check_text}" 有無前後')
+                    #         for k in range(len(data)):
+                    #             if '~' not in data[k]['pdt'][0]:
+                    #                 pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
+                    #                 if '前' in check_text and '後' in check_text:
+                    #                     print('不好意思，請問你想要搜尋是前、後還是一整個月')
+                    #                 elif '前' in check_text:
+                    #                     if pdt_obj.month < single_month:
+                    #                         found_dates.append(k)
+                    #                 elif '後' in check_text:
+                    #                     if pdt_obj.month > single_month:
+                    #                         found_dates.append(k)
+                    #                 else:
+                    #                     if pdt_obj.month == single_month:
+                    #                         found_dates.append(k)
+                    #             # else:
+                    #             #     print('get_single / month / 有~ 晚點處理')
+                    #
+                    #     elif match == 'week':
+                    #         single_week = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").isocalendar()[1]
+                    #         print(f'single week = {single_week}')
+                    #
+                    #         print(f'>>> 檢查 "{check_text}" 有無前後')
+                    #         for k in range(len(data)):
+                    #             if '~' not in data[k]['pdt'][0]:
+                    #                 pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
+                    #                 pdt_week = pdt_obj.isocalendar()[1]
+                    #                 if '前' in check_text and '後' in check_text:
+                    #                     print('不好意思，請問你想要搜尋是前、後還是一整周')
+                    #                 elif '前' in check_text:
+                    #                     if pdt_week < single_week:
+                    #                         found_dates.append(k)
+                    #                 elif '後' in check_text:
+                    #                     if pdt_week > single_week:
+                    #                         found_dates.append(k)
+                    #                 else:
+                    #                     if pdt_week == single_week:
+                    #                         found_dates.append(k)
+                    #             # else:
+                    #             #     print('get_single / week / 有~ 晚點處理')
+                    #
+                    #     elif match == 'day':
+                    #         single_month = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month
+                    #         single_day = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").day
+                    #         print(f'single day = {single_day}')
+                    #
+                    #         print(f'>>> 檢查 "{check_text}" 有無前後')
+                    #         for k in range(len(data)):
+                    #             if '~' not in data[k]['pdt'][0]:
+                    #                 pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
+                    #                 if '前' in check_text and '後' in check_text:
+                    #                     print('不好意思，請問你想要搜尋是前、後還是一整天')
+                    #                 elif '前' in check_text:
+                    #                     if pdt_obj.day < single_day:
+                    #                         found_dates.append(k)
+                    #                 elif '後' in check_text:
+                    #                     if pdt_obj.day > single_day:
+                    #                         found_dates.append(k)
+                    #                 else:
+                    #                     if pdt_obj.day == single_day and pdt_obj.month == single_month:
+                    #                         found_dates.append(k)
+                    #             # else:
+                    #             #     print('get_single / day / 有~ 晚點處理')
+                    #
+                    #     elif match == 'hour' or match == 'minute':
+                    #         time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
+                    #         print(f'single hour or minute = {time_obj}')
+                    #
+                    #         print(f'>>> 檢查 "{check_text}" 有無前後')
+                    #         for k in range(len(data)):
+                    #             if '~' not in data[k]['pdt'][0]:
+                    #                 pdt_obj = datetime.strptime(data[k]['pdt'][0], "%Y/%m/%d %H:%M")
+                    #                 if '前' in check_text and '後' in check_text:
+                    #                     print('不好意思，請問你想要搜尋是前還是後')
+                    #                 elif '前' in check_text:
+                    #                     if pdt_obj.month == time_obj.month and \
+                    #                             pdt_obj.day == time_obj.day and \
+                    #                             pdt_obj < time_obj:
+                    #                         found_dates.append(k)
+                    #                 elif '後' in check_text:
+                    #                     if pdt_obj.month == time_obj.month and \
+                    #                             pdt_obj.day == time_obj.day and \
+                    #                             pdt_obj > time_obj:
+                    #                         found_dates.append(k)
+                    #                 else:
+                    #                     if pdt_obj.month == time_obj.month and \
+                    #                             pdt_obj.day == time_obj.day and \
+                    #                             pdt_obj == time_obj:
+                    #                         found_dates.append(k)
+                    #             # else:
+                    #             #     print('get_single / hour | minute / 有~ 晚點處理')
+                    #
+                    #     del sim_time_lines[0]
+                    #
+                    # print(f'after single, found_dates = {sorted(found_dates)}')
+                    print(f'found_cities = {sorted(found_cities)}')
+                    print(f'found_dates = {sorted(found_dates)}')
                     print('@@@')
                     current_index = split_indexes[i + 1]
 
                 # 最後一段
+                section_text = text[current_index:]
+                print(f'q1q 這一段文字 "{section_text}"')
                 found_cities = []
                 found_dates = []
                 sim_time_lines = matched_time_lines
@@ -1159,7 +1172,19 @@ def conversation1():
                     for j in range(len(data)):
                         if data[j]['cit'] == city:
                             found_cities.append(j)
+
+                # until
+                found_dates, section_text, sim_time_lines = get_until(found_dates, section_text, sim_time_lines)
+                after_until_text = section_text  # test
+                # single
+                found_dates, section_text, sim_time_lines = get_single(found_dates, section_text, sim_time_lines)
+                after_single_text = section_text  # test
+
+                print(f'after_until_text = {after_until_text}')  # test
+                print(f'after_single_text = {after_single_text}')  # test
+
                 print(f'found_cities = {sorted(found_cities)}')
+                print(f'found_dates = {sorted(found_dates)}')
 
                 ''''''
 
@@ -1260,12 +1285,10 @@ def conversation1():
             print('只有找到日期，沒有城市')
 
             # until
-            found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_until(
-                found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
+            found_dates, text, matched_time_lines = get_until(found_dates, text, matched_time_lines)
             after_until_text = text  # test
             # single
-            found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines = get_single(
-                found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines)
+            found_dates, text, matched_time_lines = get_single(found_dates, text, matched_time_lines)
             after_single_text = text  # test
 
             print(f'after_until_text = {after_until_text}')  # test
@@ -1890,7 +1913,7 @@ def get_city_indexes(text):
     return city_indexes
 
 
-def get_until(found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines):
+def get_until(found_dates, text, matched_time_lines):
     matches = re.findall(
         r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
         text)
@@ -1945,15 +1968,12 @@ def get_until(found_dates, text, time_tags, matched_texts, matched_indexes, matc
                 #     print('get_until / 有~ 晚點處理')
 
         for i in range(2):
-            del time_tags[0]
-            del matched_texts[0]
-            del matched_indexes[0]
             del matched_time_lines[0]
 
-    return found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines
+    return found_dates, text, matched_time_lines
 
 
-def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines):
+def get_single(found_dates, text, matched_time_lines):
     matches = re.findall(r'year|month|week|day|hour|minute|second|range', text)
     # 單獨
     for match in matches:
@@ -2123,12 +2143,9 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
 
         # print(f'---\n剩餘字串 "{text}"\n---')
 
-        del time_tags[0]
-        del matched_texts[0]
-        del matched_indexes[0]
         del matched_time_lines[0]
 
-    return found_dates, text, time_tags, matched_texts, matched_indexes, matched_time_lines
+    return found_dates, text, matched_time_lines
 
 
 # conversation()
