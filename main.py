@@ -877,8 +877,8 @@ def conversation1():
                 print(f'tag / {matches} / {sim_date_indexes}')
 
                 print(f'---\nsim_date_indexes = {sim_date_indexes}')
-                print(f'matched_time_lines: {matched_time_lines}')
                 print(f'sim_city_indexes = {sim_city_indexes}')
+                print(f'matched_time_lines: {matched_time_lines}')
                 print(f'cities: {cities}')
                 print(f'sim_matches = {sim_matches}\n---')
 
@@ -886,22 +886,25 @@ def conversation1():
 
                 sim_text = text
                 split_indexes = []
-                matches = re.findall(
-                    r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
-                    sim_text)
-                for match in matches:
-                    sim_matches.append(match)
-                    start_index = sim_text.find(match)
-                    end_index = start_index + len(match)
-                    split_indexes.append(start_index)
-                    sim_text = sim_text[:start_index] + " " * len(match) + sim_text[end_index:]
-                matches = re.findall(r'year|month|week|day|hour|minute|second|range', sim_text)
-                for match in matches:
-                    sim_matches.append(match)
-                    start_index = sim_text.find(match)
-                    end_index = start_index + len(match)
-                    split_indexes.append(start_index)
-                    sim_text = sim_text[:start_index] + " " * len(match) + sim_text[end_index:]
+                if sim_date_indexes[0] < sim_city_indexes[0]:
+                    matches = re.findall(
+                        r'(?:year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
+                        sim_text)
+                    for match in matches:
+                        sim_matches.append(match)
+                        start_index = sim_text.find(match)
+                        end_index = start_index + len(match)
+                        split_indexes.append(start_index)
+                        sim_text = sim_text[:start_index] + " " * len(match) + sim_text[end_index:]
+                    matches = re.findall(r'year|month|week|day|hour|minute|second|range', sim_text)
+                    for match in matches:
+                        sim_matches.append(match)
+                        start_index = sim_text.find(match)
+                        end_index = start_index + len(match)
+                        split_indexes.append(start_index)
+                        sim_text = sim_text[:start_index] + " " * len(match) + sim_text[end_index:]
+                else:
+                    split_indexes = sim_city_indexes
                 print(f'split_indexes = {split_indexes}\n---')
 
                 ''''''
