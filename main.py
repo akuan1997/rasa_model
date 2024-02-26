@@ -910,6 +910,7 @@ def conversation1():
                 ''''''
 
                 current_index = 0
+                show_all_info_indexes = []
                 # 每一段文字的城市以及日期
                 for i in range(len(split_indexes) - 1):
                     sim_cities = []
@@ -954,6 +955,10 @@ def conversation1():
                     print(f'after_single_text = {after_single_text}')  # test
 
                     ''''''
+
+                    show_info_indexes = [index for index in found_cities if index in found_dates]
+                    for index in show_info_indexes:
+                        show_all_info_indexes.append(index)
 
                     # show_info_indexes = [index for index in found_cities if index in found_dates]
                     # matches = re.findall(
@@ -1159,6 +1164,7 @@ def conversation1():
                     # print(f'after single, found_dates = {sorted(found_dates)}')
                     print(f'found_cities = {sorted(found_cities)}')
                     print(f'found_dates = {sorted(found_dates)}')
+                    print(f'show_info_indexes = {sorted(show_info_indexes)}')
                     print('@@@')
                     current_index = split_indexes[i + 1]
 
@@ -1183,14 +1189,20 @@ def conversation1():
                 found_dates, section_text, sim_time_lines = get_single(found_dates, section_text, sim_time_lines)
                 after_single_text = section_text  # test
 
+                show_info_indexes = [index for index in found_cities if index in found_dates]
+                for index in show_info_indexes:
+                    show_all_info_indexes.append(index)
+                    
                 print(f'after_until_text = {after_until_text}')  # test
                 print(f'after_single_text = {after_single_text}')  # test
 
                 print(f'found_cities = {sorted(found_cities)}')
                 print(f'found_dates = {sorted(found_dates)}')
-
+                print(f'show_info_indexes = {sorted(show_info_indexes)}')
+                
                 ''''''
 
+                print(f'show_all_info_indexes = {sorted(show_all_info_indexes)}')
                 # # 先日期 再城市
                 # text_sections = []
                 # if sim_date_indexes[0] < sim_city_indexes[0]:
