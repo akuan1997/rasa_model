@@ -45,8 +45,7 @@ def conversation():
 
                 duckling_result = d.parse_time(f'下周{match[1]}')
                 time_line = str(duckling_result[0]['value']['value']).replace('T', ' ').replace('.000+08:00', '')
-                time_line = str(
-                    datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match[0]) - 1)))
+                time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7 * (len(match[0]) - 1)))
                 if match[1] == '六' or match[1] == '日':
                     time_line = str(datetime.strptime(time_line, "%Y-%m-%d %H:%M:%S") + timedelta(days=7))
 
@@ -1861,6 +1860,7 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                 #     print('get_single / week / 有~ 晚點處理')
 
         elif match == 'day':
+            single_month = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").month
             single_day = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S").day
             print(f'single day = {single_day}')
 
@@ -1881,7 +1881,7 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                             # print(f'篩選 pdt day > {single_day}')
                             found_dates.append(i)
                     else:
-                        if pdt_obj.day == single_day:
+                        if pdt_obj.day == single_day and pdt_obj.month == single_month:
                             # print(f'篩選 pdt day == {single_day}')
                             found_dates.append(i)
                 # else:
@@ -1889,6 +1889,8 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
 
         elif match == 'hour' or match == 'minute':
             time_obj = datetime.strptime(matched_time_lines[0][0], "%Y-%m-%d %H:%M:%S")
+            single_month = time_obj.month
+            single_day = time_obj.day
             print(f'single hour or minute = {time_obj}')
 
             print(f'>> 檢查 "{check_text}" 有無前後')
@@ -1898,18 +1900,20 @@ def get_single(found_dates, text, time_tags, matched_texts, matched_indexes, mat
                     if '前' in check_text and '後' in check_text:
                         print('不好意思，請問你想要搜尋是前還是後')
                     elif '前' in check_text:
-                        # print('發現"前"')
-                        if pdt_obj < time_obj and pdt_obj.day == time_obj.day:
-                            # print(f'篩選 pdt hour < {time_obj}')
+                        if pdt_obj.month == time_obj.month and \
+                                pdt_obj.day == time_obj.day and \
+                                pdt_obj < time_obj:
                             found_dates.append(i)
                     elif '後' in check_text:
                         # print('發現"後"')
-                        if pdt_obj > time_obj and pdt_obj.day == time_obj.day:
-                            # print(f'篩選 pdt hour > {time_obj}')
+                        if pdt_obj.month == time_obj.month and \
+                                pdt_obj.day == time_obj.day and \
+                                pdt_obj > time_obj:
                             found_dates.append(i)
                     else:
-                        if pdt_obj == time_obj and pdt_obj.day == time_obj.day:
-                            # print(f'篩選 pdt hour == {time_obj}')
+                        if pdt_obj.month == time_obj.month and \
+                                pdt_obj.day == time_obj.day and \
+                                pdt_obj == time_obj:
                             found_dates.append(i)
                 # else:
                 #     print('get_single / hour | minute / 有~ 晚點處理')

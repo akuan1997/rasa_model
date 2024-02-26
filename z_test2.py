@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import re
 import calendar
+import json
 
 # 獲取當前日期
 current_date = datetime.now()
@@ -70,3 +71,11 @@ text = '下周到下下周 123123123123'
 print(text[:3])
 print(text[6:])
 print(f"{' ' * len(text)}")
+
+
+with open('concert.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+
+indexes = [94, 137, 174]
+for index in indexes:
+    print(data[index]['pdt'])
