@@ -126,4 +126,25 @@ def kuannn():
         '我想要請問三月到四月的台北 還有三月的新竹 有哪些演唱會',
         '我想要請問二月台北、三月新竹還有四月桃園有什麼演唱會',
     ]
-    return texts
+
+    texts2 = [
+        # 'March 7 in taipei',
+        # 'next week',
+        # 'in 2 weeks',
+        # 'next week',
+        # '3/10 night',
+        # '3/10 morning to 3/12 night',
+        # 'from 3/11 to 3/16',
+        # 'do you know any hip hop festivals on Feb 2nd?',
+        # 'I want to know concerts in march and april',
+        # 'could you tell me any concerts before May?',
+        'after May',
+        'before may',
+        'before 3/10',
+        'after 3/10 10:00',
+        'in 2024',
+        '2024',
+        'after 2024'
+    ]
+
+    return texts2

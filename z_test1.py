@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import calendar
 
 
-def get_until_tags(text):
+def zh_get_until_tags(text):
     tag1 = re.findall(
         r'(year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
         text)
@@ -268,7 +268,7 @@ def conversation():
 
                 for match in matches:
                     print(match)
-                    tag1, tag2 = get_until_tags(match)
+                    tag1, tag2 = zh_get_until_tags(match)
                     print(f'until {tag1}, {tag2}')
                     # tag1到tag2
                     # tag1 的開頭都會是 matched_time_lines[0][0]

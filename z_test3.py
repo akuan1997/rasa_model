@@ -191,7 +191,7 @@ def sort_index(matched_indexes, matched_texts):
 # text = '123'
 # match = re.findall(r'year|month|week|day|hour|minute|second|range', text)
 # print(match)
-def get_until_tags(text):
+def zh_get_until_tags(text):
     tag1 = re.findall(
         r'(year|month|week|day|hour|minute|second|range).*?到.*?(?:year|month|week|day|hour|minute|second|range)',
         text)
@@ -209,7 +209,7 @@ while re.findall(r'year|month|week|day|hour|minute|second|range', text):
     # tag到tag
     for match in matches:
         print(match)
-        tag1, tag2 = get_until_tags(match)
+        tag1, tag2 = zh_get_until_tags(match)
         print(f'until {tag1}, {tag2}')
         text = text.replace(match, '')
         # search_tags.append(match)
@@ -391,3 +391,9 @@ def get_city_indexes(text):
 
 
 get_city_indexes('屏東和桃園')
+
+a = ['None', '1234']
+if a[0]:
+    print('yes')
+else:
+    print('no')

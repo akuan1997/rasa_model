@@ -1,0 +1,764 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_UNCAUGHT_CXX_EXCEPTION (0xe06d7363) at pc=0x00007ffbfb275b0c, pid=33192, tid=0x000000000000afcc
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_401) (build 1.8.0_401-b10)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.401-b10 mixed mode windows-amd64 compressed oops)
+# Problematic frame:
+# C  [KERNELBASE.dll+0x65b0c]
+#
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000013b0cf64000):  JavaThread "main" [_thread_in_native, id=45004, stack(0x0000000e46000000,0x0000000e461f0000)]
+
+siginfo: ExceptionCode=0xe06d7363, ExceptionInformation=0x0000000019930520 0x0000000e461e2028 0x00007ffaef9890a8 0x00007ffaef920000 
+
+Registers:
+RAX=0x0000013b00000001, RBX=0x0000000e461e1700, RCX=0x0000013b00000000, RDX=0x0000013b23ee3ac8
+RSP=0x0000000e461dfc40, RBP=0x0000000e461e0320, RSI=0x0000000e461e1ec0, RDI=0x0000000e461e0ad0
+R8 =0x00007ffa00000001, R9 =0x0000000e27eaa7e0, R10=0x0000013b002810c8, R11=0x0000000e27eda7f8
+R12=0x0000000000000000, R13=0x0000000e461dfda8, R14=0x0000000000000002, R15=0x0000000e461e0c38
+RIP=0x00007ffbfb275b0c, EFLAGS=0x0000000000000206
+
+Top of Stack: (sp=0x0000000e461dfc40)
+0x0000000e461dfc40:   0000000000000000 0000000e461e1700
+0x0000000e461dfc50:   0000000e461e1ec0 00007ffaef93bda1
+0x0000000e461dfc60:   00000081e06d7363 0000000000000000
+0x0000000e461dfc70:   00007ffbfb275b0c 0000000000000004
+0x0000000e461dfc80:   0000000019930520 0000000e461e2028
+0x0000000e461dfc90:   00007ffaef9890a8 00007ffaef920000
+0x0000000e461dfca0:   0000781c31dd5a2d 00007ffaef970382
+0x0000000e461dfcb0:   0000000e461e1700 00007ffbd7d73489
+0x0000000e461dfcc0:   0000000e00000000 00007ffbd7d780e4
+0x0000000e461dfcd0:   00007ffbf17e62b0 00007ffbf17e6280
+0x0000000e461dfce0:   0000000e461e0ad0 00007ffbd7d733c9
+0x0000000e461dfcf0:   0000000e461e1700 0000000e461e1ec0
+0x0000000e461dfd00:   0000543ccc87798b 00007ffbf17e6280
+0x0000000e461dfd10:   0000000e461e1700 00007ffbd7d72743
+0x0000000e461dfd20:   00007ffaef970340 0000000e461e0c38
+0x0000000e461dfd30:   0000000100000100 0000000000000000 
+
+Instructions: (pc=0x00007ffbfb275b0c)
+0x00007ffbfb275aec:   0f 46 c0 44 8b c0 44 89 44 24 38 49 c1 e0 03 e8
+0x00007ffbfb275afc:   c7 f2 05 00 48 8d 4c 24 20 48 ff 15 44 ae 1f 00
+0x00007ffbfb275b0c:   0f 1f 44 00 00 48 8b 8c 24 c0 00 00 00 48 33 cc
+0x00007ffbfb275b1c:   e8 5f 2f 05 00 48 81 c4 d8 00 00 00 c3 cc 83 64 
+
+
+Register to memory mapping:
+
+RAX=0x0000013b00000001 is an unknown value
+RBX=0x0000000e461e1700 is pointing into the stack for thread: 0x0000013b0cf64000
+RCX=0x0000013b00000000 is an unknown value
+RDX={method} {0x0000013b23ee3ad0} 'length' '()I' in 'java/lang/String'
+RSP=0x0000000e461dfc40 is pointing into the stack for thread: 0x0000013b0cf64000
+RBP=0x0000000e461e0320 is pointing into the stack for thread: 0x0000013b0cf64000
+RSI=0x0000000e461e1ec0 is pointing into the stack for thread: 0x0000013b0cf64000
+RDI=0x0000000e461e0ad0 is pointing into the stack for thread: 0x0000013b0cf64000
+R8 =0x00007ffa00000001 is an unknown value
+R9 =0x0000000e27eaa7e0 is an unknown value
+R10=0x0000013b002810c8 is an unknown value
+R11=0x0000000e27eda7f8 is an unknown value
+R12=0x0000000000000000 is an unknown value
+R13=0x0000000e461dfda8 is pointing into the stack for thread: 0x0000013b0cf64000
+R14=0x0000000000000002 is an unknown value
+R15=0x0000000e461e0c38 is pointing into the stack for thread: 0x0000013b0cf64000
+
+
+Stack: [0x0000000e46000000,0x0000000e461f0000],  sp=0x0000000e461dfc40,  free space=1919k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [KERNELBASE.dll+0x65b0c]
+C  [VCRUNTIME140_1.dll+0x2743]
+C  [ntdll.dll+0xa3c66]
+C  [_jpype.cp310-win_amd64.pyd+0x3c645]
+C  [_jpype.cp310-win_amd64.pyd+0x3cec2]
+C  [_jpype.cp310-win_amd64.pyd+0x2be0b]
+C  0x0000013b10802018
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J 1117  org.jpype.manager.TypeFactoryNative.newWrapper(JJ)V (0 bytes) @ 0x0000013b10801f7b [0x0000013b10801f40+0x3b]
+J 1101 C1 org.jpype.JPypeContext.newWrapper(J)V (34 bytes) @ 0x0000013b107f399c [0x0000013b107f3800+0x19c]
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0000013b271ec000 JavaThread "SIGINT handler" daemon [_thread_blocked, id=16468, stack(0x0000000e755a0000,0x0000000e75790000)]
+  0x0000013b271ea800 JavaThread "clojure-agent-send-off-pool-366" [_thread_blocked, id=40160, stack(0x0000000e753b0000,0x0000000e755a0000)]
+  0x0000013b271e9000 JavaThread "clojure-agent-send-off-pool-365" [_thread_blocked, id=50712, stack(0x0000000e751c0000,0x0000000e753b0000)]
+  0x0000013b271e8800 JavaThread "clojure-agent-send-off-pool-364" [_thread_blocked, id=25000, stack(0x0000000e74fd0000,0x0000000e751c0000)]
+  0x0000013b271e4800 JavaThread "clojure-agent-send-off-pool-363" [_thread_blocked, id=25588, stack(0x0000000e74de0000,0x0000000e74fd0000)]
+  0x0000013b271e4000 JavaThread "clojure-agent-send-off-pool-362" [_thread_blocked, id=50956, stack(0x0000000e465d0000,0x0000000e467c0000)]
+  0x0000013b271e7800 JavaThread "clojure-agent-send-off-pool-361" [_thread_blocked, id=41144, stack(0x0000000e463e0000,0x0000000e465d0000)]
+  0x0000013b271e6000 JavaThread "clojure-agent-send-off-pool-360" [_thread_blocked, id=50648, stack(0x0000000e461f0000,0x0000000e463e0000)]
+  0x0000013b271e1800 JavaThread "clojure-agent-send-off-pool-359" [_thread_blocked, id=42496, stack(0x0000000e74bf0000,0x0000000e74de0000)]
+  0x0000013b271e0800 JavaThread "clojure-agent-send-off-pool-358" [_thread_blocked, id=10624, stack(0x0000000e74a00000,0x0000000e74bf0000)]
+  0x0000013b271e0000 JavaThread "clojure-agent-send-off-pool-357" [_thread_blocked, id=23560, stack(0x0000000e74810000,0x0000000e74a00000)]
+  0x0000013b271da800 JavaThread "clojure-agent-send-off-pool-356" [_thread_blocked, id=16492, stack(0x0000000e74620000,0x0000000e74810000)]
+  0x0000013b271df000 JavaThread "clojure-agent-send-off-pool-355" [_thread_blocked, id=18572, stack(0x0000000e74430000,0x0000000e74620000)]
+  0x0000013b271de800 JavaThread "clojure-agent-send-off-pool-354" [_thread_blocked, id=404, stack(0x0000000e74240000,0x0000000e74430000)]
+  0x0000013b271dd800 JavaThread "clojure-agent-send-off-pool-353" [_thread_blocked, id=50732, stack(0x0000000e74050000,0x0000000e74240000)]
+  0x0000013b271d3000 JavaThread "clojure-agent-send-off-pool-352" [_thread_blocked, id=29036, stack(0x0000000e73e60000,0x0000000e74050000)]
+  0x0000013b271d7000 JavaThread "clojure-agent-send-off-pool-351" [_thread_blocked, id=49172, stack(0x0000000e73c70000,0x0000000e73e60000)]
+  0x0000013b271da000 JavaThread "clojure-agent-send-off-pool-350" [_thread_blocked, id=42500, stack(0x0000000e73a80000,0x0000000e73c70000)]
+  0x0000013b271d9000 JavaThread "clojure-agent-send-off-pool-349" [_thread_blocked, id=48744, stack(0x0000000e73890000,0x0000000e73a80000)]
+  0x0000013b271d8800 JavaThread "clojure-agent-send-off-pool-348" [_thread_blocked, id=5180, stack(0x0000000e736a0000,0x0000000e73890000)]
+  0x0000013b271d6000 JavaThread "clojure-agent-send-off-pool-347" [_thread_blocked, id=47588, stack(0x0000000e734b0000,0x0000000e736a0000)]
+  0x0000013b271d7800 JavaThread "clojure-agent-send-off-pool-346" [_thread_blocked, id=12836, stack(0x0000000e732c0000,0x0000000e734b0000)]
+  0x0000013b271d5800 JavaThread "clojure-agent-send-off-pool-345" [_thread_blocked, id=28116, stack(0x0000000e730d0000,0x0000000e732c0000)]
+  0x0000013b271d2800 JavaThread "clojure-agent-send-off-pool-344" [_thread_blocked, id=42100, stack(0x0000000e72ee0000,0x0000000e730d0000)]
+  0x0000013b271d4800 JavaThread "clojure-agent-send-off-pool-343" [_thread_blocked, id=44392, stack(0x0000000e72cf0000,0x0000000e72ee0000)]
+  0x0000013b271cb800 JavaThread "clojure-agent-send-off-pool-342" [_thread_blocked, id=16340, stack(0x0000000e72b00000,0x0000000e72cf0000)]
+  0x0000013b271d1800 JavaThread "clojure-agent-send-off-pool-341" [_thread_blocked, id=41236, stack(0x0000000e72910000,0x0000000e72b00000)]
+  0x0000013b271d1000 JavaThread "clojure-agent-send-off-pool-340" [_thread_blocked, id=14096, stack(0x0000000e72720000,0x0000000e72910000)]
+  0x0000013b271c9800 JavaThread "clojure-agent-send-off-pool-339" [_thread_blocked, id=26796, stack(0x0000000e72530000,0x0000000e72720000)]
+  0x0000013b271d0000 JavaThread "clojure-agent-send-off-pool-338" [_thread_blocked, id=47288, stack(0x0000000e72340000,0x0000000e72530000)]
+  0x0000013b271cb000 JavaThread "clojure-agent-send-off-pool-337" [_thread_blocked, id=48708, stack(0x0000000e72150000,0x0000000e72340000)]
+  0x0000013b271ce800 JavaThread "clojure-agent-send-off-pool-336" [_thread_blocked, id=50504, stack(0x0000000e71f60000,0x0000000e72150000)]
+  0x0000013b271ce000 JavaThread "clojure-agent-send-off-pool-335" [_thread_blocked, id=42068, stack(0x0000000e71d70000,0x0000000e71f60000)]
+  0x0000013b271cf800 JavaThread "clojure-agent-send-off-pool-334" [_thread_blocked, id=48104, stack(0x0000000e71b80000,0x0000000e71d70000)]
+  0x0000013b271c7000 JavaThread "clojure-agent-send-off-pool-333" [_thread_blocked, id=20520, stack(0x0000000e71990000,0x0000000e71b80000)]
+  0x0000013b271cd000 JavaThread "clojure-agent-send-off-pool-332" [_thread_blocked, id=26872, stack(0x0000000e717a0000,0x0000000e71990000)]
+  0x0000013b271ca000 JavaThread "clojure-agent-send-off-pool-331" [_thread_blocked, id=38960, stack(0x0000000e715b0000,0x0000000e717a0000)]
+  0x0000013b271cc800 JavaThread "clojure-agent-send-off-pool-330" [_thread_blocked, id=6152, stack(0x0000000e713c0000,0x0000000e715b0000)]
+  0x0000013b271c8000 JavaThread "clojure-agent-send-off-pool-329" [_thread_blocked, id=41252, stack(0x0000000e711d0000,0x0000000e713c0000)]
+  0x0000013b271c8800 JavaThread "clojure-agent-send-off-pool-328" [_thread_blocked, id=43964, stack(0x0000000e70fe0000,0x0000000e711d0000)]
+  0x0000013b276a6000 JavaThread "clojure-agent-send-off-pool-327" [_thread_blocked, id=1668, stack(0x0000000e70df0000,0x0000000e70fe0000)]
+  0x0000013b276ac000 JavaThread "clojure-agent-send-off-pool-326" [_thread_blocked, id=26984, stack(0x0000000e70c00000,0x0000000e70df0000)]
+  0x0000013b276a4800 JavaThread "clojure-agent-send-off-pool-325" [_thread_blocked, id=47428, stack(0x0000000e70a10000,0x0000000e70c00000)]
+  0x0000013b276ab000 JavaThread "clojure-agent-send-off-pool-324" [_thread_blocked, id=45284, stack(0x0000000e70820000,0x0000000e70a10000)]
+  0x0000013b276aa800 JavaThread "clojure-agent-send-off-pool-323" [_thread_blocked, id=50592, stack(0x0000000e70630000,0x0000000e70820000)]
+  0x0000013b276a3000 JavaThread "clojure-agent-send-off-pool-322" [_thread_blocked, id=40912, stack(0x0000000e70440000,0x0000000e70630000)]
+  0x0000013b276a9800 JavaThread "clojure-agent-send-off-pool-321" [_thread_blocked, id=31280, stack(0x0000000e70250000,0x0000000e70440000)]
+  0x0000013b276a2000 JavaThread "clojure-agent-send-off-pool-320" [_thread_blocked, id=40012, stack(0x0000000e70060000,0x0000000e70250000)]
+  0x0000013b276a9000 JavaThread "clojure-agent-send-off-pool-319" [_thread_blocked, id=42408, stack(0x0000000e6fe70000,0x0000000e70060000)]
+  0x0000013b276a5000 JavaThread "clojure-agent-send-off-pool-318" [_thread_blocked, id=30224, stack(0x0000000e6fc80000,0x0000000e6fe70000)]
+  0x0000013b276a8000 JavaThread "clojure-agent-send-off-pool-317" [_thread_blocked, id=48112, stack(0x0000000e6fa90000,0x0000000e6fc80000)]
+  0x0000013b276a3800 JavaThread "clojure-agent-send-off-pool-316" [_thread_blocked, id=25240, stack(0x0000000e6f8a0000,0x0000000e6fa90000)]
+  0x0000013b276a1800 JavaThread "clojure-agent-send-off-pool-315" [_thread_in_vm, id=50060, stack(0x0000000e6f6b0000,0x0000000e6f8a0000)]
+  0x0000013b276a0800 JavaThread "clojure-agent-send-off-pool-314" [_thread_blocked, id=43272, stack(0x0000000e6f4c0000,0x0000000e6f6b0000)]
+  0x0000013b276a7800 JavaThread "clojure-agent-send-off-pool-313" [_thread_blocked, id=20484, stack(0x0000000e6f2d0000,0x0000000e6f4c0000)]
+  0x0000013b276a0000 JavaThread "clojure-agent-send-off-pool-312" [_thread_blocked, id=38716, stack(0x0000000e6f0e0000,0x0000000e6f2d0000)]
+  0x0000013b276a6800 JavaThread "clojure-agent-send-off-pool-311" [_thread_blocked, id=6376, stack(0x0000000e6eef0000,0x0000000e6f0e0000)]
+  0x0000013b27698000 JavaThread "clojure-agent-send-off-pool-281" [_thread_blocked, id=32400, stack(0x0000000e6ed00000,0x0000000e6eef0000)]
+  0x0000013b2769f000 JavaThread "clojure-agent-send-off-pool-310" [_thread_blocked, id=30064, stack(0x0000000e6eb10000,0x0000000e6ed00000)]
+  0x0000013b2769a800 JavaThread "clojure-agent-send-off-pool-309" [_thread_blocked, id=12992, stack(0x0000000e6e920000,0x0000000e6eb10000)]
+  0x0000013b27699000 JavaThread "clojure-agent-send-off-pool-308" [_thread_blocked, id=47432, stack(0x0000000e6e730000,0x0000000e6e920000)]
+  0x0000013b2769c800 JavaThread "clojure-agent-send-off-pool-283" [_thread_blocked, id=19256, stack(0x0000000e6e540000,0x0000000e6e730000)]
+  0x0000013b2769c000 JavaThread "clojure-agent-send-off-pool-301" [_thread_blocked, id=44156, stack(0x0000000e6e350000,0x0000000e6e540000)]
+  0x0000013b2769d800 JavaThread "clojure-agent-send-off-pool-303" [_thread_blocked, id=42004, stack(0x0000000e6e160000,0x0000000e6e350000)]
+  0x0000013b2769b000 JavaThread "clojure-agent-send-off-pool-307" [_thread_blocked, id=39840, stack(0x0000000e6df70000,0x0000000e6e160000)]
+  0x0000013b27699800 JavaThread "clojure-agent-send-off-pool-306" [_thread_blocked, id=43860, stack(0x0000000e6dd80000,0x0000000e6df70000)]
+  0x0000013b2769e000 JavaThread "clojure-agent-send-off-pool-305" [_thread_blocked, id=28420, stack(0x0000000e6db90000,0x0000000e6dd80000)]
+  0x0000013b27690800 JavaThread "clojure-agent-send-off-pool-304" [_thread_blocked, id=18528, stack(0x0000000e6d9a0000,0x0000000e6db90000)]
+  0x0000013b27697800 JavaThread "clojure-agent-send-off-pool-242" [_thread_blocked, id=23120, stack(0x0000000e6d7b0000,0x0000000e6d9a0000)]
+  0x0000013b27696000 JavaThread "clojure-agent-send-off-pool-302" [_thread_blocked, id=24008, stack(0x0000000e6d5c0000,0x0000000e6d7b0000)]
+  0x0000013b27695000 JavaThread "clojure-agent-send-off-pool-300" [_thread_blocked, id=48300, stack(0x0000000e6d3d0000,0x0000000e6d5c0000)]
+  0x0000013b27696800 JavaThread "clojure-agent-send-off-pool-299" [_thread_blocked, id=46856, stack(0x0000000e6d1e0000,0x0000000e6d3d0000)]
+  0x0000013b27694800 JavaThread "clojure-agent-send-off-pool-298" [_thread_blocked, id=44004, stack(0x0000000e6cff0000,0x0000000e6d1e0000)]
+  0x0000013b2768d800 JavaThread "clojure-agent-send-off-pool-297" [_thread_blocked, id=43356, stack(0x0000000e6ce00000,0x0000000e6cff0000)]
+  0x0000013b27693800 JavaThread "clojure-agent-send-off-pool-296" [_thread_blocked, id=27932, stack(0x0000000e6cc10000,0x0000000e6ce00000)]
+  0x0000013b27692000 JavaThread "clojure-agent-send-off-pool-295" [_thread_blocked, id=48076, stack(0x0000000e6ca20000,0x0000000e6cc10000)]
+  0x0000013b2768e800 JavaThread "clojure-agent-send-off-pool-294" [_thread_blocked, id=3432, stack(0x0000000e6c830000,0x0000000e6ca20000)]
+  0x0000013b27693000 JavaThread "clojure-agent-send-off-pool-293" [_thread_blocked, id=47876, stack(0x0000000e6c640000,0x0000000e6c830000)]
+  0x0000013b27691800 JavaThread "clojure-agent-send-off-pool-292" [_thread_blocked, id=12668, stack(0x0000000e6c450000,0x0000000e6c640000)]
+  0x0000013b27690000 JavaThread "clojure-agent-send-off-pool-291" [_thread_blocked, id=40548, stack(0x0000000e6c260000,0x0000000e6c450000)]
+  0x0000013b2768d000 JavaThread "clojure-agent-send-off-pool-290" [_thread_blocked, id=50428, stack(0x0000000e6c070000,0x0000000e6c260000)]
+  0x0000013b2768f000 JavaThread "clojure-agent-send-off-pool-289" [_thread_blocked, id=41532, stack(0x0000000e6be80000,0x0000000e6c070000)]
+  0x0000013b2a55c000 JavaThread "clojure-agent-send-off-pool-288" [_thread_blocked, id=46912, stack(0x0000000e6bc90000,0x0000000e6be80000)]
+  0x0000013b2a562000 JavaThread "clojure-agent-send-off-pool-287" [_thread_blocked, id=46944, stack(0x0000000e6baa0000,0x0000000e6bc90000)]
+  0x0000013b2a562800 JavaThread "clojure-agent-send-off-pool-286" [_thread_blocked, id=6408, stack(0x0000000e6b8b0000,0x0000000e6baa0000)]
+  0x0000013b2a561000 JavaThread "clojure-agent-send-off-pool-285" [_thread_blocked, id=46236, stack(0x0000000e6b6c0000,0x0000000e6b8b0000)]
+  0x0000013b2a560800 JavaThread "clojure-agent-send-off-pool-284" [_thread_blocked, id=31792, stack(0x0000000e6b4d0000,0x0000000e6b6c0000)]
+  0x0000013b2a55f800 JavaThread "clojure-agent-send-off-pool-282" [_thread_blocked, id=47952, stack(0x0000000e6b2e0000,0x0000000e6b4d0000)]
+  0x0000013b2a558000 JavaThread "clojure-agent-send-off-pool-280" [_thread_blocked, id=40840, stack(0x0000000e6b0f0000,0x0000000e6b2e0000)]
+  0x0000013b2a55f000 JavaThread "clojure-agent-send-off-pool-255" [_thread_blocked, id=2388, stack(0x0000000e6af00000,0x0000000e6b0f0000)]
+  0x0000013b2a55b000 JavaThread "clojure-agent-send-off-pool-279" [_thread_blocked, id=10948, stack(0x0000000e6ad10000,0x0000000e6af00000)]
+  0x0000013b2a557800 JavaThread "clojure-agent-send-off-pool-270" [_thread_blocked, id=35452, stack(0x0000000e6ab20000,0x0000000e6ad10000)]
+  0x0000013b2a55d800 JavaThread "clojure-agent-send-off-pool-278" [_thread_blocked, id=15404, stack(0x0000000e6a930000,0x0000000e6ab20000)]
+  0x0000013b2a55e000 JavaThread "clojure-agent-send-off-pool-277" [_thread_blocked, id=48012, stack(0x0000000e6a740000,0x0000000e6a930000)]
+  0x0000013b2a559000 JavaThread "clojure-agent-send-off-pool-276" [_thread_blocked, id=50096, stack(0x0000000e6a550000,0x0000000e6a740000)]
+  0x0000013b2a55c800 JavaThread "clojure-agent-send-off-pool-275" [_thread_blocked, id=49580, stack(0x0000000e6a360000,0x0000000e6a550000)]
+  0x0000013b2a559800 JavaThread "clojure-agent-send-off-pool-274" [_thread_blocked, id=47768, stack(0x0000000e6a170000,0x0000000e6a360000)]
+  0x0000013b2a55a800 JavaThread "clojure-agent-send-off-pool-273" [_thread_blocked, id=15748, stack(0x0000000e69f80000,0x0000000e6a170000)]
+  0x0000013b2a550000 JavaThread "clojure-agent-send-off-pool-272" [_thread_blocked, id=48668, stack(0x0000000e69d90000,0x0000000e69f80000)]
+  0x0000013b2a550800 JavaThread "clojure-agent-send-off-pool-271" [_thread_blocked, id=37968, stack(0x0000000e69ba0000,0x0000000e69d90000)]
+  0x0000013b2a556800 JavaThread "clojure-agent-send-off-pool-196" [_thread_blocked, id=32644, stack(0x0000000e699b0000,0x0000000e69ba0000)]
+  0x0000013b2a54f000 JavaThread "clojure-agent-send-off-pool-197" [_thread_blocked, id=44996, stack(0x0000000e697c0000,0x0000000e699b0000)]
+  0x0000013b2a556000 JavaThread "clojure-agent-send-off-pool-269" [_thread_blocked, id=43900, stack(0x0000000e695d0000,0x0000000e697c0000)]
+  0x0000013b2a551800 JavaThread "clojure-agent-send-off-pool-268" [_thread_blocked, id=42724, stack(0x0000000e693e0000,0x0000000e695d0000)]
+  0x0000013b2a554800 JavaThread "clojure-agent-send-off-pool-267" [_thread_blocked, id=41556, stack(0x0000000e691f0000,0x0000000e693e0000)]
+  0x0000013b2a54e800 JavaThread "clojure-agent-send-off-pool-266" [_thread_blocked, id=31644, stack(0x0000000e69000000,0x0000000e691f0000)]
+  0x0000013b2a553800 JavaThread "clojure-agent-send-off-pool-198" [_thread_blocked, id=2524, stack(0x0000000e68e10000,0x0000000e69000000)]
+  0x0000013b2a553000 JavaThread "clojure-agent-send-off-pool-265" [_thread_blocked, id=41600, stack(0x0000000e68c20000,0x0000000e68e10000)]
+  0x0000013b2a552000 JavaThread "clojure-agent-send-off-pool-264" [_thread_blocked, id=41704, stack(0x0000000e68a30000,0x0000000e68c20000)]
+  0x0000013b2a555000 JavaThread "clojure-agent-send-off-pool-263" [_thread_blocked, id=49812, stack(0x0000000e68840000,0x0000000e68a30000)]
+  0x0000013b2a546800 JavaThread "clojure-agent-send-off-pool-262" [_thread_blocked, id=38892, stack(0x0000000e68650000,0x0000000e68840000)]
+  0x0000013b2a54d800 JavaThread "clojure-agent-send-off-pool-261" [_thread_blocked, id=50824, stack(0x0000000e68460000,0x0000000e68650000)]
+  0x0000013b2a54a800 JavaThread "clojure-agent-send-off-pool-260" [_thread_blocked, id=26464, stack(0x0000000e68270000,0x0000000e68460000)]
+  0x0000013b2a54a000 JavaThread "clojure-agent-send-off-pool-259" [_thread_blocked, id=11816, stack(0x0000000e68080000,0x0000000e68270000)]
+  0x0000013b2a546000 JavaThread "clojure-agent-send-off-pool-258" [_thread_blocked, id=47864, stack(0x0000000e67e90000,0x0000000e68080000)]
+  0x0000013b2a549000 JavaThread "clojure-agent-send-off-pool-257" [_thread_blocked, id=34520, stack(0x0000000e67ca0000,0x0000000e67e90000)]
+  0x0000013b2a54b800 JavaThread "clojure-agent-send-off-pool-256" [_thread_blocked, id=47412, stack(0x0000000e67ab0000,0x0000000e67ca0000)]
+  0x0000013b2a548000 JavaThread "clojure-agent-send-off-pool-254" [_thread_blocked, id=48624, stack(0x0000000e678c0000,0x0000000e67ab0000)]
+  0x0000013b2a54d000 JavaThread "clojure-agent-send-off-pool-253" [_thread_blocked, id=37572, stack(0x0000000e676d0000,0x0000000e678c0000)]
+  0x0000013b2a54c000 JavaThread "clojure-agent-send-off-pool-252" [_thread_blocked, id=49380, stack(0x0000000e674e0000,0x0000000e676d0000)]
+  0x0000013b2a543800 JavaThread "clojure-agent-send-off-pool-251" [_thread_blocked, id=956, stack(0x0000000e672f0000,0x0000000e674e0000)]
+  0x0000013b2a547800 JavaThread "clojure-agent-send-off-pool-250" [_thread_blocked, id=33248, stack(0x0000000e67100000,0x0000000e672f0000)]
+  0x0000013b2a545000 JavaThread "clojure-agent-send-off-pool-249" [_thread_blocked, id=50940, stack(0x0000000e66f10000,0x0000000e67100000)]
+  0x0000013b2a544800 JavaThread "clojure-agent-send-off-pool-213" [_thread_blocked, id=11036, stack(0x0000000e66d20000,0x0000000e66f10000)]
+  0x0000013b2968c800 JavaThread "clojure-agent-send-off-pool-248" [_thread_blocked, id=51144, stack(0x0000000e66b30000,0x0000000e66d20000)]
+  0x0000013b2968b800 JavaThread "clojure-agent-send-off-pool-215" [_thread_blocked, id=9196, stack(0x0000000e66940000,0x0000000e66b30000)]
+  0x0000013b2968b000 JavaThread "clojure-agent-send-off-pool-247" [_thread_blocked, id=40220, stack(0x0000000e66750000,0x0000000e66940000)]
+  0x0000013b29689000 JavaThread "clojure-agent-send-off-pool-246" [_thread_blocked, id=3004, stack(0x0000000e66560000,0x0000000e66750000)]
+  0x0000013b29688800 JavaThread "clojure-agent-send-off-pool-245" [_thread_blocked, id=30388, stack(0x0000000e66370000,0x0000000e66560000)]
+  0x0000013b2968a000 JavaThread "clojure-agent-send-off-pool-244" [_thread_blocked, id=24352, stack(0x0000000e66180000,0x0000000e66370000)]
+  0x0000013b2968d000 JavaThread "clojure-agent-send-off-pool-217" [_thread_blocked, id=44352, stack(0x0000000e65f90000,0x0000000e66180000)]
+  0x0000013b29681000 JavaThread "clojure-agent-send-off-pool-227" [_thread_blocked, id=40072, stack(0x0000000e65da0000,0x0000000e65f90000)]
+  0x0000013b29687800 JavaThread "clojure-agent-send-off-pool-228" [_thread_blocked, id=50296, stack(0x0000000e65bb0000,0x0000000e65da0000)]
+  0x0000013b29687000 JavaThread "clojure-agent-send-off-pool-243" [_thread_blocked, id=40256, stack(0x0000000e659c0000,0x0000000e65bb0000)]
+  0x0000013b29681800 JavaThread "clojure-agent-send-off-pool-241" [_thread_blocked, id=47516, stack(0x0000000e657d0000,0x0000000e659c0000)]
+  0x0000013b29686000 JavaThread "clojure-agent-send-off-pool-240" [_thread_blocked, id=41668, stack(0x0000000e655e0000,0x0000000e657d0000)]
+  0x0000013b29685800 JavaThread "clojure-agent-send-off-pool-239" [_thread_blocked, id=50652, stack(0x0000000e653f0000,0x0000000e655e0000)]
+  0x0000013b29683000 JavaThread "clojure-agent-send-off-pool-238" [_thread_blocked, id=7104, stack(0x0000000e65200000,0x0000000e653f0000)]
+  0x0000013b29684000 JavaThread "clojure-agent-send-off-pool-237" [_thread_blocked, id=51152, stack(0x0000000e64e10000,0x0000000e65000000)]
+  0x0000013b29684800 JavaThread "clojure-agent-send-off-pool-236" [_thread_blocked, id=27256, stack(0x0000000e64c20000,0x0000000e64e10000)]
+  0x0000013b29682800 JavaThread "clojure-agent-send-off-pool-235" [_thread_blocked, id=43616, stack(0x0000000e64a30000,0x0000000e64c20000)]
+  0x0000013b29679800 JavaThread "clojure-agent-send-off-pool-234" [_thread_blocked, id=47676, stack(0x0000000e64840000,0x0000000e64a30000)]
+  0x0000013b2967f800 JavaThread "clojure-agent-send-off-pool-233" [_thread_blocked, id=42224, stack(0x0000000e64650000,0x0000000e64840000)]
+  0x0000013b29680000 JavaThread "clojure-agent-send-off-pool-232" [_thread_blocked, id=12484, stack(0x0000000e64460000,0x0000000e64650000)]
+  0x0000013b2967e800 JavaThread "clojure-agent-send-off-pool-231" [_thread_blocked, id=50312, stack(0x0000000e64270000,0x0000000e64460000)]
+  0x0000013b29677000 JavaThread "clojure-agent-send-off-pool-230" [_thread_blocked, id=33912, stack(0x0000000e64080000,0x0000000e64270000)]
+  0x0000013b2967b800 JavaThread "clojure-agent-send-off-pool-229" [_thread_blocked, id=49896, stack(0x0000000e63e90000,0x0000000e64080000)]
+  0x0000013b2967c800 JavaThread "clojure-agent-send-off-pool-190" [_thread_blocked, id=12912, stack(0x0000000e63ca0000,0x0000000e63e90000)]
+  0x0000013b2967b000 JavaThread "clojure-agent-send-off-pool-191" [_thread_blocked, id=45276, stack(0x0000000e63ab0000,0x0000000e63ca0000)]
+  0x0000013b2967e000 JavaThread "clojure-agent-send-off-pool-226" [_thread_blocked, id=39128, stack(0x0000000e638c0000,0x0000000e63ab0000)]
+  0x0000013b29678800 JavaThread "clojure-agent-send-off-pool-225" [_thread_blocked, id=46028, stack(0x0000000e636d0000,0x0000000e638c0000)]
+  0x0000013b2967a000 JavaThread "clojure-agent-send-off-pool-224" [_thread_blocked, id=43564, stack(0x0000000e634e0000,0x0000000e636d0000)]
+  0x0000013b29678000 JavaThread "clojure-agent-send-off-pool-223" [_thread_blocked, id=47788, stack(0x0000000e632f0000,0x0000000e634e0000)]
+  0x0000013b2967d000 JavaThread "clojure-agent-send-off-pool-222" [_thread_blocked, id=29840, stack(0x0000000e63100000,0x0000000e632f0000)]
+  0x0000013b2966f800 JavaThread "clojure-agent-send-off-pool-221" [_thread_blocked, id=11268, stack(0x0000000e62f10000,0x0000000e63100000)]
+  0x0000013b29676800 JavaThread "clojure-agent-send-off-pool-220" [_thread_blocked, id=44952, stack(0x0000000e62d20000,0x0000000e62f10000)]
+  0x0000013b29672000 JavaThread "clojure-agent-send-off-pool-219" [_thread_blocked, id=38356, stack(0x0000000e62b30000,0x0000000e62d20000)]
+  0x0000013b29675800 JavaThread "clojure-agent-send-off-pool-218" [_thread_blocked, id=16312, stack(0x0000000e62940000,0x0000000e62b30000)]
+  0x0000013b29670800 JavaThread "clojure-agent-send-off-pool-192" [_thread_in_vm, id=36796, stack(0x0000000e62750000,0x0000000e62940000)]
+  0x0000013b29674000 JavaThread "clojure-agent-send-off-pool-216" [_thread_blocked, id=39968, stack(0x0000000e62560000,0x0000000e62750000)]
+  0x0000013b29672800 JavaThread "clojure-agent-send-off-pool-214" [_thread_blocked, id=33424, stack(0x0000000e62370000,0x0000000e62560000)]
+  0x0000013b29675000 JavaThread "clojure-agent-send-off-pool-212" [_thread_blocked, id=20548, stack(0x0000000e62180000,0x0000000e62370000)]
+  0x0000013b29671000 JavaThread "clojure-agent-send-off-pool-211" [_thread_blocked, id=35044, stack(0x0000000e61f90000,0x0000000e62180000)]
+  0x0000013b29673800 JavaThread "clojure-agent-send-off-pool-210" [_thread_blocked, id=42016, stack(0x0000000e61da0000,0x0000000e61f90000)]
+  0x0000013b2966f000 JavaThread "clojure-agent-send-off-pool-209" [_thread_blocked, id=45356, stack(0x0000000e61bb0000,0x0000000e61da0000)]
+  0x0000013b2966e000 JavaThread "clojure-agent-send-off-pool-208" [_thread_blocked, id=42720, stack(0x0000000e619c0000,0x0000000e61bb0000)]
+  0x0000013b287e3000 JavaThread "clojure-agent-send-off-pool-207" [_thread_blocked, id=1124, stack(0x0000000e617d0000,0x0000000e619c0000)]
+  0x0000013b287e1800 JavaThread "clojure-agent-send-off-pool-206" [_thread_blocked, id=18772, stack(0x0000000e615e0000,0x0000000e617d0000)]
+  0x0000013b287e3800 JavaThread "clojure-agent-send-off-pool-205" [_thread_blocked, id=27128, stack(0x0000000e613f0000,0x0000000e615e0000)]
+  0x0000013b287e0000 JavaThread "clojure-agent-send-off-pool-204" [_thread_blocked, id=40868, stack(0x0000000e61200000,0x0000000e613f0000)]
+  0x0000013b287e2000 JavaThread "clojure-agent-send-off-pool-203" [_thread_blocked, id=21804, stack(0x0000000e61010000,0x0000000e61200000)]
+  0x0000013b287dc800 JavaThread "clojure-agent-send-off-pool-202" [_thread_blocked, id=31036, stack(0x0000000e60e20000,0x0000000e61010000)]
+  0x0000013b287dc000 JavaThread "clojure-agent-send-off-pool-201" [_thread_blocked, id=44804, stack(0x0000000e60c30000,0x0000000e60e20000)]
+  0x0000013b287df000 JavaThread "clojure-agent-send-off-pool-200" [_thread_blocked, id=9880, stack(0x0000000e60a40000,0x0000000e60c30000)]
+  0x0000013b287d9800 JavaThread "clojure-agent-send-off-pool-199" [_thread_blocked, id=34132, stack(0x0000000e60850000,0x0000000e60a40000)]
+  0x0000013b287dd800 JavaThread "clojure-agent-send-off-pool-193" [_thread_blocked, id=12784, stack(0x0000000e60660000,0x0000000e60850000)]
+  0x0000013b287da800 JavaThread "clojure-agent-send-off-pool-194" [_thread_blocked, id=45060, stack(0x0000000e60470000,0x0000000e60660000)]
+  0x0000013b287db000 JavaThread "clojure-agent-send-off-pool-195" [_thread_blocked, id=8740, stack(0x0000000e60280000,0x0000000e60470000)]
+  0x0000013b287de800 JavaThread "clojure-agent-send-off-pool-185" [_thread_blocked, id=48520, stack(0x0000000e60090000,0x0000000e60280000)]
+  0x0000013b287e0800 JavaThread "clojure-agent-send-off-pool-186" [_thread_blocked, id=33092, stack(0x0000000e5fea0000,0x0000000e60090000)]
+  0x0000013b287d2000 JavaThread "clojure-agent-send-off-pool-187" [_thread_blocked, id=32328, stack(0x0000000e5fcb0000,0x0000000e5fea0000)]
+  0x0000013b287d9000 JavaThread "clojure-agent-send-off-pool-188" [_thread_blocked, id=4488, stack(0x0000000e5fac0000,0x0000000e5fcb0000)]
+  0x0000013b287d7800 JavaThread "clojure-agent-send-off-pool-189" [_thread_blocked, id=19176, stack(0x0000000e5f8d0000,0x0000000e5fac0000)]
+  0x0000013b287d6800 JavaThread "clojure-agent-send-off-pool-179" [_thread_blocked, id=43780, stack(0x0000000e5f6e0000,0x0000000e5f8d0000)]
+  0x0000013b287d6000 JavaThread "clojure-agent-send-off-pool-180" [_thread_blocked, id=45556, stack(0x0000000e5f4f0000,0x0000000e5f6e0000)]
+  0x0000013b287d8000 JavaThread "clojure-agent-send-off-pool-181" [_thread_blocked, id=43880, stack(0x0000000e5f300000,0x0000000e5f4f0000)]
+  0x0000013b287d3800 JavaThread "clojure-agent-send-off-pool-182" [_thread_blocked, id=44576, stack(0x0000000e5f110000,0x0000000e5f300000)]
+  0x0000013b287d5000 JavaThread "clojure-agent-send-off-pool-183" [_thread_blocked, id=19200, stack(0x0000000e5ef20000,0x0000000e5f110000)]
+  0x0000013b287d0800 JavaThread "clojure-agent-send-off-pool-184" [_thread_blocked, id=36360, stack(0x0000000e5ed30000,0x0000000e5ef20000)]
+  0x0000013b287d4800 JavaThread "clojure-agent-send-off-pool-174" [_thread_in_vm, id=45724, stack(0x0000000e5eb40000,0x0000000e5ed30000)]
+  0x0000013b287d1800 JavaThread "clojure-agent-send-off-pool-175" [_thread_blocked, id=47304, stack(0x0000000e5e950000,0x0000000e5eb40000)]
+  0x0000013b287d3000 JavaThread "clojure-agent-send-off-pool-176" [_thread_blocked, id=42900, stack(0x0000000e5e760000,0x0000000e5e950000)]
+  0x0000013b287ca000 JavaThread "clojure-agent-send-off-pool-177" [_thread_blocked, id=36596, stack(0x0000000e5e570000,0x0000000e5e760000)]
+  0x0000013b287c9000 JavaThread "clojure-agent-send-off-pool-178" [_thread_blocked, id=41324, stack(0x0000000e5e380000,0x0000000e5e570000)]
+  0x0000013b287d0000 JavaThread "clojure-agent-send-off-pool-170" [_thread_blocked, id=15988, stack(0x0000000e5e190000,0x0000000e5e380000)]
+  0x0000013b287cf000 JavaThread "clojure-agent-send-off-pool-169" [_thread_blocked, id=24852, stack(0x0000000e5dfa0000,0x0000000e5e190000)]
+  0x0000013b287ce800 JavaThread "clojure-agent-send-off-pool-171" [_thread_blocked, id=43076, stack(0x0000000e5ddb0000,0x0000000e5dfa0000)]
+  0x0000013b287c8800 JavaThread "clojure-agent-send-off-pool-172" [_thread_blocked, id=1028, stack(0x0000000e5dbc0000,0x0000000e5ddb0000)]
+  0x0000013b287cd800 JavaThread "clojure-agent-send-off-pool-173" [_thread_blocked, id=37460, stack(0x0000000e5d9d0000,0x0000000e5dbc0000)]
+  0x0000013b287cd000 JavaThread "clojure-agent-send-off-pool-163" [_thread_blocked, id=47276, stack(0x0000000e5d7e0000,0x0000000e5d9d0000)]
+  0x0000013b287cc000 JavaThread "clojure-agent-send-off-pool-164" [_thread_blocked, id=37272, stack(0x0000000e5d5f0000,0x0000000e5d7e0000)]
+  0x0000013b287c4800 JavaThread "clojure-agent-send-off-pool-165" [_thread_blocked, id=40620, stack(0x0000000e5d400000,0x0000000e5d5f0000)]
+  0x0000013b287c7800 JavaThread "clojure-agent-send-off-pool-166" [_thread_blocked, id=25516, stack(0x0000000e5d210000,0x0000000e5d400000)]
+  0x0000013b287c6000 JavaThread "clojure-agent-send-off-pool-167" [_thread_blocked, id=38352, stack(0x0000000e5d020000,0x0000000e5d210000)]
+  0x0000013b287ca800 JavaThread "clojure-agent-send-off-pool-168" [_thread_blocked, id=25124, stack(0x0000000e5ce30000,0x0000000e5d020000)]
+  0x0000013b287cb800 JavaThread "clojure-agent-send-off-pool-157" [_thread_blocked, id=18744, stack(0x0000000e5cc40000,0x0000000e5ce30000)]
+  0x0000013b287c7000 JavaThread "clojure-agent-send-off-pool-159" [_thread_blocked, id=38888, stack(0x0000000e5ca50000,0x0000000e5cc40000)]
+  0x0000013b287c5800 JavaThread "clojure-agent-send-off-pool-158" [_thread_blocked, id=49532, stack(0x0000000e5c860000,0x0000000e5ca50000)]
+  0x0000013b2e776800 JavaThread "clojure-agent-send-off-pool-160" [_thread_blocked, id=47796, stack(0x0000000e5c670000,0x0000000e5c860000)]
+  0x0000013b2e775000 JavaThread "clojure-agent-send-off-pool-161" [_thread_blocked, id=50160, stack(0x0000000e5c480000,0x0000000e5c670000)]
+  0x0000013b2e774000 JavaThread "clojure-agent-send-off-pool-162" [_thread_blocked, id=40032, stack(0x0000000e5c290000,0x0000000e5c480000)]
+  0x0000013b2e773800 JavaThread "clojure-agent-send-off-pool-153" [_thread_blocked, id=13124, stack(0x0000000e5c0a0000,0x0000000e5c290000)]
+  0x0000013b2e772800 JavaThread "clojure-agent-send-off-pool-154" [_thread_blocked, id=46504, stack(0x0000000e5beb0000,0x0000000e5c0a0000)]
+  0x0000013b2e777000 JavaThread "clojure-agent-send-off-pool-155" [_thread_blocked, id=44484, stack(0x0000000e5bcc0000,0x0000000e5beb0000)]
+  0x0000013b2e775800 JavaThread "clojure-agent-send-off-pool-156" [_thread_blocked, id=18216, stack(0x0000000e5bad0000,0x0000000e5bcc0000)]
+  0x0000013b2e76b000 JavaThread "clojure-agent-send-off-pool-146" [_thread_blocked, id=17680, stack(0x0000000e5b8e0000,0x0000000e5bad0000)]
+  0x0000013b2e772000 JavaThread "clojure-agent-send-off-pool-147" [_thread_blocked, id=41276, stack(0x0000000e5b6f0000,0x0000000e5b8e0000)]
+  0x0000013b2e76d800 JavaThread "clojure-agent-send-off-pool-148" [_thread_blocked, id=30068, stack(0x0000000e5b500000,0x0000000e5b6f0000)]
+  0x0000013b2e76c800 JavaThread "clojure-agent-send-off-pool-149" [_thread_blocked, id=47020, stack(0x0000000e5b310000,0x0000000e5b500000)]
+  0x0000013b2e76c000 JavaThread "clojure-agent-send-off-pool-150" [_thread_blocked, id=36048, stack(0x0000000e5b120000,0x0000000e5b310000)]
+  0x0000013b2e771000 JavaThread "clojure-agent-send-off-pool-151" [_thread_blocked, id=21220, stack(0x0000000e5af30000,0x0000000e5b120000)]
+  0x0000013b2e770800 JavaThread "clojure-agent-send-off-pool-152" [_thread_blocked, id=31712, stack(0x0000000e5ad40000,0x0000000e5af30000)]
+  0x0000013b2e76f800 JavaThread "clojure-agent-send-off-pool-142" [_thread_blocked, id=34656, stack(0x0000000e5ab50000,0x0000000e5ad40000)]
+  0x0000013b2e76a800 JavaThread "clojure-agent-send-off-pool-143" [_thread_blocked, id=13632, stack(0x0000000e5a960000,0x0000000e5ab50000)]
+  0x0000013b2e76f000 JavaThread "clojure-agent-send-off-pool-144" [_thread_blocked, id=47828, stack(0x0000000e5a770000,0x0000000e5a960000)]
+  0x0000013b2e768000 JavaThread "clojure-agent-send-off-pool-145" [_thread_blocked, id=44312, stack(0x0000000e5a580000,0x0000000e5a770000)]
+  0x0000013b2e769000 JavaThread "clojure-agent-send-off-pool-135" [_thread_blocked, id=45760, stack(0x0000000e5a390000,0x0000000e5a580000)]
+  0x0000013b2e76e000 JavaThread "clojure-agent-send-off-pool-137" [_thread_blocked, id=50372, stack(0x0000000e5a1a0000,0x0000000e5a390000)]
+  0x0000013b2e769800 JavaThread "clojure-agent-send-off-pool-136" [_thread_blocked, id=43688, stack(0x0000000e59fb0000,0x0000000e5a1a0000)]
+  0x0000013b29742000 JavaThread "clojure-agent-send-off-pool-138" [_thread_blocked, id=13644, stack(0x0000000e59dc0000,0x0000000e59fb0000)]
+  0x0000013b29741000 JavaThread "clojure-agent-send-off-pool-140" [_thread_blocked, id=45184, stack(0x0000000e59bd0000,0x0000000e59dc0000)]
+  0x0000013b29744000 JavaThread "clojure-agent-send-off-pool-139" [_thread_blocked, id=31708, stack(0x0000000e599e0000,0x0000000e59bd0000)]
+  0x0000013b29740800 JavaThread "clojure-agent-send-off-pool-141" [_thread_blocked, id=37000, stack(0x0000000e597f0000,0x0000000e599e0000)]
+  0x0000013b2973f800 JavaThread "clojure-agent-send-off-pool-129" [_thread_blocked, id=38540, stack(0x0000000e59600000,0x0000000e597f0000)]
+  0x0000013b29743800 JavaThread "clojure-agent-send-off-pool-130" [_thread_blocked, id=47496, stack(0x0000000e59410000,0x0000000e59600000)]
+  0x0000013b29746800 JavaThread "clojure-agent-send-off-pool-131" [_thread_blocked, id=49008, stack(0x0000000e59220000,0x0000000e59410000)]
+  0x0000013b29742800 JavaThread "clojure-agent-send-off-pool-132" [_thread_blocked, id=24428, stack(0x0000000e59030000,0x0000000e59220000)]
+  0x0000013b29745800 JavaThread "clojure-agent-send-off-pool-133" [_thread_blocked, id=38264, stack(0x0000000e58e40000,0x0000000e59030000)]
+  0x0000013b29745000 JavaThread "clojure-agent-send-off-pool-134" [_thread_blocked, id=44040, stack(0x0000000e58c50000,0x0000000e58e40000)]
+  0x0000013b29738000 JavaThread "clojure-agent-send-off-pool-124" [_thread_blocked, id=41368, stack(0x0000000e58a60000,0x0000000e58c50000)]
+  0x0000013b2973c800 JavaThread "clojure-agent-send-off-pool-125" [_thread_blocked, id=48616, stack(0x0000000e58870000,0x0000000e58a60000)]
+  0x0000013b2973f000 JavaThread "clojure-agent-send-off-pool-126" [_thread_blocked, id=40184, stack(0x0000000e58680000,0x0000000e58870000)]
+  0x0000013b29737800 JavaThread "clojure-agent-send-off-pool-127" [_thread_blocked, id=50812, stack(0x0000000e58490000,0x0000000e58680000)]
+  0x0000013b2973e000 JavaThread "clojure-agent-send-off-pool-128" [_thread_blocked, id=44140, stack(0x0000000e582a0000,0x0000000e58490000)]
+  0x0000013b2973c000 JavaThread "clojure-agent-send-off-pool-117" [_thread_blocked, id=46708, stack(0x0000000e580b0000,0x0000000e582a0000)]
+  0x0000013b2973b000 JavaThread "clojure-agent-send-off-pool-119" [_thread_blocked, id=28332, stack(0x0000000e57ec0000,0x0000000e580b0000)]
+  0x0000013b2973a800 JavaThread "clojure-agent-send-off-pool-118" [_thread_blocked, id=36284, stack(0x0000000e57cd0000,0x0000000e57ec0000)]
+  0x0000013b29739800 JavaThread "clojure-agent-send-off-pool-120" [_thread_blocked, id=49804, stack(0x0000000e57ae0000,0x0000000e57cd0000)]
+  0x0000013b2973d800 JavaThread "clojure-agent-send-off-pool-121" [_thread_blocked, id=41724, stack(0x0000000e578f0000,0x0000000e57ae0000)]
+  0x0000013b29739000 JavaThread "clojure-agent-send-off-pool-122" [_thread_blocked, id=35964, stack(0x0000000e57700000,0x0000000e578f0000)]
+  0x0000013b2e6bd800 JavaThread "clojure-agent-send-off-pool-123" [_thread_blocked, id=34692, stack(0x0000000e57510000,0x0000000e57700000)]
+  0x0000013b2e6bf000 JavaThread "clojure-agent-send-off-pool-111" [_thread_blocked, id=43196, stack(0x0000000e57320000,0x0000000e57510000)]
+  0x0000013b2e6bb800 JavaThread "clojure-agent-send-off-pool-112" [_thread_blocked, id=37792, stack(0x0000000e57130000,0x0000000e57320000)]
+  0x0000013b2e6bd000 JavaThread "clojure-agent-send-off-pool-113" [_thread_blocked, id=43592, stack(0x0000000e56f40000,0x0000000e57130000)]
+  0x0000013b2e6ba800 JavaThread "clojure-agent-send-off-pool-114" [_thread_blocked, id=4172, stack(0x0000000e56d50000,0x0000000e56f40000)]
+  0x0000013b2e6be800 JavaThread "clojure-agent-send-off-pool-115" [_thread_blocked, id=15560, stack(0x0000000e56b60000,0x0000000e56d50000)]
+  0x0000013b2e6ba000 JavaThread "clojure-agent-send-off-pool-116" [_thread_blocked, id=50744, stack(0x0000000e56970000,0x0000000e56b60000)]
+  0x0000013b2e6bc000 JavaThread "clojure-agent-send-off-pool-104" [_thread_blocked, id=49956, stack(0x0000000e56780000,0x0000000e56970000)]
+  0x0000013b2e6b2800 JavaThread "clojure-agent-send-off-pool-106" [_thread_blocked, id=29144, stack(0x0000000e56590000,0x0000000e56780000)]
+  0x0000013b2e6b9000 JavaThread "clojure-agent-send-off-pool-105" [_thread_blocked, id=28896, stack(0x0000000e563a0000,0x0000000e56590000)]
+  0x0000013b2e6b8800 JavaThread "clojure-agent-send-off-pool-107" [_thread_blocked, id=26636, stack(0x0000000e561b0000,0x0000000e563a0000)]
+  0x0000013b2e6b1000 JavaThread "clojure-agent-send-off-pool-108" [_thread_blocked, id=32496, stack(0x0000000e55fc0000,0x0000000e561b0000)]
+  0x0000013b2e6b7800 JavaThread "clojure-agent-send-off-pool-109" [_thread_blocked, id=46448, stack(0x0000000e55dd0000,0x0000000e55fc0000)]
+  0x0000013b2e6b0000 JavaThread "clojure-agent-send-off-pool-110" [_thread_blocked, id=40196, stack(0x0000000e55be0000,0x0000000e55dd0000)]
+  0x0000013b2e6b6000 JavaThread "clojure-agent-send-off-pool-98" [_thread_blocked, id=50308, stack(0x0000000e559f0000,0x0000000e55be0000)]
+  0x0000013b2e6b1800 JavaThread "clojure-agent-send-off-pool-97" [_thread_blocked, id=45772, stack(0x0000000e55800000,0x0000000e559f0000)]
+  0x0000013b2e6b4800 JavaThread "clojure-agent-send-off-pool-99" [_thread_blocked, id=50756, stack(0x0000000e55610000,0x0000000e55800000)]
+  0x0000013b2e6b5800 JavaThread "clojure-agent-send-off-pool-100" [_thread_blocked, id=26528, stack(0x0000000e55420000,0x0000000e55610000)]
+  0x0000013b2e6b4000 JavaThread "clojure-agent-send-off-pool-101" [_thread_blocked, id=39452, stack(0x0000000e55230000,0x0000000e55420000)]
+  0x0000013b2e6b3000 JavaThread "clojure-agent-send-off-pool-102" [_thread_blocked, id=7224, stack(0x0000000e55040000,0x0000000e55230000)]
+  0x0000013b2e6b7000 JavaThread "clojure-agent-send-off-pool-103" [_thread_blocked, id=40248, stack(0x0000000e54e50000,0x0000000e55040000)]
+  0x0000013b2da4e800 JavaThread "clojure-agent-send-off-pool-91" [_thread_blocked, id=46764, stack(0x0000000e54c60000,0x0000000e54e50000)]
+  0x0000013b2da4d000 JavaThread "clojure-agent-send-off-pool-93" [_thread_blocked, id=42780, stack(0x0000000e54a70000,0x0000000e54c60000)]
+  0x0000013b2da4b000 JavaThread "clojure-agent-send-off-pool-92" [_thread_blocked, id=18924, stack(0x0000000e54880000,0x0000000e54a70000)]
+  0x0000013b2da4e000 JavaThread "clojure-agent-send-off-pool-94" [_thread_blocked, id=40712, stack(0x0000000e54690000,0x0000000e54880000)]
+  0x0000013b2da4a000 JavaThread "clojure-agent-send-off-pool-95" [_thread_blocked, id=9604, stack(0x0000000e544a0000,0x0000000e54690000)]
+  0x0000013b2da4b800 JavaThread "clojure-agent-send-off-pool-96" [_thread_blocked, id=11596, stack(0x0000000e542b0000,0x0000000e544a0000)]
+  0x0000013b2da4f800 JavaThread "clojure-agent-send-off-pool-83" [_thread_blocked, id=38844, stack(0x0000000e540c0000,0x0000000e542b0000)]
+  0x0000013b2da4c800 JavaThread "clojure-agent-send-off-pool-84" [_thread_blocked, id=42368, stack(0x0000000e53ed0000,0x0000000e540c0000)]
+  0x0000013b2da42800 JavaThread "clojure-agent-send-off-pool-85" [_thread_blocked, id=31808, stack(0x0000000e53ce0000,0x0000000e53ed0000)]
+  0x0000013b2da49800 JavaThread "clojure-agent-send-off-pool-86" [_thread_blocked, id=36012, stack(0x0000000e53af0000,0x0000000e53ce0000)]
+  0x0000013b2da42000 JavaThread "clojure-agent-send-off-pool-88" [_thread_blocked, id=43384, stack(0x0000000e53900000,0x0000000e53af0000)]
+  0x0000013b2da48000 JavaThread "clojure-agent-send-off-pool-87" [_thread_blocked, id=27480, stack(0x0000000e53710000,0x0000000e53900000)]
+  0x0000013b2da48800 JavaThread "clojure-agent-send-off-pool-89" [_thread_blocked, id=46648, stack(0x0000000e53520000,0x0000000e53710000)]
+  0x0000013b2da40800 JavaThread "clojure-agent-send-off-pool-90" [_thread_blocked, id=47244, stack(0x0000000e53330000,0x0000000e53520000)]
+  0x0000013b2da45800 JavaThread "clojure-agent-send-off-pool-75" [_thread_blocked, id=47144, stack(0x0000000e53140000,0x0000000e53330000)]
+  0x0000013b2da47000 JavaThread "clojure-agent-send-off-pool-76" [_thread_blocked, id=8768, stack(0x0000000e52f50000,0x0000000e53140000)]
+  0x0000013b2da45000 JavaThread "clojure-agent-send-off-pool-78" [_thread_blocked, id=42420, stack(0x0000000e52d60000,0x0000000e52f50000)]
+  0x0000013b2da46800 JavaThread "clojure-agent-send-off-pool-77" [_thread_blocked, id=45864, stack(0x0000000e52b70000,0x0000000e52d60000)]
+  0x0000013b2da44000 JavaThread "clojure-agent-send-off-pool-79" [_thread_blocked, id=44684, stack(0x0000000e52980000,0x0000000e52b70000)]
+  0x0000013b2da41000 JavaThread "clojure-agent-send-off-pool-81" [_thread_blocked, id=30324, stack(0x0000000e52790000,0x0000000e52980000)]
+  0x0000013b2da43800 JavaThread "clojure-agent-send-off-pool-82" [_thread_blocked, id=33008, stack(0x0000000e525a0000,0x0000000e52790000)]
+  0x0000013b26a67800 JavaThread "clojure-agent-send-off-pool-70" [_thread_blocked, id=40800, stack(0x0000000e523b0000,0x0000000e525a0000)]
+  0x0000013b2a025000 JavaThread "clojure-agent-send-off-pool-71" [_thread_blocked, id=50976, stack(0x0000000e521c0000,0x0000000e523b0000)]
+  0x0000013b2a023800 JavaThread "clojure-agent-send-off-pool-72" [_thread_blocked, id=41544, stack(0x0000000e51fd0000,0x0000000e521c0000)]
+  0x0000013b2a021800 JavaThread "clojure-agent-send-off-pool-73" [_thread_blocked, id=44732, stack(0x0000000e51de0000,0x0000000e51fd0000)]
+  0x0000013b2a023000 JavaThread "clojure-agent-send-off-pool-80" [_thread_blocked, id=49640, stack(0x0000000e51bf0000,0x0000000e51de0000)]
+  0x0000013b2a022000 JavaThread "clojure-agent-send-off-pool-74" [_thread_blocked, id=48808, stack(0x0000000e51a00000,0x0000000e51bf0000)]
+  0x0000013b2a024800 JavaThread "clojure-agent-send-off-pool-68" [_thread_blocked, id=46104, stack(0x0000000e51810000,0x0000000e51a00000)]
+  0x0000013b2a01a000 JavaThread "clojure-agent-send-off-pool-67" [_thread_blocked, id=20976, stack(0x0000000e51620000,0x0000000e51810000)]
+  0x0000013b2a020800 JavaThread "clojure-agent-send-off-pool-69" [_thread_blocked, id=47860, stack(0x0000000e51430000,0x0000000e51620000)]
+  0x0000013b2a020000 JavaThread "clojure-agent-send-off-pool-66" [_thread_blocked, id=49676, stack(0x0000000e51240000,0x0000000e51430000)]
+  0x0000013b2a01f000 JavaThread "clojure-agent-send-off-pool-64" [_thread_blocked, id=38200, stack(0x0000000e51050000,0x0000000e51240000)]
+  0x0000013b2a01c000 JavaThread "clojure-agent-send-off-pool-65" [_thread_blocked, id=47172, stack(0x0000000e50e60000,0x0000000e51050000)]
+  0x0000013b2a01e800 JavaThread "clojure-agent-send-off-pool-63" [_thread_blocked, id=16508, stack(0x0000000e50c70000,0x0000000e50e60000)]
+  0x0000013b2a01d800 JavaThread "clojure-agent-send-off-pool-62" [_thread_blocked, id=17236, stack(0x0000000e50a80000,0x0000000e50c70000)]
+  0x0000013b2a017800 JavaThread "clojure-agent-send-off-pool-61" [_thread_blocked, id=18560, stack(0x0000000e50890000,0x0000000e50a80000)]
+  0x0000013b2a019000 JavaThread "clojure-agent-send-off-pool-60" [_thread_blocked, id=16536, stack(0x0000000e506a0000,0x0000000e50890000)]
+  0x0000013b2a01d000 JavaThread "clojure-agent-send-off-pool-59" [_thread_blocked, id=35340, stack(0x0000000e504b0000,0x0000000e506a0000)]
+  0x0000013b2a017000 JavaThread "clojure-agent-send-off-pool-58" [_thread_blocked, id=43032, stack(0x0000000e502c0000,0x0000000e504b0000)]
+  0x0000013b2a01a800 JavaThread "clojure-agent-send-off-pool-57" [_thread_blocked, id=50776, stack(0x0000000e500d0000,0x0000000e502c0000)]
+  0x0000013b282f8000 JavaThread "clojure-agent-send-off-pool-56" [_thread_blocked, id=46964, stack(0x0000000e4fee0000,0x0000000e500d0000)]
+  0x0000013b282f7000 JavaThread "clojure-agent-send-off-pool-55" [_thread_blocked, id=49816, stack(0x0000000e4fcf0000,0x0000000e4fee0000)]
+  0x0000013b282f9800 JavaThread "clojure-agent-send-off-pool-54" [_thread_blocked, id=42904, stack(0x0000000e4fb00000,0x0000000e4fcf0000)]
+  0x0000013b282f6800 JavaThread "clojure-agent-send-off-pool-53" [_thread_blocked, id=48360, stack(0x0000000e4f910000,0x0000000e4fb00000)]
+  0x0000013b282f5800 JavaThread "clojure-agent-send-off-pool-52" [_thread_blocked, id=42284, stack(0x0000000e4f720000,0x0000000e4f910000)]
+  0x0000013b282fc800 JavaThread "clojure-agent-send-off-pool-49" [_thread_blocked, id=47620, stack(0x0000000e4f530000,0x0000000e4f720000)]
+  0x0000013b282f5000 JavaThread "clojure-agent-send-off-pool-51" [_thread_blocked, id=30364, stack(0x0000000e4f340000,0x0000000e4f530000)]
+  0x0000013b282f8800 JavaThread "clojure-agent-send-off-pool-50" [_thread_blocked, id=50980, stack(0x0000000e4f150000,0x0000000e4f340000)]
+  0x0000013b282fb800 JavaThread "clojure-agent-send-off-pool-48" [_thread_blocked, id=14256, stack(0x0000000e4ef60000,0x0000000e4f150000)]
+  0x0000013b282fb000 JavaThread "clojure-agent-send-off-pool-47" [_thread_blocked, id=50508, stack(0x0000000e4ed70000,0x0000000e4ef60000)]
+  0x0000013b282fa000 JavaThread "clojure-agent-send-off-pool-46" [_thread_blocked, id=45576, stack(0x0000000e4eb80000,0x0000000e4ed70000)]
+  0x0000013b282ed000 JavaThread "clojure-agent-send-off-pool-45" [_thread_blocked, id=41884, stack(0x0000000e4e990000,0x0000000e4eb80000)]
+  0x0000013b282f4000 JavaThread "clojure-agent-send-off-pool-44" [_thread_blocked, id=41968, stack(0x0000000e4e7a0000,0x0000000e4e990000)]
+  0x0000013b282f3800 JavaThread "clojure-agent-send-off-pool-43" [_thread_blocked, id=49324, stack(0x0000000e4e5b0000,0x0000000e4e7a0000)]
+  0x0000013b282ee800 JavaThread "clojure-agent-send-off-pool-42" [_thread_blocked, id=32016, stack(0x0000000e4e3c0000,0x0000000e4e5b0000)]
+  0x0000013b282f2800 JavaThread "clojure-agent-send-off-pool-41" [_thread_blocked, id=15764, stack(0x0000000e4e1d0000,0x0000000e4e3c0000)]
+  0x0000013b282f2000 JavaThread "clojure-agent-send-off-pool-40" [_thread_blocked, id=23144, stack(0x0000000e4dfe0000,0x0000000e4e1d0000)]
+  0x0000013b282ee000 JavaThread "clojure-agent-send-off-pool-39" [_thread_blocked, id=40084, stack(0x0000000e4ddf0000,0x0000000e4dfe0000)]
+  0x0000013b282ef800 JavaThread "clojure-agent-send-off-pool-38" [_thread_blocked, id=46532, stack(0x0000000e4dc00000,0x0000000e4ddf0000)]
+  0x0000013b282f1000 JavaThread "clojure-agent-send-off-pool-37" [_thread_blocked, id=39980, stack(0x0000000e4da10000,0x0000000e4dc00000)]
+  0x0000013b282f0000 JavaThread "clojure-agent-send-off-pool-36" [_thread_blocked, id=47196, stack(0x0000000e4d820000,0x0000000e4da10000)]
+  0x0000013b28be9000 JavaThread "clojure-agent-send-off-pool-29" [_thread_blocked, id=34616, stack(0x0000000e4d630000,0x0000000e4d820000)]
+  0x0000013b28bea000 JavaThread "clojure-agent-send-off-pool-35" [_thread_blocked, id=47260, stack(0x0000000e4d440000,0x0000000e4d630000)]
+  0x0000013b28be4800 JavaThread "clojure-agent-send-off-pool-34" [_thread_blocked, id=14512, stack(0x0000000e4d250000,0x0000000e4d440000)]
+  0x0000013b28be7000 JavaThread "clojure-agent-send-off-pool-33" [_thread_blocked, id=3928, stack(0x0000000e4d060000,0x0000000e4d250000)]
+  0x0000013b28be6000 JavaThread "clojure-agent-send-off-pool-32" [_thread_blocked, id=36368, stack(0x0000000e4ce70000,0x0000000e4d060000)]
+  0x0000013b28be5800 JavaThread "clojure-agent-send-off-pool-31" [_thread_blocked, id=48008, stack(0x0000000e4cc80000,0x0000000e4ce70000)]
+  0x0000013b28be7800 JavaThread "clojure-agent-send-off-pool-30" [_thread_blocked, id=30384, stack(0x0000000e4ca90000,0x0000000e4cc80000)]
+  0x0000013b28be8800 JavaThread "clojure-agent-send-off-pool-27" [_thread_blocked, id=27216, stack(0x0000000e4c8a0000,0x0000000e4ca90000)]
+  0x0000013b28be4000 JavaThread "clojure-agent-send-off-pool-19" [_thread_blocked, id=44888, stack(0x0000000e4c6b0000,0x0000000e4c8a0000)]
+  0x0000013b28bdc800 JavaThread "clojure-agent-send-off-pool-28" [_thread_blocked, id=38868, stack(0x0000000e4c4c0000,0x0000000e4c6b0000)]
+  0x0000013b28bde000 JavaThread "clojure-agent-send-off-pool-22" [_thread_blocked, id=42916, stack(0x0000000e4c2d0000,0x0000000e4c4c0000)]
+  0x0000013b28be3000 JavaThread "clojure-agent-send-off-pool-23" [_thread_blocked, id=5152, stack(0x0000000e4c0e0000,0x0000000e4c2d0000)]
+  0x0000013b28bdb800 JavaThread "clojure-agent-send-off-pool-26" [_thread_blocked, id=38124, stack(0x0000000e4bef0000,0x0000000e4c0e0000)]
+  0x0000013b28bdd000 JavaThread "clojure-agent-send-off-pool-18" [_thread_blocked, id=45248, stack(0x0000000e4bd00000,0x0000000e4bef0000)]
+  0x0000013b28be1000 JavaThread "clojure-agent-send-off-pool-25" [_thread_blocked, id=48084, stack(0x0000000e4bb10000,0x0000000e4bd00000)]
+  0x0000013b28be2800 JavaThread "clojure-agent-send-off-pool-24" [_thread_blocked, id=41084, stack(0x0000000e4b920000,0x0000000e4bb10000)]
+  0x0000013b28be0000 JavaThread "clojure-agent-send-off-pool-21" [_thread_blocked, id=40640, stack(0x0000000e4b730000,0x0000000e4b920000)]
+  0x0000013b28bdf800 JavaThread "clojure-agent-send-off-pool-20" [_thread_blocked, id=34264, stack(0x0000000e4b540000,0x0000000e4b730000)]
+  0x0000013b28bdb000 JavaThread "clojure-agent-send-off-pool-17" [_thread_blocked, id=46900, stack(0x0000000e4b350000,0x0000000e4b540000)]
+  0x0000013b28be1800 JavaThread "clojure-agent-send-off-pool-15" [_thread_blocked, id=41424, stack(0x0000000e4b160000,0x0000000e4b350000)]
+  0x0000013b28bde800 JavaThread "clojure-agent-send-off-pool-16" [_thread_blocked, id=49832, stack(0x0000000e4af70000,0x0000000e4b160000)]
+  0x0000013b26a69800 JavaThread "clojure-agent-send-off-pool-14" [_thread_blocked, id=43988, stack(0x0000000e4ad80000,0x0000000e4af70000)]
+  0x0000013b26a6f800 JavaThread "clojure-agent-send-off-pool-13" [_thread_blocked, id=22228, stack(0x0000000e4ab90000,0x0000000e4ad80000)]
+  0x0000013b26a6f000 JavaThread "clojure-agent-send-off-pool-12" [_thread_blocked, id=48100, stack(0x0000000e4a9a0000,0x0000000e4ab90000)]
+  0x0000013b26a6a800 JavaThread "clojure-agent-send-off-pool-11" [_thread_blocked, id=46812, stack(0x0000000e4a7b0000,0x0000000e4a9a0000)]
+  0x0000013b26a6e000 JavaThread "clojure-agent-send-off-pool-10" [_thread_blocked, id=31904, stack(0x0000000e4a5c0000,0x0000000e4a7b0000)]
+  0x0000013b26a66800 JavaThread "clojure-agent-send-off-pool-9" [_thread_blocked, id=41912, stack(0x0000000e4a3d0000,0x0000000e4a5c0000)]
+  0x0000013b26a6d800 JavaThread "clojure-agent-send-off-pool-8" [_thread_blocked, id=45076, stack(0x0000000e4a1e0000,0x0000000e4a3d0000)]
+  0x0000013b26a69000 JavaThread "clojure-agent-send-off-pool-7" [_thread_blocked, id=34848, stack(0x0000000e49ff0000,0x0000000e4a1e0000)]
+  0x0000013b26a6c000 JavaThread "clojure-agent-send-off-pool-6" [_thread_blocked, id=33788, stack(0x0000000e49e00000,0x0000000e49ff0000)]
+  0x0000013b26a6b000 JavaThread "clojure-agent-send-off-pool-5" [_thread_blocked, id=12124, stack(0x0000000e49c10000,0x0000000e49e00000)]
+  0x0000013b26a6c800 JavaThread "clojure-agent-send-off-pool-4" [_thread_blocked, id=47224, stack(0x0000000e49a20000,0x0000000e49c10000)]
+  0x0000013b26a68000 JavaThread "clojure-agent-send-off-pool-3" [_thread_blocked, id=42796, stack(0x0000000e49830000,0x0000000e49a20000)]
+  0x0000013b26a60800 JavaThread "clojure-agent-send-off-pool-2" [_thread_blocked, id=47524, stack(0x0000000e49640000,0x0000000e49830000)]
+  0x0000013b26a66000 JavaThread "clojure-agent-send-off-pool-1" [_thread_blocked, id=45160, stack(0x0000000e49450000,0x0000000e49640000)]
+  0x0000013b26a64800 JavaThread "clojure-agent-send-off-pool-0" [_thread_blocked, id=45264, stack(0x0000000e49260000,0x0000000e49450000)]
+  0x0000013b0cf67800 JavaThread "Service Thread" daemon [_thread_blocked, id=30752, stack(0x0000000e48c90000,0x0000000e48e80000)]
+  0x0000013b0cf66000 JavaThread "C1 CompilerThread3" daemon [_thread_blocked, id=25872, stack(0x0000000e48aa0000,0x0000000e48c90000)]
+  0x0000013b0cf65800 JavaThread "C2 CompilerThread2" daemon [_thread_blocked, id=15644, stack(0x0000000e488b0000,0x0000000e48aa0000)]
+  0x0000013b0cf63000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=48972, stack(0x0000000e486c0000,0x0000000e488b0000)]
+  0x0000013b0cf62800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=47608, stack(0x0000000e484d0000,0x0000000e486c0000)]
+  0x0000013b0cf68800 JavaThread "Attach Listener" daemon [_thread_blocked, id=32752, stack(0x0000000e482e0000,0x0000000e484d0000)]
+  0x0000013b0cf64800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=41500, stack(0x0000000e480f0000,0x0000000e482e0000)]
+  0x0000013b0cf67000 JavaThread "Finalizer" daemon [_thread_blocked, id=28440, stack(0x0000000e47f00000,0x0000000e480f0000)]
+  0x0000013b0cf69000 JavaThread "Reference Handler" daemon [_thread_blocked, id=51104, stack(0x0000000e47d10000,0x0000000e47f00000)]
+=>0x0000013b0cf64000 JavaThread "main" [_thread_in_native, id=45004, stack(0x0000000e46000000,0x0000000e461f0000)]
+
+Other Threads:
+  0x0000013b0d434000 VMThread [stack: 0x0000000e47b20000,0x0000000e47d10000] [id=26404]
+  0x0000013b0d435000 WatcherThread [stack: 0x0000000e48e80000,0x0000000e49070000] [id=46508]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000013b0c489190] SystemDictionary_lock - owner thread: 0x0000013b2a55f800
+[0x0000013b0fcef5b0] CompiledIC_lock - owner thread: 0x0000013b0cf66000
+[0x0000013b0fcef730] Compile_lock - owner thread: 0x0000013b29670800
+
+heap address: 0x0000000080000000, size: 2048 MB, Compressed Oops mode: 32-bit
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 3
+Compressed class space size: 1073741824 Address: 0x0000000100000000
+
+Heap:
+ PSYoungGen      total 689152K, used 498861K [0x00000000d5580000, 0x00000000ffe00000, 0x0000000100000000)
+  eden space 680448K, 72% used [0x00000000d5580000,0x00000000f3a47518,0x00000000fee00000)
+  from space 8704K, 28% used [0x00000000fee00000,0x00000000ff064128,0x00000000ff680000)
+  to   space 7680K, 0% used [0x00000000ff680000,0x00000000ff680000,0x00000000ffe00000)
+ ParOldGen       total 219136K, used 141595K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 64% used [0x0000000080000000,0x0000000088a46eb8,0x000000008d600000)
+ Metaspace       used 316163K, capacity 471759K, committed 471808K, reserved 1339392K
+  class space    used 133017K, capacity 182736K, committed 182784K, reserved 1048576K
+
+Card table byte_map: [0x0000013b1f420000,0x0000013b1f830000] byte_map_base: 0x0000013b1f020000
+
+Marking Bits: (ParMarkBitMap*) 0x00007ffaef8a5fc0
+ Begin Bits: [0x0000013b1fae0000, 0x0000013b21ae0000)
+ End Bits:   [0x0000013b21ae0000, 0x0000013b23ae0000)
+
+Polling page: 0x0000013b0f7b0000
+
+CodeCache: size=245760Kb used=33421Kb max_used=33451Kb free=212338Kb
+ bounds [0x0000013b10420000, 0x0000013b125f0000, 0x0000013b1f420000]
+ total_blobs=7164 nmethods=6764 adapters=312
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 80.296 Thread 0x0000013b0cf66000 9916       3       duckling.time.prod$eval180993$fn__180994::invoke (58 bytes)
+Event: 80.298 Thread 0x0000013b0cf66000 nmethod 9916 0x0000013b125d9190 code [0x0000013b125d93e0, 0x0000013b125da400]
+Event: 80.298 Thread 0x0000013b0cf66000 9917       3       duckling.time.prod$eval181037$fn__181038::invoke (58 bytes)
+Event: 80.300 Thread 0x0000013b0cf66000 nmethod 9917 0x0000013b125daa50 code [0x0000013b125daca0, 0x0000013b125dbcc0]
+Event: 80.300 Thread 0x0000013b0cf66000 9918       3       duckling.time.prod$eval181127$fn__181128::invoke (58 bytes)
+Event: 80.304 Thread 0x0000013b0cf66000 nmethod 9918 0x0000013b125dc310 code [0x0000013b125dc560, 0x0000013b125dd580]
+Event: 81.021 Thread 0x0000013b0cf62800 9919       4       java.util.concurrent.SynchronousQueue$TransferStack$SNode::isCancelled (14 bytes)
+Event: 81.021 Thread 0x0000013b0cf65800 9920       4       java.util.concurrent.SynchronousQueue$TransferStack::shouldSpin (30 bytes)
+Event: 81.021 Thread 0x0000013b0cf66000 9921       3       java.util.concurrent.SynchronousQueue$TransferStack::awaitFulfill (166 bytes)
+Event: 81.021 Thread 0x0000013b0cf63000 9923       4       java.lang.Thread::isInterrupted (6 bytes)
+
+GC Heap History (10 events):
+Event: 76.743 GC heap before
+{Heap before GC invocations=207 (full 42):
+ PSYoungGen      total 687104K, used 677664K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
+  eden space 676352K, 100% used [0x00000000d5580000,0x00000000fea00000,0x00000000fea00000)
+  from space 10752K, 12% used [0x00000000ff400000,0x00000000ff548000,0x00000000ffe80000)
+  to   space 10240K, 0% used [0x00000000fea00000,0x00000000fea00000,0x00000000ff400000)
+ ParOldGen       total 219136K, used 137259K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 62% used [0x0000000080000000,0x000000008860aeb8,0x000000008d600000)
+ Metaspace       used 307686K, capacity 458531K, committed 458752K, reserved 1331200K
+  class space    used 129363K, capacity 177616K, committed 177664K, reserved 1048576K
+Event: 76.759 GC heap after
+Heap after GC invocations=207 (full 42):
+ PSYoungGen      total 686592K, used 992K [0x00000000d5580000, 0x00000000ffe80000, 0x0000000100000000)
+  eden space 676352K, 0% used [0x00000000d5580000,0x00000000d5580000,0x00000000fea00000)
+  from space 10240K, 9% used [0x00000000fea00000,0x00000000feaf8000,0x00000000ff400000)
+  to   space 9728K, 0% used [0x00000000ff500000,0x00000000ff500000,0x00000000ffe80000)
+ ParOldGen       total 219136K, used 138331K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 63% used [0x0000000080000000,0x0000000088716eb8,0x000000008d600000)
+ Metaspace       used 307686K, capacity 458531K, committed 458752K, reserved 1331200K
+  class space    used 129363K, capacity 177616K, committed 177664K, reserved 1048576K
+}
+Event: 76.962 GC heap before
+{Heap before GC invocations=208 (full 42):
+ PSYoungGen      total 686592K, used 677344K [0x00000000d5580000, 0x00000000ffe80000, 0x0000000100000000)
+  eden space 676352K, 100% used [0x00000000d5580000,0x00000000fea00000,0x00000000fea00000)
+  from space 10240K, 9% used [0x00000000fea00000,0x00000000feaf8000,0x00000000ff400000)
+  to   space 9728K, 0% used [0x00000000ff500000,0x00000000ff500000,0x00000000ffe80000)
+ ParOldGen       total 219136K, used 138331K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 63% used [0x0000000080000000,0x0000000088716eb8,0x000000008d600000)
+ Metaspace       used 307711K, capacity 458563K, committed 458752K, reserved 1331200K
+  class space    used 129363K, capacity 177616K, committed 177664K, reserved 1048576K
+Event: 76.978 GC heap after
+Heap after GC invocations=208 (full 42):
+ PSYoungGen      total 688128K, used 1056K [0x00000000d5580000, 0x00000000ffe80000, 0x0000000100000000)
+  eden space 678400K, 0% used [0x00000000d5580000,0x00000000d5580000,0x00000000fec00000)
+  from space 9728K, 10% used [0x00000000ff500000,0x00000000ff608000,0x00000000ffe80000)
+  to   space 9216K, 0% used [0x00000000fec00000,0x00000000fec00000,0x00000000ff500000)
+ ParOldGen       total 219136K, used 138987K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 63% used [0x0000000080000000,0x00000000887baeb8,0x000000008d600000)
+ Metaspace       used 307711K, capacity 458563K, committed 458752K, reserved 1331200K
+  class space    used 129363K, capacity 177616K, committed 177664K, reserved 1048576K
+}
+Event: 77.227 GC heap before
+{Heap before GC invocations=209 (full 42):
+ PSYoungGen      total 688128K, used 679456K [0x00000000d5580000, 0x00000000ffe80000, 0x0000000100000000)
+  eden space 678400K, 100% used [0x00000000d5580000,0x00000000fec00000,0x00000000fec00000)
+  from space 9728K, 10% used [0x00000000ff500000,0x00000000ff608000,0x00000000ffe80000)
+  to   space 9216K, 0% used [0x00000000fec00000,0x00000000fec00000,0x00000000ff500000)
+ ParOldGen       total 219136K, used 138987K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 63% used [0x0000000080000000,0x00000000887baeb8,0x000000008d600000)
+ Metaspace       used 307723K, capacity 458575K, committed 458752K, reserved 1331200K
+  class space    used 129363K, capacity 177616K, committed 177664K, reserved 1048576K
+Event: 77.246 GC heap after
+Heap after GC invocations=209 (full 42):
+ PSYoungGen      total 687616K, used 928K [0x00000000d5580000, 0x00000000fff80000, 0x0000000100000000)
+  eden space 678400K, 0% used [0x00000000d5580000,0x00000000d5580000,0x00000000fec00000)
+  from space 9216K, 10% used [0x00000000fec00000,0x00000000fece8000,0x00000000ff500000)
+  to   space 9216K, 0% used [0x00000000ff680000,0x00000000ff680000,0x00000000fff80000)
+ ParOldGen       total 219136K, used 139603K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 63% used [0x0000000080000000,0x0000000088854eb8,0x000000008d600000)
+ Metaspace       used 307723K, capacity 458575K, committed 458752K, reserved 1331200K
+  class space    used 129363K, capacity 177616K, committed 177664K, reserved 1048576K
+}
+Event: 77.786 GC heap before
+{Heap before GC invocations=210 (full 42):
+ PSYoungGen      total 687616K, used 679328K [0x00000000d5580000, 0x00000000fff80000, 0x0000000100000000)
+  eden space 678400K, 100% used [0x00000000d5580000,0x00000000fec00000,0x00000000fec00000)
+  from space 9216K, 10% used [0x00000000fec00000,0x00000000fece8000,0x00000000ff500000)
+  to   space 9216K, 0% used [0x00000000ff680000,0x00000000ff680000,0x00000000fff80000)
+ ParOldGen       total 219136K, used 139603K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 63% used [0x0000000080000000,0x0000000088854eb8,0x000000008d600000)
+ Metaspace       used 308657K, capacity 460237K, committed 460416K, reserved 1331200K
+  class space    used 129742K, capacity 178206K, committed 178304K, reserved 1048576K
+Event: 77.810 GC heap after
+Heap after GC invocations=210 (full 42):
+ PSYoungGen      total 689152K, used 1968K [0x00000000d5580000, 0x00000000fff00000, 0x0000000100000000)
+  eden space 680448K, 0% used [0x00000000d5580000,0x00000000d5580000,0x00000000fee00000)
+  from space 8704K, 22% used [0x00000000ff680000,0x00000000ff86c340,0x00000000fff00000)
+  to   space 8704K, 0% used [0x00000000fee00000,0x00000000fee00000,0x00000000ff680000)
+ ParOldGen       total 219136K, used 140267K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 64% used [0x0000000080000000,0x00000000888faeb8,0x000000008d600000)
+ Metaspace       used 308657K, capacity 460237K, committed 460416K, reserved 1331200K
+  class space    used 129742K, capacity 178206K, committed 178304K, reserved 1048576K
+}
+Event: 78.902 GC heap before
+{Heap before GC invocations=211 (full 42):
+ PSYoungGen      total 689152K, used 682416K [0x00000000d5580000, 0x00000000fff00000, 0x0000000100000000)
+  eden space 680448K, 100% used [0x00000000d5580000,0x00000000fee00000,0x00000000fee00000)
+  from space 8704K, 22% used [0x00000000ff680000,0x00000000ff86c340,0x00000000fff00000)
+  to   space 8704K, 0% used [0x00000000fee00000,0x00000000fee00000,0x00000000ff680000)
+ ParOldGen       total 219136K, used 140267K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 64% used [0x0000000080000000,0x00000000888faeb8,0x000000008d600000)
+ Metaspace       used 311136K, capacity 464151K, committed 464256K, reserved 1333248K
+  class space    used 130845K, capacity 179752K, committed 179840K, reserved 1048576K
+Event: 78.966 GC heap after
+Heap after GC invocations=211 (full 42):
+ PSYoungGen      total 689152K, used 2448K [0x00000000d5580000, 0x00000000ffe00000, 0x0000000100000000)
+  eden space 680448K, 0% used [0x00000000d5580000,0x00000000d5580000,0x00000000fee00000)
+  from space 8704K, 28% used [0x00000000fee00000,0x00000000ff064128,0x00000000ff680000)
+  to   space 7680K, 0% used [0x00000000ff680000,0x00000000ff680000,0x00000000ffe00000)
+ ParOldGen       total 219136K, used 141595K [0x0000000080000000, 0x000000008d600000, 0x00000000d5580000)
+  object space 219136K, 64% used [0x0000000080000000,0x0000000088a46eb8,0x000000008d600000)
+ Metaspace       used 311136K, capacity 464151K, committed 464256K, reserved 1333248K
+  class space    used 130845K, capacity 179752K, committed 179840K, reserved 1048576K
+}
+
+Deoptimization events (10 events):
+Event: 81.022 Thread 0x0000013b2a54d000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1112b294 method=java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$Transfe
+Event: 81.022 Thread 0x0000013b2e6b4800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1112b294 method=java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$Transfe
+Event: 81.022 Thread 0x0000013b271e6000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1112b294 method=java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$Transfe
+Event: 81.022 Thread 0x0000013b2a547800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1112b294 method=java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$Transfe
+Event: 81.022 Thread 0x0000013b29689000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1112b294 method=java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$Transfe
+Event: 81.022 Thread 0x0000013b2e6b8800 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1112b294 method=java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$Transfe
+Event: 81.022 Thread 0x0000013b2a01d000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1112b294 method=java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(Ljava/util/concurrent/SynchronousQueue$TransferStack$SNode;ZJ)Ljava/util/concurrent/SynchronousQueue$Transfe
+Event: 81.022 Thread 0x0000013b2da41000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1150d9c0 method=java.util.concurrent.SynchronousQueue.poll(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object; @ 18
+Event: 81.022 Thread 0x0000013b2a01d000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1150d9c0 method=java.util.concurrent.SynchronousQueue.poll(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object; @ 18
+Event: 81.022 Thread 0x0000013b29689000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000013b1150d9c0 method=java.util.concurrent.SynchronousQueue.poll(JLjava/util/concurrent/TimeUnit;)Ljava/lang/Object; @ 18
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 8.020 Thread 0x0000013b27690000 Implicit null exception at 0x0000013b1139a080 to 0x0000013b1139a691
+Event: 8.020 Thread 0x0000013b2769b000 Implicit null exception at 0x0000013b1139a080 to 0x0000013b1139a691
+Event: 8.020 Thread 0x0000013b29685800 Implicit null exception at 0x0000013b11395e64 to 0x0000013b11396385
+Event: 8.020 Thread 0x0000013b2a55c800 Implicit null exception at 0x0000013b1139945b to 0x0000013b11399705
+Event: 8.020 Thread 0x0000013b2973c000 Implicit null exception at 0x0000013b1139945b to 0x0000013b11399705
+Event: 8.020 Thread 0x0000013b27698000 Implicit null exception at 0x0000013b1139945b to 0x0000013b11399705
+Event: 8.020 Thread 0x0000013b271d8800 Implicit null exception at 0x0000013b1139547b to 0x0000013b11395725
+Event: 8.025 Thread 0x0000013b287ca000 Implicit null exception at 0x0000013b10ab06f3 to 0x0000013b10ab08c5
+Event: 66.752 Thread 0x0000013b2a548000 Implicit null exception at 0x0000013b10fb00a4 to 0x0000013b10fb056d
+Event: 81.022 Thread 0x0000013b26a61800 Exception <a 'java/lang/InterruptedException'> (0x00000000d5bbbbf8) thrown at [C:\jenkins\workspace\8-2-build-windows-x64-cygwin-sans-NAS\jdk8u401\683\hotspot\src\share\vm\runtime\objectMonitor.cpp, line 1686]
+
+Events (10 events):
+Event: 81.022 Thread 0x0000013b2a020800 Uncommon trap: trap_request=0xffffff65 fr.pc=0x0000013b1150d9c0
+Event: 81.022 Thread 0x0000013b29684000 Uncommon trap: trap_request=0xffffff65 fr.pc=0x0000013b1112b294
+Event: 81.022 Thread 0x0000013b2a556000 DEOPT PACKING pc=0x0000013b1112b294 sp=0x0000000e697bf080
+Event: 81.022 Thread 0x0000013b271cc800 Uncommon trap: trap_request=0xffffff65 fr.pc=0x0000013b1112b294
+Event: 81.022 Thread 0x0000013b26a69000 DEOPT PACKING pc=0x0000013b1112b294 sp=0x0000000e4a1decf0
+Event: 81.022 Thread 0x0000013b276a2000 Uncommon trap: trap_request=0xffffff65 fr.pc=0x0000013b1112b294
+Event: 81.022 Thread 0x0000013b271d6000 Uncommon trap: trap_request=0xffffff65 fr.pc=0x0000013b1112b294
+Event: 81.022 Thread 0x0000013b2e6b0000 DEOPT PACKING pc=0x0000013b1112b294 sp=0x0000000e55dcf070
+Event: 81.022 Thread 0x0000013b2e6ba800 DEOPT UNPACKING pc=0x0000013b104658c3 sp=0x0000000e56f3ee68 mode 2
+Event: 81.022 Thread 0x0000013b282f8000 Uncommon trap: trap_request=0xffffff65 fr.pc=0x0000013b1112b294
+
+
+Dynamic libraries:
+0x00007ff7f1fd0000 - 0x00007ff7f1fea000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\python310.exe
+0x00007ffbfdc70000 - 0x00007ffbfde87000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ffbfd590000 - 0x00007ffbfd654000 	C:\Windows\System32\KERNEL32.DLL
+0x00007ffbfb210000 - 0x00007ffbfb5b6000 	C:\Windows\System32\KERNELBASE.dll
+0x00007ffbfb7f0000 - 0x00007ffbfb901000 	C:\Windows\System32\ucrtbase.dll
+0x00007ffb2f4c0000 - 0x00007ffb2f911000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\python310.dll
+0x00007ffbf17d0000 - 0x00007ffbf17eb000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\VCRUNTIME140.dll
+0x00007ffbfc0c0000 - 0x00007ffbfc131000 	C:\Windows\System32\WS2_32.dll
+0x00007ffbfdb10000 - 0x00007ffbfdc27000 	C:\Windows\System32\RPCRT4.dll
+0x00007ffbf55f0000 - 0x00007ffbf55fa000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007ffbfd820000 - 0x00007ffbfd8d3000 	C:\Windows\System32\ADVAPI32.dll
+0x00007ffbfd020000 - 0x00007ffbfd0c7000 	C:\Windows\System32\msvcrt.dll
+0x00007ffbfd9e0000 - 0x00007ffbfda88000 	C:\Windows\System32\sechost.dll
+0x00007ffbfb910000 - 0x00007ffbfb938000 	C:\Windows\System32\bcrypt.dll
+0x00007ffbfa7b0000 - 0x00007ffbfa7cb000 	C:\Windows\SYSTEM32\CRYPTSP.dll
+0x00007ffbfa040000 - 0x00007ffbfa075000 	C:\Windows\system32\rsaenh.dll
+0x00007ffbfa7d0000 - 0x00007ffbfa7dc000 	C:\Windows\SYSTEM32\CRYPTBASE.dll
+0x00007ffbfb940000 - 0x00007ffbfb9ba000 	C:\Windows\System32\bcryptPrimitives.dll
+0x0000013b0c780000 - 0x0000013b0c78f000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\python3.DLL
+0x00007ffaef920000 - 0x00007ffaef996000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\_jpype.cp310-win_amd64.pyd
+0x00007ffbd7d70000 - 0x00007ffbd7d7c000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\VCRUNTIME140_1.dll
+0x00007ffbe3840000 - 0x00007ffbe38cd000 	C:\Windows\SYSTEM32\MSVCP140.dll
+0x00007ffbcd550000 - 0x00007ffbcd58f000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_decimal.pyd
+0x00007ffbf17b0000 - 0x00007ffbf17c5000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_socket.pyd
+0x00007ffbf9af0000 - 0x00007ffbf9b1d000 	C:\Windows\SYSTEM32\IPHLPAPI.DLL
+0x00007ffbf1a20000 - 0x00007ffbf1a29000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\select.pyd
+0x00007ffbf08c0000 - 0x00007ffbf08d5000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_bz2.pyd
+0x00007ffbefcb0000 - 0x00007ffbefcd8000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_lzma.pyd
+0x00007ffbefb30000 - 0x00007ffbefb39000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_queue.pyd
+0x00007ffbf08e0000 - 0x00007ffbf0908000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_ssl.pyd
+0x00007ffbfb680000 - 0x00007ffbfb7e6000 	C:\Windows\System32\CRYPT32.dll
+0x00007ffb2fae0000 - 0x00007ffb2fe32000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\libcrypto-1_1.dll
+0x00007ffbb47b0000 - 0x00007ffbb485e000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\libssl-1_1.dll
+0x00007ffbfd0e0000 - 0x00007ffbfd28e000 	C:\Windows\System32\USER32.dll
+0x00007ffbfb1e0000 - 0x00007ffbfb206000 	C:\Windows\System32\win32u.dll
+0x00007ffbfda90000 - 0x00007ffbfdab9000 	C:\Windows\System32\GDI32.dll
+0x00007ffbfb050000 - 0x00007ffbfb168000 	C:\Windows\System32\gdi32full.dll
+0x00007ffbfafb0000 - 0x00007ffbfb04a000 	C:\Windows\System32\msvcp_win.dll
+0x00007ffbfcfe0000 - 0x00007ffbfd011000 	C:\Windows\System32\IMM32.DLL
+0x00007ffbf1310000 - 0x00007ffbf1321000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_asyncio.pyd
+0x00007ffbf19b0000 - 0x00007ffbf19bd000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_overlapped.pyd
+0x00007ffbfa560000 - 0x00007ffbfa5c9000 	C:\Windows\system32\mswsock.dll
+0x00007ffbd7210000 - 0x00007ffbd722f000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\_ctypes.pyd
+0x00007ffbfd390000 - 0x00007ffbfd530000 	C:\Windows\System32\ole32.dll
+0x00007ffbfc140000 - 0x00007ffbfc4c9000 	C:\Windows\System32\combase.dll
+0x00007ffbe9570000 - 0x00007ffbe957b000 	C:\Users\pfii1\AppData\Local\Programs\Python\Python310\DLLs\libffi-7.dll
+0x00007ffbfd740000 - 0x00007ffbfd817000 	C:\Windows\System32\OLEAUT32.dll
+0x00007ffaef070000 - 0x00007ffaef920000 	C:\Program Files\Java\jre-1.8\bin\server\jvm.dll
+0x00007ffbfc0b0000 - 0x00007ffbfc0b8000 	C:\Windows\System32\PSAPI.DLL
+0x00007ffbe3290000 - 0x00007ffbe3299000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ffbe36d0000 - 0x00007ffbe3704000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ffb1edc0000 - 0x00007ffb1edd0000 	C:\Program Files\Java\jre-1.8\bin\verify.dll
+0x00007ffaef040000 - 0x00007ffaef06b000 	C:\Program Files\Java\jre-1.8\bin\java.dll
+0x00007ffaef020000 - 0x00007ffaef038000 	C:\Program Files\Java\jre-1.8\bin\zip.dll
+0x00007ffbfa0e0000 - 0x00007ffbfa0f8000 	C:\Windows\SYSTEM32\kernel.appcore.dll
+0x00007ffbfc780000 - 0x00007ffbfcfdb000 	C:\Windows\System32\SHELL32.dll
+0x00007ffbf8f20000 - 0x00007ffbf9816000 	C:\Windows\SYSTEM32\windows.storage.dll
+0x00007ffbf8de0000 - 0x00007ffbf8f1e000 	C:\Windows\SYSTEM32\wintypes.dll
+0x00007ffbfd290000 - 0x00007ffbfd383000 	C:\Windows\System32\SHCORE.dll
+0x00007ffbfd6e0000 - 0x00007ffbfd73e000 	C:\Windows\System32\shlwapi.dll
+0x00007ffbfaee0000 - 0x00007ffbfaf06000 	C:\Windows\SYSTEM32\profapi.dll
+0x00007ffaef000000 - 0x00007ffaef01c000 	C:\Program Files\Java\jre-1.8\bin\net.dll
+0x00007ffaeefe0000 - 0x00007ffaeeff3000 	C:\Program Files\Java\jre-1.8\bin\nio.dll
+0x00007ffbf33e0000 - 0x00007ffbf3613000 	C:\Windows\SYSTEM32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -Xms128m -Xmx2048m 
+java_command: <unknown>
+java_class_path (initial): C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\clj-time-0.8.0.jar;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\clojure-1.8.0.jar;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\duckling-0.4.23.jar;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\joda-time-2.3.jar;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\lazymap-3.1.0.jar;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\plumbing-0.5.3.jar;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\schema-1.0.1.jar;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\lib\site-packages\duckling\jars\tools.logging-0.2.6.jar
+Launcher Type: generic
+
+Environment Variables:
+PATH=C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Tesseract-OCR;C:\Program Files\Git\cmd;C:\Users\pfii1\.fly\bin;C:\Program Files\PuTTY\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\pfii1\AppData\Local\Programs\Python\Python311;C:\Users\pfii1\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\pfii1\AppData\Local\Programs\Python\Python310;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\Scripts;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\pfii1\AppData\Roaming\local\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\pfii1\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\pfii1\AppData\Local\Programs\Python\Python311\;C:\Users\pfii1\AppData\Local\Microsoft\WindowsApps;C:\Users\pfii1\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2023.1\bin;C:\Users\pfii1\.fly\bin;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\pfii1\AppData\Local\Programs\Python\Python310\;
+USERNAME=pfii1
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 11 , 64 bit Build 22621 (10.0.22621.3085)
+
+CPU:total 12 (initial active 12) (12 cores per cpu, 1 threads per core) family 25 model 80 stepping 0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, mmxext, 3dnowpref, lzcnt, sse4a, tsc, tscinvbit, tscinv, bmi1
+
+Memory: 4k page, physical 32896960k(12164360k free), swap 47625036k(6903292k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.401-b10) for windows-amd64 JRE (1.8.0_401-b10), built on Dec 19 2023 12:38:48 by "java_re" with MS VC++ 17.1 (VS2022)
+
+time: Thu Feb 29 03:17:24 2024
+timezone: 台北標準時間
+elapsed time: 81.043733 seconds (0d 0h 1m 21s)
+
