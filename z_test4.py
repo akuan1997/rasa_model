@@ -3,7 +3,9 @@ def kuannn():
         '我們十一點半見',
         '前天的下午三點之前',
         '下周',
-        # '下下周',  #
+        '下下周',
+        '下下下周',
+        '下下周五',
         # '兩周後',  #
         # '上週',  #
         # '上上周',  #
@@ -144,7 +146,11 @@ def kuannn():
         'after 3/10 10:00',
         'in 2024',
         '2024',
-        'after 2024'
+        'after 2024',
+        'on Feb 1',
+        'next week',
+        'on feb 1 10:00',
+        'march taipei'
     ]
 
-    return texts2
+    return texts

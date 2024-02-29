@@ -79,3 +79,42 @@ with open('concert.json', 'r', encoding='utf-8') as f:
 indexes = [94, 137, 174]
 for index in indexes:
     print(data[index]['pdt'])
+
+chinese_num_map = {'一': '1', '二': '2', '三': '3', '四': '4', '五': '5', '日': '6'}
+
+current_time = datetime.now()
+print(current_time)
+
+current_week = current_time.isocalendar()[1]
+print(current_week)
+
+current_day_of_week = current_time.weekday()
+print(current_day_of_week)
+
+furute_week_day = ()
+
+texts = ['下下周四', '下下周五', '下下下下周六']
+current_weekday = datetime.now().weekday()
+print(f'current weekday = {current_weekday}')
+for text in texts:
+    chinese_week_num_map = {'一': '0', '二': '1', '三': '2', '四': '3', '五': '4', '六': '5', '日': '6'}
+    # 下下周一、下下周二 ...
+    matches = re.findall(r'(下{2,})周(一|二|三|四|五|六|日)', text)
+    for match in matches:
+        grain = 'day'
+        match_text = f'{match[0]}周{match[1]}'
+        # # print(f'after {len(match[0])} weeks')
+        # # print(f'>> {chinese_num_map[match[1]]}')
+        # days_after = (int(chinese_week_num_map[match[1]]) - current_weekday) % 7 + 7 * len(match[0])
+        # # print(f'future week day = {days_after}')
+        # future_date = datetime.now() + timedelta(days=days_after)
+        # # print(f'future date = {future_date}')
+        # # print(future_date.replace(hour=0, minute=0, second=0, microsecond=0))
+        # print(str(future_date.replace(hour=0, minute=0, second=0, microsecond=0)))
+        # time_line = str(datetime.now() + timedelta(days=days_after))
+        days_after = (int(chinese_week_num_map[match[1]]) - datetime.now().weekday()) % 7 + 7 * len(match[0])
+        future_date = datetime.now() + timedelta(days=days_after)
+        time_line = str(future_date.replace(hour=0, minute=0, second=0, microsecond=0))
+        print(time_line)
+        print(type(time_line))
+        print('---')
